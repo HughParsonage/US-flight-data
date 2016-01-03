@@ -1,0 +1,414 @@
+\documentclass{scrreprt}\usepackage[]{graphicx}\usepackage[]{color}
+%% maxwidth is the original width if it is less than linewidth
+%% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
+\newcommand{\hlstr}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlstd}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\usepackage{alltt}
+\title{Flights 1987-2015}
+\author{Hugh P}
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\begin{document}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{knitr}\hlopt{::}\hlstd{opts_chunk}\hlopt{$}\hlkwd{set}\hlstd{(}\hlkwc{fig.show} \hlstd{=} \hlstr{'hide'}\hlstd{,}
+                      \hlkwc{fig.width} \hlstd{=} \hlnum{8.4}\hlstd{,}
+                      \hlkwc{fig.height} \hlstd{=} \hlnum{7}\hlstd{,}
+                      \hlkwc{out.width} \hlstd{=} \hlstr{"8.4in"}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{library}\hlstd{(data.table)}
+\hlkwd{library}\hlstd{(dplyr)}
+\end{alltt}
+
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# \\\#\# Attaching package: 'dplyr'\\\#\# \\\#\# The following objects are masked from 'package:data.table':\\\#\# \\\#\#\ \ \ \  between, last\\\#\# \\\#\# The following objects are masked from 'package:stats':\\\#\# \\\#\#\ \ \ \  filter, lag\\\#\# \\\#\# The following objects are masked from 'package:base':\\\#\# \\\#\#\ \ \ \  intersect, setdiff, setequal, union}}\begin{alltt}
+\hlkwd{library}\hlstd{(magrittr)}
+\hlkwd{library}\hlstd{(ggplot2)}
+\hlkwd{library}\hlstd{(nycflights13)}  \hlcom{# for airports}
+\hlkwd{library}\hlstd{(fasttime)}
+\hlkwd{library}\hlstd{(grattan)}
+\end{alltt}
+
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# Loading required package: devEMF\\\#\# \\\#\# Attaching package: 'grattan'\\\#\# \\\#\# The following object is masked from 'package:datasets':\\\#\# \\\#\#\ \ \ \  Orange}}\end{kframe}
+\end{knitrout}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{pre2008_flights} \hlkwb{<-}
+  \hlkwd{rbindlist}\hlstd{(}\hlkwd{lapply}\hlstd{(}\hlkwd{list.files}\hlstd{(}\hlkwc{path} \hlstd{=} \hlstr{"../flights/1987-2008/"}\hlstd{,}
+                    \hlkwc{pattern} \hlstd{=} \hlstr{"csv$"}\hlstd{,}
+                    \hlkwc{full.names} \hlstd{=} \hlnum{TRUE}\hlstd{), fread))}
+
+\hlstd{pre2008.names} \hlkwb{<-}
+  \hlkwd{names}\hlstd{(pre2008_flights)}
+
+\hlstd{read_and_report} \hlkwb{<-}
+  \hlkwa{function}\hlstd{(}\hlkwc{filename}\hlstd{)\{}
+    \hlstd{year} \hlkwb{<-} \hlkwd{gsub}\hlstd{(}\hlstr{"^.*(2[0-9]\{3\}).\{3,4\}csv$"}\hlstd{,} \hlstr{"\textbackslash{}\textbackslash{}1"}\hlstd{, filename)}
+    \hlkwa{if}\hlstd{(}\hlkwd{grepl}\hlstd{(}\hlstr{"1.csv"}\hlstd{, filename,} \hlkwc{fixed} \hlstd{=} \hlnum{TRUE}\hlstd{))}
+      \hlkwd{cat}\hlstd{(year)}
+    \hlkwd{fread}\hlstd{(filename,} \hlkwc{select} \hlstd{= pre2008.names,} \hlkwc{showProgress} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+  \hlstd{\}}
+
+\hlkwd{gc}\hlstd{(}\hlnum{1}\hlstd{,}\hlnum{1}\hlstd{)}
+\hlstd{post2008_flights} \hlkwb{<-}
+  \hlkwd{rbindlist}\hlstd{(}\hlkwd{lapply}\hlstd{(}\hlkwd{list.files}\hlstd{(}\hlkwc{path} \hlstd{=} \hlstr{"../flights"}\hlstd{,} \hlkwc{recursive} \hlstd{=} \hlnum{TRUE}\hlstd{,} \hlkwc{pattern} \hlstd{=} \hlstr{"2[0-9]\{3\}.\{3,4\}csv$"}\hlstd{,}
+                              \hlkwc{full.names} \hlstd{=} \hlnum{TRUE}\hlstd{),}
+                   \hlstd{read_and_report))}
+
+\hlstd{flights} \hlkwb{<-} \hlkwd{rbindlist}\hlstd{(}\hlkwd{list}\hlstd{(pre2008_flights, post2008_flights),} \hlkwc{use.names} \hlstd{=} \hlnum{TRUE}\hlstd{)}
+\hlstd{readr}\hlopt{::}\hlkwd{write_csv}\hlstd{(flights,} \hlkwc{path} \hlstd{=} \hlstr{"../1987-2015-On-Time-Performance.csv"}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{Sys.time}\hlstd{()}
+\end{alltt}
+\begin{verbatim}
+## [1] "2016-01-03 22:33:43 AEDT"
+\end{verbatim}
+\begin{alltt}
+\hlstd{flights} \hlkwb{<-} \hlkwd{fread}\hlstd{(}\hlstr{"../1987-2015-On-Time-Performance.csv"}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+## Read 0.0% of 165931626 rowsRead 0.5% of 165931626 rowsRead 1.0% of 165931626 rowsRead 1.5% of 165931626 rowsRead 2.0% of 165931626 rowsRead 2.5% of 165931626 rowsRead 3.1% of 165931626 rowsRead 3.6% of 165931626 rowsRead 4.1% of 165931626 rowsRead 4.6% of 165931626 rowsRead 5.1% of 165931626 rowsRead 5.7% of 165931626 rowsRead 6.2% of 165931626 rowsRead 6.7% of 165931626 rowsRead 7.2% of 165931626 rowsRead 7.7% of 165931626 rowsRead 8.3% of 165931626 rowsRead 8.8% of 165931626 rowsRead 9.3% of 165931626 rowsRead 9.8% of 165931626 rowsRead 10.3% of 165931626 rowsRead 10.9% of 165931626 rowsRead 11.4% of 165931626 rowsRead 11.9% of 165931626 rowsRead 12.4% of 165931626 rowsRead 12.9% of 165931626 rowsRead 13.4% of 165931626 rowsRead 14.0% of 165931626 rowsRead 14.5% of 165931626 rowsRead 15.0% of 165931626 rowsRead 15.5% of 165931626 rowsRead 16.0% of 165931626 rowsRead 16.6% of 165931626 rowsRead 17.1% of 165931626 rowsRead 17.6% of 165931626 rowsRead 18.1% of 165931626 rowsRead 18.6% of 165931626 rowsRead 19.2% of 165931626 rowsRead 19.7% of 165931626 rowsRead 20.2% of 165931626 rowsRead 20.7% of 165931626 rowsRead 21.2% of 165931626 rowsRead 21.8% of 165931626 rowsRead 22.3% of 165931626 rowsRead 22.8% of 165931626 rowsRead 23.3% of 165931626 rowsRead 23.8% of 165931626 rowsRead 24.3% of 165931626 rowsRead 24.8% of 165931626 rowsRead 25.4% of 165931626 rowsRead 25.9% of 165931626 rowsRead 26.4% of 165931626 rowsRead 26.9% of 165931626 rowsRead 27.4% of 165931626 rowsRead 27.9% of 165931626 rowsRead 28.4% of 165931626 rowsRead 28.9% of 165931626 rowsRead 29.5% of 165931626 rowsRead 30.0% of 165931626 rowsRead 30.5% of 165931626 rowsRead 31.0% of 165931626 rowsRead 31.5% of 165931626 rowsRead 32.0% of 165931626 rowsRead 32.5% of 165931626 rowsRead 33.0% of 165931626 rowsRead 33.6% of 165931626 rowsRead 34.1% of 165931626 rowsRead 34.6% of 165931626 rowsRead 35.1% of 165931626 rowsRead 35.6% of 165931626 rowsRead 36.1% of 165931626 rowsRead 36.6% of 165931626 rowsRead 37.1% of 165931626 rowsRead 37.6% of 165931626 rowsRead 38.2% of 165931626 rowsRead 38.7% of 165931626 rowsRead 39.2% of 165931626 rowsRead 39.7% of 165931626 rowsRead 40.2% of 165931626 rowsRead 40.7% of 165931626 rowsRead 41.2% of 165931626 rowsRead 41.7% of 165931626 rowsRead 42.2% of 165931626 rowsRead 42.7% of 165931626 rowsRead 43.3% of 165931626 rowsRead 43.7% of 165931626 rowsRead 44.3% of 165931626 rowsRead 44.8% of 165931626 rowsRead 45.3% of 165931626 rowsRead 45.8% of 165931626 rowsRead 46.3% of 165931626 rowsRead 46.8% of 165931626 rowsRead 47.3% of 165931626 rowsRead 47.8% of 165931626 rowsRead 48.4% of 165931626 rowsRead 48.9% of 165931626 rowsRead 49.4% of 165931626 rowsRead 49.9% of 165931626 rowsRead 50.4% of 165931626 rowsRead 50.9% of 165931626 rowsRead 51.4% of 165931626 rowsRead 52.0% of 165931626 rowsRead 52.5% of 165931626 rowsRead 53.0% of 165931626 rowsRead 53.5% of 165931626 rowsRead 54.0% of 165931626 rowsRead 54.6% of 165931626 rowsRead 55.1% of 165931626 rowsRead 55.6% of 165931626 rowsRead 56.1% of 165931626 rowsRead 56.6% of 165931626 rowsRead 57.1% of 165931626 rowsRead 57.7% of 165931626 rowsRead 58.2% of 165931626 rowsRead 58.7% of 165931626 rowsRead 59.2% of 165931626 rowsRead 59.7% of 165931626 rowsRead 60.3% of 165931626 rowsRead 60.8% of 165931626 rowsRead 61.3% of 165931626 rowsRead 61.8% of 165931626 rowsRead 62.3% of 165931626 rowsRead 62.8% of 165931626 rowsRead 63.4% of 165931626 rowsRead 63.9% of 165931626 rowsRead 64.4% of 165931626 rowsRead 64.9% of 165931626 rowsRead 65.4% of 165931626 rowsRead 65.9% of 165931626 rowsRead 66.5% of 165931626 rowsRead 67.0% of 165931626 rowsRead 67.5% of 165931626 rowsRead 68.0% of 165931626 rowsRead 68.5% of 165931626 rowsRead 69.1% of 165931626 rowsRead 69.6% of 165931626 rowsRead 70.1% of 165931626 rowsRead 70.6% of 165931626 rowsRead 71.1% of 165931626 rowsRead 71.6% of 165931626 rowsRead 72.1% of 165931626 rowsRead 72.6% of 165931626 rowsRead 73.1% of 165931626 rowsRead 73.6% of 165931626 rowsRead 74.2% of 165931626 rowsRead 74.7% of 165931626 rowsRead 75.2% of 165931626 rowsRead 75.7% of 165931626 rowsRead 76.2% of 165931626 rowsRead 76.7% of 165931626 rowsRead 77.2% of 165931626 rowsRead 77.7% of 165931626 rowsRead 78.2% of 165931626 rowsRead 78.8% of 165931626 rowsRead 79.3% of 165931626 rowsRead 79.8% of 165931626 rowsRead 80.3% of 165931626 rowsRead 80.8% of 165931626 rowsRead 81.3% of 165931626 rowsRead 81.8% of 165931626 rowsRead 82.3% of 165931626 rowsRead 82.8% of 165931626 rowsRead 83.3% of 165931626 rowsRead 83.8% of 165931626 rowsRead 84.3% of 165931626 rowsRead 84.8% of 165931626 rowsRead 85.4% of 165931626 rowsRead 85.9% of 165931626 rowsRead 86.4% of 165931626 rowsRead 86.9% of 165931626 rowsRead 87.4% of 165931626 rowsRead 87.9% of 165931626 rowsRead 88.4% of 165931626 rowsRead 88.9% of 165931626 rowsRead 89.4% of 165931626 rowsRead 89.9% of 165931626 rowsRead 90.4% of 165931626 rowsRead 90.9% of 165931626 rowsRead 91.4% of 165931626 rowsRead 91.9% of 165931626 rowsRead 92.4% of 165931626 rowsRead 92.9% of 165931626 rowsRead 93.4% of 165931626 rowsRead 93.9% of 165931626 rowsRead 94.5% of 165931626 rowsRead 95.0% of 165931626 rowsRead 95.5% of 165931626 rowsRead 96.0% of 165931626 rowsRead 96.5% of 165931626 rowsRead 97.0% of 165931626 rowsRead 97.5% of 165931626 rowsRead 98.0% of 165931626 rowsRead 98.5% of 165931626 rowsRead 99.0% of 165931626 rowsRead 99.5% of 165931626 rowsRead 165931626 rows and 29 (of 29) columns from 15.111 GB file in 00:04:16
+\end{verbatim}
+\begin{alltt}
+\hlcom{# flights <- readRDS("../1987-2015-On-Time-Performance.rds")}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{sample.frac} \hlkwb{=} \hlnum{0.1}
+\hlstd{sample.weight.int} \hlkwb{=} \hlkwd{as.integer}\hlstd{(}\hlkwd{round}\hlstd{(}\hlnum{1}\hlopt{/}\hlstd{sample.frac))}
+\hlstd{flights} \hlkwb{<-} \hlstd{flights[}\hlkwd{sample}\hlstd{(.N, .N} \hlopt{*} \hlstd{sample.frac)]}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{# First we want a time for each flight. This is more difficult that it might seem.}
+\hlcom{# We need to concatenate the Year, Month, and DayofMonth fields, but we also need }
+\hlcom{# to take into account the various time zones of the airports in the database.}
+\hlstd{integer.cols} \hlkwb{<-} \hlkwd{grep}\hlstd{(}\hlstr{"Time$"}\hlstd{,} \hlkwd{names}\hlstd{(flights))}
+
+\hlkwd{Sys.time}\hlstd{()}
+\end{alltt}
+\begin{verbatim}
+## [1] "2016-01-03 22:38:20 AEDT"
+\end{verbatim}
+\begin{alltt}
+\hlkwa{for} \hlstd{(j} \hlkwa{in} \hlstd{integer.cols)\{}
+  \hlkwd{set}\hlstd{(flights,} \hlkwc{j} \hlstd{= j,} \hlkwc{value} \hlstd{=} \hlkwd{as.integer}\hlstd{(flights[[j]]))}
+\hlstd{\}}
+\hlkwd{Sys.time}\hlstd{()}
+\end{alltt}
+\begin{verbatim}
+## [1] "2016-01-03 22:38:20 AEDT"
+\end{verbatim}
+\begin{alltt}
+\hlcom{# See stackoverflow: links and comments under my question}
+\hlstd{create_DepDateTime} \hlkwb{<-} \hlkwa{function}\hlstd{(}\hlkwc{DT}\hlstd{)\{}
+  \hlkwd{setkey}\hlstd{(DT, Year, Month, DayofMonth, DepTime)}
+  \hlstd{unique_dates} \hlkwb{<-} \hlkwd{unique}\hlstd{(DT[,}\hlkwd{list}\hlstd{(Year, Month, DayofMonth, DepTime)])}
+  \hlstd{unique_dates[,DepDateTime} \hlkwb{:=} \hlkwd{fastPOSIXct}\hlstd{(}\hlkwd{sprintf}\hlstd{(}\hlstr{"%d-%02d-%02d %s"}\hlstd{, Year, Month, DayofMonth,}
+                                                   \hlkwd{sub}\hlstd{(}\hlstr{"([0-9]\{2\})([0-9]\{2\})"}\hlstd{,} \hlstr{"\textbackslash{}\textbackslash{}1:\textbackslash{}\textbackslash{}2:00"}\hlstd{,} \hlkwd{sprintf}\hlstd{(}\hlstr{"%04d"}\hlstd{, DepTime),}
+                                                       \hlkwc{perl} \hlstd{=} \hlnum{TRUE}\hlstd{)),}
+                                           \hlkwc{tz} \hlstd{=} \hlstr{"GMT"}\hlstd{)]}
+  \hlstd{DT[unique_dates]}
+\hlstd{\}}
+
+\hlstd{create_ArrDateTime} \hlkwb{<-} \hlkwa{function}\hlstd{(}\hlkwc{DT}\hlstd{)\{}
+  \hlkwd{setkey}\hlstd{(DT, Year, Month, DayofMonth, ArrTime)}
+  \hlstd{unique_dates} \hlkwb{<-} \hlkwd{unique}\hlstd{(DT[,}\hlkwd{list}\hlstd{(Year, Month, DayofMonth, ArrTime)])}
+  \hlstd{unique_dates[,ArrDateTime} \hlkwb{:=} \hlkwd{fastPOSIXct}\hlstd{(}\hlkwd{sprintf}\hlstd{(}\hlstr{"%d-%02d-%02d %s"}\hlstd{, Year, Month, DayofMonth,}
+                                                   \hlkwd{sub}\hlstd{(}\hlstr{"([0-9]\{2\})([0-9]\{2\})"}\hlstd{,} \hlstr{"\textbackslash{}\textbackslash{}1:\textbackslash{}\textbackslash{}2:00"}\hlstd{,} \hlkwd{sprintf}\hlstd{(}\hlstr{"%04d"}\hlstd{, ArrTime),}
+                                                       \hlkwc{perl} \hlstd{=} \hlnum{TRUE}\hlstd{)),}
+                                           \hlkwc{tz} \hlstd{=} \hlstr{"GMT"}\hlstd{)]}
+  \hlstd{DT[unique_dates]}
+\hlstd{\}}
+\hlstd{flights} \hlkwb{<-} \hlkwd{create_DepDateTime}\hlstd{(flights)}
+\hlstd{flights} \hlkwb{<-} \hlkwd{create_ArrDateTime}\hlstd{(flights)}
+\hlcom{#flights[,`:=`(Year = NULL, Month = NULL, DayofMonth = NULL, DepTime = NULL, ArrTime = NULL)]}
+\hlkwd{Sys.time}\hlstd{()}
+\end{alltt}
+\begin{verbatim}
+## [1] "2016-01-03 22:39:37 AEDT"
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{# Now we join it to the airports dataset from nycflights13 to obtain time zone information.}
+\hlkwd{Sys.time}\hlstd{()}
+\end{alltt}
+\begin{verbatim}
+## [1] "2016-01-03 22:39:37 AEDT"
+\end{verbatim}
+\begin{alltt}
+\hlstd{airports} \hlkwb{<-} \hlkwd{as.data.table}\hlstd{(airports)}
+\hlstd{airports} \hlkwb{<-} \hlstd{airports[,}\hlkwd{list}\hlstd{(faa, tz)]}
+\hlkwd{gc}\hlstd{(}\hlnum{1}\hlstd{,}\hlnum{1}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+##             used   (Mb) gc trigger   (Mb)  max used   (Mb)
+## Ncells    533293   28.5    7974897  426.0    533293   28.5
+## Vcells 324371914 2474.8  973788657 7429.5 324371914 2474.8
+\end{verbatim}
+\begin{alltt}
+\hlkwd{setnames}\hlstd{(airports,} \hlkwc{old} \hlstd{=} \hlkwd{c}\hlstd{(}\hlstr{"faa"}\hlstd{,} \hlstr{"tz"}\hlstd{),} \hlkwc{new} \hlstd{=} \hlkwd{c}\hlstd{(}\hlstr{"Origin"}\hlstd{,} \hlstr{"tzOrigin"}\hlstd{))}
+\hlkwd{setkey}\hlstd{(airports, Origin)}
+\hlkwd{setkey}\hlstd{(flights, Origin)}
+\hlstd{flights} \hlkwb{<-} \hlstd{flights[airports]}
+\hlkwd{setnames}\hlstd{(airports,} \hlkwc{old} \hlstd{=} \hlkwd{c}\hlstd{(}\hlstr{"Origin"}\hlstd{,} \hlstr{"tzOrigin"}\hlstd{),} \hlkwc{new} \hlstd{=} \hlkwd{c}\hlstd{(}\hlstr{"Dest"}\hlstd{,} \hlstr{"tzDest"}\hlstd{))}
+\hlkwd{setkey}\hlstd{(flights, Dest)}
+\hlstd{flights} \hlkwb{<-} \hlstd{flights[airports]}
+\hlkwd{rm}\hlstd{(airports)}
+\hlkwd{gc}\hlstd{(}\hlnum{1}\hlstd{,}\hlnum{1}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+##             used   (Mb) gc trigger   (Mb)  max used   (Mb)
+## Ncells    533306   28.5    5103933  272.6    533306   28.5
+## Vcells 354325754 2703.3  973788657 7429.5 354325754 2703.3
+\end{verbatim}
+\begin{alltt}
+\hlcom{# The joins produce NAs when the airports table isn't present in the flights table.}
+\hlstd{flights} \hlkwb{<-} \hlstd{flights[}\hlopt{!}\hlkwd{is.na}\hlstd{(Origin)]}
+\hlkwd{gc}\hlstd{(}\hlnum{1}\hlstd{,}\hlnum{1}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+##             used   (Mb) gc trigger   (Mb)  max used   (Mb)
+## Ncells    533321   28.5    4083146  218.1    533321   28.5
+## Vcells 354303746 2703.2  973788657 7429.5 354303746 2703.2
+\end{verbatim}
+\begin{alltt}
+\hlkwd{Sys.time}\hlstd{()}
+\end{alltt}
+\begin{verbatim}
+## [1] "2016-01-03 22:39:56 AEDT"
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{Sys.time}\hlstd{()}
+\end{alltt}
+\begin{verbatim}
+## [1] "2016-01-03 22:39:56 AEDT"
+\end{verbatim}
+\begin{alltt}
+\hlkwd{setkey}\hlstd{(flights, DepDateTime)}
+\hlstd{flights[,}\hlkwd{`:=`}\hlstd{(}\hlkwc{DepDateTimeZulu} \hlstd{= DepDateTime} \hlopt{-} \hlstd{lubridate}\hlopt{::}\hlkwd{hours}\hlstd{(tzOrigin),}
+              \hlkwc{ArrDateTimeZulu} \hlstd{= ArrDateTime} \hlopt{-} \hlstd{lubridate}\hlopt{::}\hlkwd{hours}\hlstd{(tzDest) )]}
+\hlkwd{Sys.time}\hlstd{()}
+\end{alltt}
+\begin{verbatim}
+## [1] "2016-01-03 22:41:52 AEDT"
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{# Flights typically follow a weekly cycle, so we should obtain the week in the dataset.}
+\hlcom{# Pretty quick!}
+\hlkwd{Sys.time}\hlstd{()}
+\end{alltt}
+\begin{verbatim}
+## [1] "2016-01-03 22:41:52 AEDT"
+\end{verbatim}
+\begin{alltt}
+\hlkwd{setkey}\hlstd{(flights, Year, Month, DayofMonth)}
+\hlstd{unique_dates} \hlkwb{<-} \hlkwd{unique}\hlstd{(flights)}
+\hlstd{unique_dates} \hlkwb{<-} \hlstd{unique_dates[,}\hlkwd{list}\hlstd{(Year, Month, DayofMonth)]}
+\hlstd{unique_dates[,Week} \hlkwb{:=} \hlstd{(Year} \hlopt{-} \hlnum{1987L}\hlstd{)} \hlopt{*} \hlnum{52} \hlopt{+} \hlstd{data.table}\hlopt{::}\hlkwd{yday}\hlstd{(}\hlkwd{sprintf}\hlstd{(}\hlstr{"%d-%02d-%02d"}\hlstd{, Year, Month, DayofMonth))} \hlopt{%/%} \hlnum{7}\hlstd{]}
+\hlstd{unique_dates[,Week} \hlkwb{:=} \hlstd{Week} \hlopt{-} \hlkwd{min}\hlstd{(Week)]}
+\hlstd{flights} \hlkwb{<-} \hlstd{flights[unique_dates]}
+\hlkwd{Sys.time}\hlstd{()}
+\end{alltt}
+\begin{verbatim}
+## [1] "2016-01-03 22:41:57 AEDT"
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+
+
+\maketitle
+\chapter{}
+There were 164~million flights from 1987-10-01 05:00:00 to 2015-11-01 09:43:00. 
+
+\chapter{San Francisco}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{SanFran_flights} \hlkwb{<-}
+  \hlstd{flights} \hlopt{%>%}
+  \hlkwd{filter}\hlstd{(Origin} \hlopt{%in%} \hlkwd{c}\hlstd{(}\hlstr{"SFO"}\hlstd{,} \hlstr{"OAK"}\hlstd{)} \hlopt{|} \hlstd{Dest} \hlopt{%in%} \hlkwd{c}\hlstd{(}\hlstr{"SFO"}\hlstd{,} \hlstr{"OAK"}\hlstd{))}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{SanFran_flights} \hlopt{%>%}
+  \hlkwd{filter}\hlstd{(}\hlopt{!}\hlstd{(Origin} \hlopt{%in%} \hlkwd{c}\hlstd{(}\hlstr{"SFO"}\hlstd{,} \hlstr{"OAK"}\hlstd{)} \hlopt{&} \hlstd{Dest} \hlopt{%in%} \hlkwd{c}\hlstd{(}\hlstr{"SFO"}\hlstd{,} \hlstr{"OAK"}\hlstd{)))} \hlopt{%>%}
+  \hlkwd{mutate}\hlstd{(}\hlkwc{SF_airport} \hlstd{=} \hlkwd{ifelse}\hlstd{(Origin} \hlopt{%in%} \hlkwd{c}\hlstd{(}\hlstr{"SFO"}\hlstd{,} \hlstr{"OAK"}\hlstd{),}
+                             \hlstd{Origin,}
+                             \hlstd{Dest))} \hlopt{%>%}
+  \hlkwd{count}\hlstd{(Week, SF_airport)} \hlopt{%>%}
+  \hlkwd{mutate}\hlstd{(}\hlkwc{Date} \hlstd{= Week,}
+         \hlkwc{n} \hlstd{= n)} \hlopt{%>%}  \hlcom{# sample}
+  \hlkwd{ggplot}\hlstd{(}\hlkwd{aes}\hlstd{(}\hlkwc{x} \hlstd{= Date,} \hlkwc{y} \hlstd{= n,} \hlkwc{color} \hlstd{= SF_airport,} \hlkwc{group} \hlstd{= SF_airport))} \hlopt{+}
+  \hlkwd{geom_line}\hlstd{()}
+  \hlkwd{stat_smooth}\hlstd{(}\hlkwc{n} \hlstd{=} \hlnum{10000}\hlstd{,} \hlkwc{span} \hlstd{=} \hlnum{0.01}\hlstd{,} \hlkwc{se} \hlstd{=} \hlnum{TRUE}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+\begin{figure}
+\centering
+\makebox[\textwidth]{\includegraphics[width = \paperwidth]{figure/SanFran_Flights_by_date-1}}
+\caption{Number of depatures over time from Oakland and San Francisco Intl.}
+\end{figure}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{carriers} \hlkwb{<-} \hlkwd{as.data.table}\hlstd{(airlines)}
+\hlkwa{if}\hlstd{(}\hlstr{"carrier"} \hlopt{%in%} \hlkwd{names}\hlstd{(carriers))}
+  \hlkwd{setnames}\hlstd{(carriers,} \hlkwc{old} \hlstd{=} \hlstr{"carrier"}\hlstd{,} \hlkwc{new} \hlstd{=} \hlstr{"UniqueCarrier"}\hlstd{)}
+
+\hlkwd{setkey}\hlstd{(carriers, UniqueCarrier)}
+\hlkwd{set}\hlstd{(carriers,} \hlkwc{j} \hlstd{=} \hlnum{1L}\hlstd{,} \hlkwc{value} \hlstd{=} \hlkwd{as.character}\hlstd{(carriers[[}\hlnum{1L}\hlstd{]]))}
+\hlkwd{set}\hlstd{(carriers,} \hlkwc{j} \hlstd{=} \hlnum{2L}\hlstd{,} \hlkwc{value} \hlstd{=} \hlkwd{gsub}\hlstd{(}\hlstr{"^([A-Za-z]+)\textbackslash{}\textbackslash{}s.*$"}\hlstd{,} \hlstr{"\textbackslash{}\textbackslash{}1"}\hlstd{, carriers[[}\hlnum{2L}\hlstd{]]))}
+
+\hlstd{SanFran_flights} \hlopt{%>%}
+  \hlkwd{filter}\hlstd{(Origin} \hlopt{%in%} \hlkwd{c}\hlstd{(}\hlstr{"SFO"}\hlstd{,} \hlstr{"OAK"}\hlstd{))} \hlopt{%>%}
+  \hlkwd{count}\hlstd{(Year, Month, Origin, UniqueCarrier)} \hlopt{%>%}
+  \hlkwd{group_by}\hlstd{(UniqueCarrier)} \hlopt{%>%}
+  \hlkwd{filter}\hlstd{(}\hlkwd{sum}\hlstd{(n)} \hlopt{>} \hlstd{(}\hlnum{2015} \hlopt{-} \hlnum{1987}\hlstd{)} \hlopt{*} \hlnum{12} \hlopt{*} \hlnum{30}\hlstd{)}  \hlopt{%>%}
+  \hlkwd{mutate}\hlstd{(}\hlkwc{Date} \hlstd{= Year} \hlopt{+} \hlstd{(Month} \hlopt{-} \hlnum{1}\hlstd{)}\hlopt{/}\hlnum{12}\hlstd{)} \hlopt{%>%}
+  \hlkwd{setkey}\hlstd{(UniqueCarrier)} \hlopt{%>%}
+  \hlkwd{merge}\hlstd{(carriers)} \hlopt{%>%}
+  \hlkwd{ggplot}\hlstd{(}\hlkwd{aes}\hlstd{(}\hlkwc{x} \hlstd{= Date,} \hlkwc{y} \hlstd{= n} \hlopt{*} \hlstd{sample.weight.int,} \hlkwc{color} \hlstd{= name,} \hlkwc{group} \hlstd{=} \hlkwd{interaction}\hlstd{(name,Origin)))} \hlopt{+} \hlkwd{ylab}\hlstd{(}\hlstr{"Number of departures"}\hlstd{)} \hlopt{+}
+  \hlkwd{geom_smooth}\hlstd{(}\hlkwc{span} \hlstd{=} \hlnum{0.25}\hlstd{,} \hlkwc{se} \hlstd{=} \hlnum{FALSE}\hlstd{)} \hlopt{+}
+  \hlkwd{geom_text}\hlstd{(}\hlkwd{aes}\hlstd{(}\hlkwc{label} \hlstd{=} \hlkwd{ifelse}\hlstd{(Date} \hlopt{==} \hlkwd{max}\hlstd{(Date),}
+                               \hlstd{name,}
+                               \hlnum{NA_character_}\hlstd{),}
+                \hlkwc{vjust} \hlstd{=} \hlkwd{ifelse}\hlstd{(name} \hlopt{==} \hlstr{"Southwest"} \hlopt{&} \hlstd{Origin} \hlopt{==} \hlstr{"SFO"}\hlstd{,}
+                                 \hlopt{-}\hlnum{0.5}\hlstd{,}
+                                 \hlnum{0.5}\hlstd{)),}
+            \hlkwc{nudge_x} \hlstd{=} \hlnum{0.75}\hlstd{,}
+            \hlkwc{size} \hlstd{=} \hlnum{5}\hlstd{)} \hlopt{+} \hlkwd{theme}\hlstd{(}\hlkwc{legend.position} \hlstd{=} \hlstr{"none"}\hlstd{)} \hlopt{+}
+  \hlkwd{annotate}\hlstd{(}\hlstr{"blank"}\hlstd{,} \hlkwc{x} \hlstd{=} \hlnum{2019}\hlstd{,} \hlkwc{y} \hlstd{=} \hlnum{0}\hlstd{)} \hlopt{+}
+  \hlkwd{facet_grid}\hlstd{(Origin} \hlopt{~} \hlstd{.)} \hlopt{+}
+  \hlkwd{theme}\hlstd{(}\hlkwc{text} \hlstd{=} \hlkwd{element_text}\hlstd{(}\hlkwc{size} \hlstd{=} \hlnum{16}\hlstd{))}
+\end{alltt}
+
+
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: Removed 3926 rows containing missing values (geom\_text).}}\end{kframe}
+\end{knitrout}
+\begin{figure}
+\centering
+\makebox[\textwidth]{\includegraphics[width = \paperwidth]{figure/SanFran_Flights_by_Carrier-1}}
+\caption{Number of depatures over time from Oakland and San Francisco Intl.}
+\end{figure}
+
+After September 11, flights from SFO fell, whereas OAK's volume did notFlights fell more in SFO than they did in OAK because most of OAK's flights are from Southwest, which did not change its flight patterns. Furthermore, United was affected more than most airlines from the aftermath of the attacks.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{flights} \hlopt{%>%}
+  \hlkwd{count}\hlstd{(Year)}
+\end{alltt}
+\begin{verbatim}
+## Source: local data table [29 x 2]
+## 
+##     Year      n
+##    (int)  (int)
+## 1   1987 129860
+## 2   1988 516321
+## 3   1989 498605
+## 4   1990 521873
+## 5   1991 502872
+## 6   1992 503344
+## 7   1993 501444
+## 8   1994 513989
+## 9   1995 528486
+## 10  1996 530212
+## ..   ...    ...
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+
+
+
+\end{document}
