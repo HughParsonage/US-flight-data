@@ -3,9 +3,10 @@
 \author{Hugh P}
 \begin{document}
 <<knitrOpts>>=
+START.TIME <- Sys.time()
 knitr::opts_chunk$set(fig.show = 'hide',
                       fig.width = 8.4, 
-                      fig.height = 7,
+                      fig.height = 5,
                       out.width = "8.4in")
 @
 
@@ -14,7 +15,12 @@ library(data.table)
 library(dplyr)
 library(magrittr)
 library(ggplot2)
+theme_update(text = element_text(family = "", 
+                                 face = "plain", colour = "black", size = 20, lineheight = 0.9, 
+                                 hjust = 0.5, vjust = 0.5, angle = 0, margin = margin(), 
+                                 debug = FALSE))
 library(nycflights13)  # for airports
+nycflights.airports <- airports
 library(fasttime)
 library(grattan)
 @
@@ -54,7 +60,7 @@ flights <- fread("../1987-2015-On-Time-Performance.csv")
 
 <<sample>>=
 flightsSanFran <- flights[Origin %in% c("SFO", "OAK") | Dest %in% c("SFO", "OAK")]
-sample.frac = 0.1
+sample.frac = 0.2
 sample.weight.int = as.integer(round(1/sample.frac))
 flights <- flights[sample(.N, .N * sample.frac)]
 @
@@ -119,9 +125,9 @@ Sys.time()
 
 <<Cleanse3-timezones>>=
 Sys.time()
-setkey(flights, DepDateTime)
-flights[,`:=`(DepDateTimeZulu = DepDateTime - lubridate::hours(tzOrigin),
-              ArrDateTimeZulu = ArrDateTime - lubridate::hours(tzDest) )]
+# setting keys doesn't improve timing
+flights[,`:=`(DepDateTimeZulu = DepDateTime - lubridate::hours(tzOrigin))]
+flights[,`:=`(ArrDateTimeZulu = ArrDateTime - lubridate::hours(tzDest))]
 Sys.time()
 @
 
@@ -158,6 +164,15 @@ Sys.time()
 @
 
 <<SanFran_Flights_by_date, results = 'hide'>>=
+maxN <- function(x, N=2){
+  len <- length(x)
+  if(N>len){
+    warning('N greater than length(x).  Setting N=length(x)')
+    N <- length(x)
+  }
+  sort(x,partial=len-N+1)[len-N+1]
+}
+
 setkey(unique_dates, Week)
 flightsSanFran %>%
   filter(!(Origin %in% c("SFO", "OAK") & Dest %in% c("SFO", "OAK"))) %>%
@@ -165,15 +180,27 @@ flightsSanFran %>%
                              Origin, 
                              Dest)) %>%
   count(Week, SF_airport) %>%
+  group_by(SF_airport) %>%
+  mutate(label.text = ifelse(n == maxN(n), paste(" ", SF_airport), NA_character_)) %>%
   setkey(Week) %>%
   data.table:::merge.data.table(unique(unique_dates)) %>%
   mutate(Date = fastPOSIXct(sprintf("%d-%02d-%02d", Year, Month, DayofMonth), tz = "GMT"),
          n = n) %>%  # not a sample
   ggplot(aes(x = Date, y = n, color = SF_airport, group = SF_airport)) + 
   geom_point() + 
+  geom_text(aes(label = label.text),
+            nudge_y = 0.5,
+            nudge_x = 1,
+            hjust = 0,
+            fontface = "bold",
+            size = 5) + 
+  theme(legend.position = "none") + 
   geom_line(size = 0.5) + 
   #
-  geom_vline(xintercept = as.numeric(as.POSIXct("2001-09-11")))
+  geom_vline(xintercept = as.numeric(as.POSIXct("2001-09-11"))) + 
+  scale_x_datetime(date_breaks = "5 years",
+                   date_labels = "%Y",
+                   minor_breaks = seq(as.POSIXct("1987-12-31"), as.POSIXct("2014-12-31"), by = "1 years"))
 @
 \begin{figure}
 \centering
@@ -210,7 +237,7 @@ flightsSanFran %>%
             size = 5) + theme(legend.position = "none") + 
   annotate("blank", x = 2019, y = 0) + 
   facet_grid(Origin ~ .) + 
-  theme(text = element_text(size = 16))
+  theme(text = element_text(size = 16)) 
 @
 \begin{figure}
 \centering
@@ -221,11 +248,138 @@ flightsSanFran %>%
 After September 11, flights from SFO fell, whereas OAK's volume did notFlights fell more in SFO than they did in OAK because most of OAK's flights are from Southwest, which did not change its flight patterns. Furthermore, United was affected more than most airlines from the aftermath of the attacks.
 
 <<Volume-by-Carrier>>=
+top_5_carriers <- 
+  flights %>%
+  count(UniqueCarrier) %>%
+  arrange(desc(n)) %>%
+  mutate(TopN = 1:n() <= 5) %>%
+  mutate(Carrier_other = ifelse(TopN, UniqueCarrier, "Other")) %>%
+  select(-n) %>%
+  setkey(UniqueCarrier)
+
 flights %>%
-  count(Year)
+  setkey(UniqueCarrier) %>%
+  merge(top_5_carriers) %>%
+  count(Carrier_other, Year) %>%
+  ggplot(aes(x = Year, y = n * sample.weight.int, color = Carrier_other, group = Carrier_other)) + 
+  geom_line() +
+  scale_colour_brewer(palette = "Accent") + 
+  scale_y_continuous(label = scales::comma)
+@
+\begin{figure}
+\makebox[\textwidth]{\includegraphics[width=\paperwidth]{figure/Volume-by-Carrier-1}}
+\end{figure}
+
+<<Volume-by-major-airports>>=
+majorAirportThreshold = 10
+
+airports_by_volume_by_year <- flights[major_airports][ ,.(n = .N * sample.weight.int), by = list(Year, AirportOther)] 
+
+airports_by_volume_by_2014 <- 
+  airports_by_volume_by_year %>%
+  filter(Year == 2014) %>%
+  filter(AirportOther != "AirportOther") %>%
+  merge(select(nycflights.airports, faa, name), by.x = "AirportOther", by.y = "faa") %>%
+  arrange(desc(n))
+gc(0,1)
+
+major_airports <- 
+  flights[ ,.(n = .N), by = Dest][order(-n)] %>% # flights %>% count(Dest) %>% arrange(desc(n))
+  mutate(TopN = 1:n() <= majorAirportThreshold) %>%
+  mutate(AirportOther = ifelse(TopN, Dest, "Other_airport")) %>%
+  select(-n) %>%
+  setkey(Dest) 
+setkey(flights, Dest)
+gc(0,1)
+airports_by_volume_by_year %>%
+  filter(AirportOther != "Other_airport", Year > 1987L, Year < 2015L)  %>%
+  merge(select(nycflights.airports, faa, name), by.x = "AirportOther", by.y = "faa") %>%
+  mutate(name = factor(name, levels = airports_by_volume_by_2014$name)) %>%
+  ggplot(aes(x = Year, y = n, group = name, color = name)) + 
+  geom_line() 
+gc(0,1)
 @
 
+<<Relative-volume-by-major-airports>>=
+rel_vol_major_airports <-
+  flights[major_airports][ ,.(n = .N * sample.weight.int), by = list(Year, AirportOther)] %>%
+  filter(AirportOther != "Other_airport", Year > 1987L, Year < 2015L) %>%
+  arrange(Year) %>%
+  group_by(AirportOther) %>%
+  mutate(rel = n/first(n)) %>%
+  merge(select(nycflights.airports, faa, name), by.x = "AirportOther", by.y = "faa")
 
+last_values <- 
+  rel_vol_major_airports %>%
+  filter(Year == max(Year)) %>%
+  arrange(rel) 
 
+otp201510 <- 
+  fread("../dep_delay/On_Time_On_Time_Performance_2015_10.csv")
 
+otp201510 %>%
+  select(contains("Origin"))
+
+rel_vol_major_airports  %>%
+  mutate(name = factor(name, levels = rev(last_values$name))) %>%
+  ggplot(aes(x = Year, y = rel, group = name, color = name)) + 
+  geom_line() 
+@
+\begin{figure}
+\makebox[\textwidth]{\includegraphics[width=\paperwidth]{figure/Volume-by-major-airports-1}}
+\caption{Annual flights by the top \Sexpr{majorAirportThreshold} airports by total volume.}
+\end{figure}
+
+\begin{figure}
+\makebox[\textwidth]{\includegraphics[width=\paperwidth]{figure/Relative-volume-by-major-airports-1}}
+\caption{Annual flights by airport, 1988 = 1.}
+\end{figure}
+
+\section{Effect of 9-11}
+<<Cancellations-by-date>>=
+flights %>% 
+  group_by(Year, Month, DayofMonth) %>% 
+  summarise(prop_cancelled = mean(Cancelled)) %>% 
+  ggplot(aes(x = fasttime::fastPOSIXct(paste(Year, Month, DayofMonth, sep = "-")), y = prop_cancelled)) + 
+  geom_bar(stat = "identity", width=1)
+@
+\begin{figure}
+\makebox[\textwidth]{\includegraphics[width = \paperwidth]{figure/Cancellations-by-date-1}}
+\caption{Proportion of flights cancelled by date.}
+\end{figure}
+
+<<Sept11-cumulative>>=
+ flights %>% 
+  group_by(Year, Month, DayofMonth) %>% 
+  summarise(prop_cancelled = mean(Cancelled)) %>% 
+  ungroup %>%
+  mutate(rank = dense_rank(prop_cancelled)) %>% 
+  ggplot(aes(x = jitter(rank, amount = 0.1), y = prop_cancelled)) + geom_bar(stat = "identity", width=1)
+@
+\begin{figure}
+\makebox[\textwidth]{\includegraphics[width = \paperwidth]{figure/Sept11-cumulative-1}}
+\caption{Pareto distribution of cancellation proportions.}
+\end{figure}
+
+<<Sept11-airports>>=
+flights %>%
+  filter(Year == 2001, Month == 9, DayofMonth == 11) %>%
+  group_by(Origin) %>%
+  summarise(latest_departure = max(DepDateTimeZulu)) %>%
+  ungroup %>%
+  arrange(latest_departure) %>% 
+  mutate(number_airports_closed = 1:n()) %>%
+  ggplot(aes(x = latest_departure, y = number_airports_closed)) + 
+  geom_line(group = 1) + 
+  geom_vline(xintercept = as.numeric(as.POSIXct("2001-09-11 09:17:00"))) 
+@
+\begin{figure}
+\caption{Number of airports closed by UTC (determined by date of last departure)}
+\makebox[\textwidth]{\includegraphics[width=\paperwidth]{figure/Sept11-airports-1}}
+\end{figure}
+
+<<FINISHTIME>>=
+FINISH.TIME <- Sys.time()
+@
+Compiled in \Sexpr{difftime(FINISH.TIME, START.TIME, units = "mins")}
 \end{document}
