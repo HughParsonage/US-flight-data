@@ -12,6 +12,7 @@ knitr::opts_chunk$set(fig.show = 'hide',
 
 <<loadPackages>>=
 library(data.table)
+library(bit64)
 library(dplyr)
 library(magrittr)
 library(ggplot2)
@@ -273,6 +274,13 @@ flights %>%
 <<Volume-by-major-airports>>=
 majorAirportThreshold = 10
 
+major_airports <- 
+  flights[ ,.(n = .N), by = Dest][order(-n)] %>% # flights %>% count(Dest) %>% arrange(desc(n))
+  mutate(TopN = 1:n() <= majorAirportThreshold) %>%
+  mutate(AirportOther = ifelse(TopN, Dest, "Other_airport")) %>%
+  select(-n) %>%
+  setkey(Dest) 
+
 airports_by_volume_by_year <- flights[major_airports][ ,.(n = .N * sample.weight.int), by = list(Year, AirportOther)] 
 
 airports_by_volume_by_2014 <- 
@@ -283,12 +291,6 @@ airports_by_volume_by_2014 <-
   arrange(desc(n))
 gc(0,1)
 
-major_airports <- 
-  flights[ ,.(n = .N), by = Dest][order(-n)] %>% # flights %>% count(Dest) %>% arrange(desc(n))
-  mutate(TopN = 1:n() <= majorAirportThreshold) %>%
-  mutate(AirportOther = ifelse(TopN, Dest, "Other_airport")) %>%
-  select(-n) %>%
-  setkey(Dest) 
 setkey(flights, Dest)
 gc(0,1)
 airports_by_volume_by_year %>%
@@ -314,12 +316,6 @@ last_values <-
   filter(Year == max(Year)) %>%
   arrange(rel) 
 
-otp201510 <- 
-  fread("../dep_delay/On_Time_On_Time_Performance_2015_10.csv")
-
-otp201510 %>%
-  select(contains("Origin"))
-
 rel_vol_major_airports  %>%
   mutate(name = factor(name, levels = rev(last_values$name))) %>%
   ggplot(aes(x = Year, y = rel, group = name, color = name)) + 
@@ -334,6 +330,99 @@ rel_vol_major_airports  %>%
 \makebox[\textwidth]{\includegraphics[width=\paperwidth]{figure/Relative-volume-by-major-airports-1}}
 \caption{Annual flights by airport, 1988 = 1.}
 \end{figure}
+
+<<airport-decoder>>=
+otp201510 <- 
+  fread("../dep_delay/On_Time_On_Time_Performance_2015_10.csv")
+
+city_decoder <- 
+  otp201510 %>%
+  select(contains("Origin")) %>%
+  unique
+
+setkey(city_decoder, OriginCityMarketID)
+
+gc(T,T)
+city_market_decoder <- 
+  fread("../metadata//L_CITY_MARKET_ID.csv") %>%
+  setnames(old = c("Code", "Description"), 
+           new = c("OriginCityMarketID", "OriginCityMarketDescription")) %>%
+  setkey(OriginCityMarketID)
+city_market_decoder[,OriginCityMarketID := as.integer(OriginCityMarketID)]
+city_decoder <- merge(city_decoder, city_market_decoder, by = "OriginCityMarketID", all.x = TRUE, all.y = FALSE)
+gc(T,T)
+@
+
+<<Biggest-markets-out-of-SanFrancisco>>=
+market_volume_by_year <-
+  flightsSanFran %>%
+  filter(Dest %in% c("SFO", "OAK")) %>%
+  merge(city_decoder, by = "Origin") %>%
+  count(Year, OriginCityMarketDescription) %>%
+  mutate(State = gsub("^.*([A-Z]{2}).*$", "\\1", OriginCityMarketDescription)) %>%
+  filter(n > 3650) %>%
+  mutate(Label = ifelse(Year == max(Year), OriginCityMarketDescription, NA_character_)) %>%
+  arrange(Year, desc(n)) 
+
+mkt.vol.by.yr <- function(year, colname){
+  magrittr::extract2(dplyr::filter(market_volume_by_year, Year == year), colname)
+}
+market_volume_by_year %>%
+  mutate(OriginCityMarketDescription = factor(OriginCityMarketDescription, levels = mkt.vol.by.yr(2015, "OriginCityMarketDescription"))) %>%
+  ggplot(aes(x = Year, y = n, color = OriginCityMarketDescription, group = OriginCityMarketDescription)) + 
+  #facet_grid(State ~ .) + 
+  geom_line() + 
+  #geom_text(aes(label = Label)) + 
+  #geom_dl(method = list("top.points", dl.trans(y = y+0.25), fontfamily = "bold"), aes(label = OriginCityMarketDescription)) + 
+  theme(legend.position = "none") -> p
+direct.label(p, list("top.points", dl.trans(y = y+0.25), fontface="bold"))
+  
+@
+
+
+
+<<aircraft>>=
+FAA_aircraft <- 
+  fread("../metadata/planes.csv") %>%
+  setnames(old = c("tailnum", "year"), new = c("TailNum", "YearOfReg")) %>% 
+  setkey(TailNum)
+
+@
+
+<<Density-in-Elapsed-Time>>=
+flights %>% 
+  group_by(Origin, Dest) %>% 
+  filter(n() > 50000) %>% 
+  mutate(Route = paste0(Origin, "-", Dest),
+         RevRoute = paste0(Dest, "-", Origin),
+         maxRoute = pmax(Route, RevRoute)) %>% 
+  ggplot(aes(x = ActualElapsedTime)) + 
+  geom_density(aes(fill = maxRoute), alpha = 0.5) + xlim(0,300)
+@
+
+<<Does-variance-and-average-correlate>>=
+flights %>% 
+  select(Origin, Dest, ActualElapsedTime) %>%
+  group_by(Origin, Dest) %>% 
+  summarise(average_time = mean(ActualElapsedTime, na.rm = TRUE),
+            sd_time = sd(ActualElapsedTime, na.rm = TRUE),
+            n = n()) %>%
+  mutate(avg_less_sd = (sd_time - average_time) / average_time) %>%
+  arrange(avg_less_sd) %>%
+  mutate(Route = paste0(Origin, "-", Dest),
+         Label = ifelse(Route %in% c('ROC-JFK', 'SLC-PHX', 'DCA-LGA', 'ORD-EWR'), Route, NA_character_),
+         hasLabel = !is.na(Label)) %>%
+  ggplot(aes(x = average_time, y = sd_time)) + 
+  #geom_point(aes(alpha = n/max(n))) + scale_alpha_identity() + 
+  geom_point(aes(size = n, fill = hasLabel, alpha = hasLabel), color = "black", stroke = 1, shape = 21) + scale_size_area(max_size = 10) +
+  scale_fill_manual(values = c(Orange, "red"))  + 
+  scale_alpha_manual(values = c(0.5, 1)) +
+  geom_text(aes(label = Label), color = "red", fontface = "bold", hjust = 1.1, vjust = 0.0, nudge_x = -1, nudge_y = 0.2) + 
+  coord_cartesian(xlim = c(0,480), ylim = c(0,50)) + 
+  scale_x_continuous("Average elapsed time", expand = c(0,0)) + 
+  scale_y_continuous("SD of time", expand = c(0,0))
+@
+
 
 \section{Effect of 9-11}
 <<Cancellations-by-date>>=

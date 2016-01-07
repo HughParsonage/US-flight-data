@@ -1,0 +1,773 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2016.1.3)  7 JAN 2016 01:02
+entering extended mode
+**./dep_delay_analysis.tex
+(dep_delay_analysis.tex
+LaTeX2e <2015/10/01> patch level 2
+Babel <3.9m> and hyphenation patterns for 69 languages loaded.
+("C:\MiKTeX 2.9\tex\latex\koma-script\scrreprt.cls"
+Document Class: scrreprt 2015/10/03 v3.19a KOMA-Script document class (report)
+("C:\MiKTeX 2.9\tex\latex\koma-script\scrkbase.sty"
+Package: scrkbase 2015/10/03 v3.19a KOMA-Script package (KOMA-Script-dependent 
+basics and keyval usage)
+
+("C:\MiKTeX 2.9\tex\latex\koma-script\scrbase.sty"
+Package: scrbase 2015/10/03 v3.19a KOMA-Script package (KOMA-Script-independent
+ basics and keyval usage)
+
+("C:\MiKTeX 2.9\tex\latex\graphics\keyval.sty"
+Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
+\KV@toks@=\toks14
+)
+("C:\MiKTeX 2.9\tex\latex\koma-script\scrlfile.sty"
+Package: scrlfile 2015/10/03 v3.19a KOMA-Script package (loading files)
+
+Package scrlfile, 2015/10/03 v3.19a KOMA-Script package (loading files)
+                  Copyright (C) Markus Kohm
+
+))) ("C:\MiKTeX 2.9\tex\latex\koma-script\tocbasic.sty"
+Package: tocbasic 2015/10/03 v3.19a KOMA-Script package (handling toc-files)
+)
+Package tocbasic Info: omitting babel extension for `toc'
+(tocbasic)             because of feature `nobabel' available
+(tocbasic)             for `toc' on input line 125.
+Package tocbasic Info: omitting babel extension for `lof'
+(tocbasic)             because of feature `nobabel' available
+(tocbasic)             for `lof' on input line 126.
+Package tocbasic Info: omitting babel extension for `lot'
+(tocbasic)             because of feature `nobabel' available
+(tocbasic)             for `lot' on input line 127.
+Package tocbasic Info: defining new hook before heading of `' on input line 158
+8.
+Class scrreprt Info: File `scrsize11pt.clo' used instead of
+(scrreprt)           file `scrsize11.clo' to setup font sizes on input line 224
+8.
+
+("C:\MiKTeX 2.9\tex\latex\koma-script\scrsize11pt.clo"
+File: scrsize11pt.clo 2015/10/03 v3.19a KOMA-Script font size class option (11p
+t)
+)
+("C:\MiKTeX 2.9\tex\latex\koma-script\typearea.sty"
+Package: typearea 2015/10/03 v3.19a KOMA-Script package (type area)
+
+Package typearea, 2015/10/03 v3.19a KOMA-Script package (type area)
+                  Copyright (C) Frank Neukam, 1992-1994
+                  Copyright (C) Markus Kohm, 1994-
+
+\ta@bcor=\skip41
+\ta@div=\count79
+\ta@hblk=\skip42
+\ta@vblk=\skip43
+\ta@temp=\skip44
+\footheight=\skip45
+Package typearea Info: These are the values describing the layout:
+(typearea)             DIV  = 10
+(typearea)             BCOR = 0.0pt
+(typearea)             \paperwidth      = 597.50793pt
+(typearea)              \textwidth      = 418.25555pt
+(typearea)              DIV departure   = -6%
+(typearea)              \evensidemargin = 17.3562pt
+(typearea)              \oddsidemargin  = 17.3562pt
+(typearea)             \paperheight     = 845.04694pt
+(typearea)              \textheight     = 595.80026pt
+(typearea)              \topmargin      = -25.16531pt
+(typearea)              \headheight     = 17.0pt
+(typearea)              \headsep        = 20.40001pt
+(typearea)              \topskip        = 11.0pt
+(typearea)              \footskip       = 47.6pt
+(typearea)              \baselineskip   = 13.6pt
+(typearea)              on input line 1509.
+)
+\c@part=\count80
+\c@chapter=\count81
+\c@section=\count82
+\c@subsection=\count83
+\c@subsubsection=\count84
+\c@paragraph=\count85
+\c@subparagraph=\count86
+LaTeX Info: Redefining \textsubscript on input line 4652.
+\abovecaptionskip=\skip46
+\belowcaptionskip=\skip47
+\c@pti@nb@sid@b@x=\box26
+\c@figure=\count87
+\c@table=\count88
+\bibindent=\dimen102
+) ("C:\MiKTeX 2.9\tex\latex\graphics\graphicx.sty"
+Package: graphicx 2014/10/28 v1.0g Enhanced LaTeX Graphics (DPC,SPQR)
+
+("C:\MiKTeX 2.9\tex\latex\graphics\graphics.sty"
+Package: graphics 2014/10/28 v1.0p Standard LaTeX Graphics (DPC,SPQR)
+
+("C:\MiKTeX 2.9\tex\latex\graphics\trig.sty"
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+("C:\MiKTeX 2.9\tex\latex\00miktex\graphics.cfg"
+File: graphics.cfg 2007/01/18 v1.5 graphics configuration of teTeX/TeXLive
+)
+Package graphics Info: Driver file: pdftex.def on input line 94.
+
+("C:\MiKTeX 2.9\tex\latex\pdftex-def\pdftex.def"
+File: pdftex.def 2011/05/27 v0.06d Graphics/color for pdfTeX
+
+("C:\MiKTeX 2.9\tex\generic\oberdiek\infwarerr.sty"
+Package: infwarerr 2010/04/08 v1.3 Providing info/warning/error messages (HO)
+)
+("C:\MiKTeX 2.9\tex\generic\oberdiek\ltxcmds.sty"
+Package: ltxcmds 2011/11/09 v1.22 LaTeX kernel commands for general use (HO)
+)
+\Gread@gobject=\count89
+))
+\Gin@req@height=\dimen103
+\Gin@req@width=\dimen104
+)
+("C:\MiKTeX 2.9\tex\latex\graphics\color.sty"
+Package: color 2014/10/28 v1.1a Standard LaTeX Color (DPC)
+
+("C:\MiKTeX 2.9\tex\latex\00miktex\color.cfg"
+File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
+)
+Package color Info: Driver file: pdftex.def on input line 142.
+)
+("C:\MiKTeX 2.9\tex\latex\framed\framed.sty"
+Package: framed 2011/10/22 v 0.96: framed or shaded text with page breaks
+\OuterFrameSep=\skip48
+\fb@frw=\dimen105
+\fb@frh=\dimen106
+\FrameRule=\dimen107
+\FrameSep=\dimen108
+)
+("C:\MiKTeX 2.9\tex\latex\base\alltt.sty"
+Package: alltt 1997/06/16 v2.0g defines alltt environment
+)
+("C:\MiKTeX 2.9\tex\latex\upquote\upquote.sty"
+Package: upquote 2012/04/19 v1.3 upright-quote and grave-accent glyphs in verba
+tim
+) (dep_delay_analysis.aux)
+\openout1 = `dep_delay_analysis.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+
+("C:\MiKTeX 2.9\tex\context\base\supp-pdf.mkii"
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count90
+\scratchdimen=\dimen109
+\scratchbox=\box27
+\nofMPsegments=\count91
+\nofMParguments=\count92
+\everyMPshowfont=\toks15
+\MPscratchCnt=\count93
+\MPscratchDim=\dimen110
+\MPnumerator=\count94
+\makeMPintoPDFobject=\count95
+\everyMPtoPDFconversion=\toks16
+)
+Package color Info: Redefining color shadecolor on input line 56.
+LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <10.95> not available
+(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 58.
+Package color Info: Redefining color shadecolor on input line 68.
+LaTeX Font Info:    Try loading font information for OMS+cmtt on input line 75.
+
+ (C:/R/R-32~1.3/share/texmf/tex/latex\omscmtt.fd
+File: omscmtt.fd 
+)
+LaTeX Font Info:    Font shape `OMS/cmtt/m/it' in size <10.95> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 75.
+
+Overfull \hbox (76.13159pt too wide) in paragraph at lines 75--75
+\OT1/cmtt/m/it/10.95 ## package:bit64 (c) 2011-2012 Jens Oehlschlaegel (GPL-2 w
+ith commercial restrictions) 
+ []
+
+
+Overfull \hbox (47.38815pt too wide) in paragraph at lines 75--75
+\OT1/cmtt/m/it/10.95 ## coercion: as.integer64 as.vector as.logical as.integer 
+as.double as.character
+ []
+
+
+Overfull \hbox (18.37103pt too wide) in paragraph at lines 75--75
+\OT1/cmtt/m/it/10.95 ## querying: is.integer64 is.vector [is.atomic\OMS/cmsy/m/
+n/10.95 g \OT1/cmtt/m/it/10.95 [length] is.na format print 
+ []
+
+
+Overfull \hbox (127.86978pt too wide) in paragraph at lines 84--84
+[]                                 []\OT1/cmtt/m/n/10.95 face[] []=[] []"plain"
+[][],[] []colour[] []=[] []"black"[][],[] []size[] []=[] []20[][],[] []lineheig
+ht[] []=[] []0.9[][],[][] 
+ []
+
+
+Overfull \hbox (87.62897pt too wide) in paragraph at lines 85--85
+[]                                 []\OT1/cmtt/m/n/10.95 hjust[] []=[] []0.5[][
+],[] []vjust[] []=[] []0.5[][],[] []angle[] []=[] []0[][],[] []margin[] []=[] [
+]margin[][](),[][] 
+ []
+
+[1
+
+{C:/Users/romanesd/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
+[2]
+Package color Info: Redefining color shadecolor on input line 98.
+LaTeX Font Info:    Font shape `OMS/cmtt/m/n' in size <10.95> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 109.
+
+Overfull \hbox (161.26718pt too wide) in paragraph at lines 118--118
+[]  []\OT1/cmtt/m/n/10.95 rbindlist[][]([][]lapply[][]([][]list.files[][]([][]p
+ath[] []=[] []"../flights"[][],[] []recursive[] []=[] []TRUE[][],[] []pattern[]
+ []=[] []"2[0-9]\OMS/cmsy/m/n/10.95 f\OT1/cmtt/m/n/10.95 3\OMS/cmsy/m/n/10.95 g
+\OT1/cmtt/m/n/10.95 .\OMS/cmsy/m/n/10.95 f\OT1/cmtt/m/n/10.95 3,4\OMS/cmsy/m/n/
+10.95 g\OT1/cmtt/m/n/10.95 csv$"[][],[][] 
+ []
+
+
+Overfull \hbox (35.89078pt too wide) in paragraph at lines 122--122
+[][]\OT1/cmtt/m/n/10.95 flights[] []<-[] []rbindlist[][]([][]list[][](pre2008_f
+lights, post2008_flights),[] []use.names[] []=[] []TRUE[][])[][] 
+ []
+
+Package color Info: Redefining color shadecolor on input line 129.
+
+Overfull \hbox (7.14734pt too wide) in paragraph at lines 336--336
+[]\OT1/cmtt/m/n/10.95 Read 165931626 rows and 29 (of 29) columns from 15.111 GB
+ file in 00:03:46[] 
+ []
+
+[3]
+Underfull \vbox (badness 10000) detected at line 340
+ []
+
+
+Underfull \vbox (badness 10000) detected at line 340
+ []
+
+[4]
+Underfull \vbox (badness 10000) detected at line 340
+ []
+
+
+Underfull \vbox (badness 10000) detected at line 340
+ []
+
+[5]
+Underfull \vbox (badness 10000) detected at line 340
+ []
+
+
+Underfull \vbox (badness 10000) detected at line 340
+ []
+
+[6]
+Underfull \vbox (badness 10000) detected at line 340
+ []
+
+
+Underfull \vbox (badness 10000) detected at line 340
+ []
+
+[7]
+Package color Info: Redefining color shadecolor on input line 344.
+
+Overfull \hbox (53.13684pt too wide) in paragraph at lines 346--346
+[][]\OT1/cmtt/m/n/10.95 flightsSanFran[] []<-[] []flights[Origin[] []%in%[] []c
+[][]([][]"SFO"[][],[] []"OAK"[][])[] []|[] []Dest[] []%in%[] []c[][]([][]"SFO"[
+][],[] []"OAK"[][])][][] 
+ []
+
+Package color Info: Redefining color shadecolor on input line 355.
+
+Overfull \hbox (55.03789pt too wide) in paragraph at lines 357--357
+[][]\OT1/cmtt/m/it/10.95 # First we want a time for each flight. This is more d
+ifficult that it might seem.[][] 
+ []
+
+
+Overfull \hbox (55.03789pt too wide) in paragraph at lines 358--358
+[][]\OT1/cmtt/m/it/10.95 # We need to concatenate the Year, Month, and DayofMon
+th fields, but we also need [][] 
+ []
+
+
+Overfull \hbox (32.04314pt too wide) in paragraph at lines 359--359
+[][]\OT1/cmtt/m/it/10.95 # to take into account the various time zones of the a
+irports in the database.[][] 
+ []
+
+
+Overfull \hbox (122.1211pt too wide) in paragraph at lines 381--381
+[]  []\OT1/cmtt/m/n/10.95 unique_dates[,DepDateTime[] []:=[] []fastPOSIXct[][](
+[][]sprintf[][]([][]"%d-%02d-%02d %s"[][], Year, Month, DayofMonth,[][] 
+ []
+
+
+Overfull \hbox (257.90015pt too wide) in paragraph at lines 382--382
+[]                                                   []\OT1/cmtt/m/n/10.95 sub[
+][]([][]"([0-9]\OMS/cmsy/m/n/10.95 f\OT1/cmtt/m/n/10.95 2\OMS/cmsy/m/n/10.95 g\
+OT1/cmtt/m/n/10.95 )([0-9]\OMS/cmsy/m/n/10.95 f\OT1/cmtt/m/n/10.95 2\OMS/cmsy/m
+/n/10.95 g\OT1/cmtt/m/n/10.95 )"[][],[] []"\OMS/cmsy/m/n/10.95 nn\OT1/cmtt/m/n/
+10.95 1:\OMS/cmsy/m/n/10.95 nn\OT1/cmtt/m/n/10.95 2:00"[][],[] []sprintf[][]([]
+[]"%04d"[][], DepTime),[][] 
+ []
+
+
+Overfull \hbox (122.1211pt too wide) in paragraph at lines 391--391
+[]  []\OT1/cmtt/m/n/10.95 unique_dates[,ArrDateTime[] []:=[] []fastPOSIXct[][](
+[][]sprintf[][]([][]"%d-%02d-%02d %s"[][], Year, Month, DayofMonth,[][] 
+ []
+
+
+Overfull \hbox (257.90015pt too wide) in paragraph at lines 392--392
+[]                                                   []\OT1/cmtt/m/n/10.95 sub[
+][]([][]"([0-9]\OMS/cmsy/m/n/10.95 f\OT1/cmtt/m/n/10.95 2\OMS/cmsy/m/n/10.95 g\
+OT1/cmtt/m/n/10.95 )([0-9]\OMS/cmsy/m/n/10.95 f\OT1/cmtt/m/n/10.95 2\OMS/cmsy/m
+/n/10.95 g\OT1/cmtt/m/n/10.95 )"[][],[] []"\OMS/cmsy/m/n/10.95 nn\OT1/cmtt/m/n/
+10.95 1:\OMS/cmsy/m/n/10.95 nn\OT1/cmtt/m/n/10.95 2:00"[][],[] []sprintf[][]([]
+[]"%04d"[][], ArrTime),[][] 
+ []
+
+
+Overfull \hbox (118.27345pt too wide) in paragraph at lines 399--399
+[][]\OT1/cmtt/m/it/10.95 #flights[,:=(Year = NULL, Month = NULL, DayofMonth =
+ NULL, DepTime = NULL, ArrTime = NULL)][][] 
+ []
+
+[8]
+Package color Info: Redefining color shadecolor on input line 409.
+
+Overfull \hbox (106.77608pt too wide) in paragraph at lines 411--411
+[][]\OT1/cmtt/m/it/10.95 # Now we join it to the airports dataset from nycfligh
+ts13 to obtain time zone information.[][] 
+ []
+
+
+Overfull \hbox (18.64471pt too wide) in paragraph at lines 432--432
+[][]\OT1/cmtt/m/n/10.95 setnames[][](airports,[] []old[] []=[] []c[][]([][]"Ori
+gin"[][],[] []"tzOrigin"[][]),[] []new[] []=[] []c[][]([][]"Dest"[][],[] []"tzD
+est"[][]))[][] 
+ []
+
+
+Overfull \hbox (60.78658pt too wide) in paragraph at lines 444--444
+[][]\OT1/cmtt/m/it/10.95 # The joins produce NAs when the airports table isnt 
+present in the flights table.[][] 
+ []
+
+[9]
+Package color Info: Redefining color shadecolor on input line 463.
+
+Overfull \hbox (7.14734pt too wide) in paragraph at lines 472--472
+[][]\OT1/cmtt/m/n/10.95 flights[,[][]:=[][]([][]DepDateTimeZulu[] []= DepDate
+Time[] []-[] []lubridate[][]::[][]hours[][](tzOrigin))][][] 
+ []
+
+Package color Info: Redefining color shadecolor on input line 483.
+
+Overfull \hbox (83.78133pt too wide) in paragraph at lines 485--485
+[][]\OT1/cmtt/m/it/10.95 # Flights typically follow a weekly cycle, so we shoul
+d obtain the week in the dataset.[][] 
+ []
+
+
+Overfull \hbox (254.34091pt too wide) in paragraph at lines 496--496
+[][]\OT1/cmtt/m/n/10.95 unique_dates[,Week[] []:=[] [](Year[] []-[] []1987L[][]
+)[] []*[] []52[] []+[] []data.table[][]::[][]yday[][]([][]sprintf[][]([][]"%d-%
+02d-%02d"[][], Year, Month, DayofMonth))[] []%/%[] []7[][]][][] 
+ []
+
+[10] [11]
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <14.4> on input line 510.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 510.
+ [1
+
+
+]
+chapter 1.
+[2
+
+]
+chapter 2.
+Package color Info: Redefining color shadecolor on input line 515.
+
+Overfull \hbox (254.34091pt too wide) in paragraph at lines 526--526
+[][]\OT1/cmtt/m/n/10.95 unique_dates[,Week[] []:=[] [](Year[] []-[] []1987L[][]
+)[] []*[] []52[] []+[] []data.table[][]::[][]yday[][]([][]sprintf[][]([][]"%d-%
+02d-%02d"[][], Year, Month, DayofMonth))[] []%/%[] []7[][]][][] 
+ []
+
+Package color Info: Redefining color shadecolor on input line 538.
+
+Overfull \hbox (76.13159pt too wide) in paragraph at lines 557--557
+[]  []\OT1/cmtt/m/n/10.95 mutate[][]([][]label.text[] []=[] []ifelse[][](n[] []
+==[] []maxN[][](n),[] []paste[][]([][]" "[][], SF_airport),[] []NA_character_[]
+[]))[] []%>%[][] 
+ []
+
+
+Overfull \hbox (99.12634pt too wide) in paragraph at lines 560--560
+[]  []\OT1/cmtt/m/n/10.95 mutate[][]([][]Date[] []=[] []fastPOSIXct[][]([][]spr
+intf[][]([][]"%d-%02d-%02d"[][], Year, Month, DayofMonth),[] []tz[] []=[] []"GM
+T"[][]),[][] 
+ []
+
+
+Overfull \hbox (191.10535pt too wide) in paragraph at lines 576--576
+[]                   []\OT1/cmtt/m/n/10.95 minor_breaks[] []=[] []seq[][]([][]a
+s.POSIXct[][]([][]"1987-12-31"[][]),[] []as.POSIXct[][]([][]"2014-12-31"[][]),[
+] []by[] []=[] []"1 years"[][]))[][] 
+ []
+
+[3
+
+] <figure/SanFran_Flights_by_date-1.pdf, id=52, 606.265pt x 361.35pt>
+File: figure/SanFran_Flights_by_date-1.pdf Graphic file (type pdf)
+
+<use figure/SanFran_Flights_by_date-1.pdf>
+Package pdftex.def Info: figure/SanFran_Flights_by_date-1.pdf used on input lin
+e 584.
+(pdftex.def)             Requested size: 597.50793pt x 356.1331pt.
+Package color Info: Redefining color shadecolor on input line 589.
+
+Overfull \hbox (40.54474pt too wide) in paragraph at lines 597--597
+[][]\OT1/cmtt/m/n/10.95 set[][](carriers,[] []j[] []=[] []2L[][],[] []value[] [
+]=[] []gsub[][]([][]"^([A-Za-z]+)\OMS/cmsy/m/n/10.95 nn\OT1/cmtt/m/n/10.95 s.*$
+"[][],[] []"\OMS/cmsy/m/n/10.95 nn\OT1/cmtt/m/n/10.95 1"[][], carriers[[[][]2L[
+][]]]))[][] 
+ []
+
+
+Overfull \hbox (334.82254pt too wide) in paragraph at lines 607--607
+[]  []\OT1/cmtt/m/n/10.95 ggplot[][]([][]aes[][]([][]x[] []= Date,[] []y[] []= 
+n[] []*[] []sample.weight.int,[] []color[] []= name,[] []group[] []=[] []intera
+ction[][](name,Origin)))[] []+[] []ylab[][]([][]"Number of departures"[][])[] [
+]+[][] 
+ []
+
+
+Overfull \hbox (53.13684pt too wide) in paragraph at lines 623--624
+[]\OT1/cmtt/m/n/10.95 ## Warning in simpleLoess(y, x, w, span, degree = degree,
+ parametric = parametric,
+ []
+
+
+Overfull \hbox (53.13684pt too wide) in paragraph at lines 625--626
+[]\OT1/cmtt/m/n/10.95 ## Warning in simpleLoess(y, x, w, span, degree = degree,
+ parametric = parametric,
+ []
+
+
+Overfull \hbox (53.13684pt too wide) in paragraph at lines 627--628
+[]\OT1/cmtt/m/n/10.95 ## Warning in simpleLoess(y, x, w, span, degree = degree,
+ parametric = parametric,
+ []
+
+
+Overfull \hbox (53.13684pt too wide) in paragraph at lines 629--630
+[]\OT1/cmtt/m/n/10.95 ## Warning in simpleLoess(y, x, w, span, degree = degree,
+ parametric = parametric,
+ []
+
+
+Overfull \hbox (53.13684pt too wide) in paragraph at lines 631--632
+[]\OT1/cmtt/m/n/10.95 ## Warning in simpleLoess(y, x, w, span, degree = degree,
+ parametric = parametric,
+ []
+
+
+Overfull \vbox (0.36241pt too high) detected at line 633
+ []
+
+[4] [5 <./figure/SanFran_Flights_by_date-1.pdf>]
+<figure/SanFran_Flights_by_Carrier-1.pdf, id=65, 606.265pt x 650.43pt>
+File: figure/SanFran_Flights_by_Carrier-1.pdf Graphic file (type pdf)
+
+<use figure/SanFran_Flights_by_Carrier-1.pdf>
+Package pdftex.def Info: figure/SanFran_Flights_by_Carrier-1.pdf used on input 
+line 637.
+(pdftex.def)             Requested size: 597.50793pt x 641.03958pt.
+
+
+LaTeX Warning: Float too large for page by 72.91936pt on input line 639.
+
+Package color Info: Redefining color shadecolor on input line 644.
+
+Overfull \hbox (145.11584pt too wide) in paragraph at lines 659--659
+[]  []\OT1/cmtt/m/n/10.95 ggplot[][]([][]aes[][]([][]x[] []= Year,[] []y[] []= 
+n[] []*[] []sample.weight.int,[] []color[] []= Carrier_other,[] []group[] []= C
+arrier_other))[] []+[][] 
+ []
+
+<figure/Volume-by-Carrier-1.pdf, id=66, 606.265pt x 361.35pt>
+File: figure/Volume-by-Carrier-1.pdf Graphic file (type pdf)
+
+<use figure/Volume-by-Carrier-1.pdf>
+Package pdftex.def Info: figure/Volume-by-Carrier-1.pdf used on input line 667.
+
+(pdftex.def)             Requested size: 597.50793pt x 356.1331pt.
+Package color Info: Redefining color shadecolor on input line 671.
+
+Overfull \hbox (129.77083pt too wide) in paragraph at lines 676--676
+[]  []\OT1/cmtt/m/n/10.95 flights[ ,[][].[][]([][]n[] []= .N),[] []by[] []= Des
+t][[][]order[][]([][]-[][]n)][] []%>%[] []\OT1/cmtt/m/it/10.95 # flights %>% co
+unt(Dest) %>% arrange(desc(n))[][] 
+ []
+
+
+Overfull \hbox (254.34091pt too wide) in paragraph at lines 682--682
+[][]\OT1/cmtt/m/n/10.95 airports_by_volume_by_year[] []<-[] []flights[major_air
+ports][ ,[][].[][]([][]n[] []= .N[] []*[] []sample.weight.int),[] []by[] []=[] 
+[]list[][](Year, AirportOther)][][] 
+ []
+
+
+Overfull \hbox (87.62897pt too wide) in paragraph at lines 688--688
+[]  []\OT1/cmtt/m/n/10.95 merge[][]([][]select[][](nycflights.airports, faa, na
+me),[] []by.x[] []=[] []"AirportOther"[][],[] []by.y[] []=[] []"faa"[][])[] []%
+>%[][] 
+ []
+
+
+Overfull \hbox (7.14734pt too wide) in paragraph at lines 708--708
+[]  []\OT1/cmtt/m/n/10.95 filter[][](AirportOther[] []!=[] []"Other_airport"[][
+], Year[] []>[] []1987L[][], Year[] []<[] []2015L[][])[]  []%>%[][] 
+ []
+
+
+Overfull \hbox (87.62897pt too wide) in paragraph at lines 709--709
+[]  []\OT1/cmtt/m/n/10.95 merge[][]([][]select[][](nycflights.airports, faa, na
+me),[] []by.x[] []=[] []"AirportOther"[][],[] []by.y[] []=[] []"faa"[][])[] []%
+>%[][] 
+ []
+
+
+Overfull \hbox (12.89603pt too wide) in paragraph at lines 710--710
+[]  []\OT1/cmtt/m/n/10.95 mutate[][]([][]name[] []=[] []factor[][](name,[] []le
+vels[] []= airports_by_volume_by_2014[][]$[][]name))[] []%>%[][] 
+ []
+
+[6] [7 <./figure/SanFran_Flights_by_Carrier-1.pdf>] [8 <./figure/Volume-by-Carr
+ier-1.pdf>]
+Package color Info: Redefining color shadecolor on input line 724.
+
+Overfull \hbox (116.3724pt too wide) in paragraph at lines 727--727
+[]  []\OT1/cmtt/m/n/10.95 flights[major_airports][ ,[][].[][]([][]n[] []= .N[] 
+[]*[] []sample.weight.int),[] []by[] []=[] []list[][](Year, AirportOther)][] []
+%>%[][] 
+ []
+
+
+Overfull \hbox (1.39865pt too wide) in paragraph at lines 728--728
+[]  []\OT1/cmtt/m/n/10.95 filter[][](AirportOther[] []!=[] []"Other_airport"[][
+], Year[] []>[] []1987L[][], Year[] []<[] []2015L[][])[] []%>%[][] 
+ []
+
+
+Overfull \hbox (64.63422pt too wide) in paragraph at lines 732--732
+[]  []\OT1/cmtt/m/n/10.95 merge[][]([][]select[][](nycflights.airports, faa, na
+me),[] []by.x[] []=[] []"AirportOther"[][],[] []by.y[] []=[] []"faa"[][])[][] 
+ []
+
+[9] <figure/Volume-by-major-airports-1.pdf, id=90, 606.265pt x 361.35pt>
+File: figure/Volume-by-major-airports-1.pdf Graphic file (type pdf)
+
+<use figure/Volume-by-major-airports-1.pdf>
+Package pdftex.def Info: figure/Volume-by-major-airports-1.pdf used on input li
+ne 747.
+(pdftex.def)             Requested size: 597.50793pt x 356.1331pt.
+
+<figure/Relative-volume-by-major-airports-1.pdf, id=91, 606.265pt x 361.35pt>
+File: figure/Relative-volume-by-major-airports-1.pdf Graphic file (type pdf)
+
+<use figure/Relative-volume-by-major-airports-1.pdf>
+Package pdftex.def Info: figure/Relative-volume-by-major-airports-1.pdf used on
+ input line 752.
+(pdftex.def)             Requested size: 597.50793pt x 356.1331pt.
+Package color Info: Redefining color shadecolor on input line 757.
+
+Overfull \hbox (18.64471pt too wide) in paragraph at lines 787--787
+[]           []\OT1/cmtt/m/n/10.95 new[] []=[] []c[][]([][]"OriginCityMarketID"
+[][],[] []"OriginCityMarketDescription"[][]))[] []%>%[][] 
+ []
+
+
+Overfull \hbox (7.14734pt too wide) in paragraph at lines 789--789
+[][]\OT1/cmtt/m/n/10.95 city_market_decoder[,OriginCityMarketID[] []:=[] []as.i
+nteger[][](OriginCityMarketID)][][] 
+ []
+
+
+Overfull \hbox (225.59747pt too wide) in paragraph at lines 790--790
+[][]\OT1/cmtt/m/n/10.95 city_decoder[] []<-[] []merge[][](city_decoder, city_ma
+rket_decoder,[] []by[] []=[] []"OriginCityMarketID"[][],[] []all.x[] []=[] []TR
+UE[][],[] []all.y[] []=[] []FALSE[][])[][] 
+ []
+
+[10] [11 <./figure/Volume-by-major-airports-1.pdf>] [12 <./figure/Relative-volu
+me-by-major-airports-1.pdf>]
+Package color Info: Redefining color shadecolor on input line 802.
+
+Overfull \hbox (52.04211pt too wide) in paragraph at lines 809--809
+[]  []\OT1/cmtt/m/n/10.95 mutate[][]([][]State[] []=[] []gsub[][]([][]"^.*([A-Z
+]\OMS/cmsy/m/n/10.95 f\OT1/cmtt/m/n/10.95 2\OMS/cmsy/m/n/10.95 g\OT1/cmtt/m/n/1
+0.95 ).*$"[][],[] []"\OMS/cmsy/m/n/10.95 nn\OT1/cmtt/m/n/10.95 1"[][], OriginCi
+tyMarketDescription))[] []%>%[][] 
+ []
+
+
+Overfull \hbox (104.87503pt too wide) in paragraph at lines 811--811
+[]  []\OT1/cmtt/m/n/10.95 mutate[][]([][]Label[] []=[] []ifelse[][](Year[] []==
+[] []max[][](Year), OriginCityMarketDescription,[] []NA_character_[][]))[] []%>
+%[][] 
+ []
+
+
+Overfull \hbox (47.38815pt too wide) in paragraph at lines 815--815
+[]  []\OT1/cmtt/m/n/10.95 magrittr[][]::[][]extract2[][](dplyr[][]::[][]filter[
+][](market_volume_by_year, Year[] []==[] []year), colname)[][] 
+ []
+
+
+Overfull \hbox (386.56073pt too wide) in paragraph at lines 818--818
+[]  []\OT1/cmtt/m/n/10.95 mutate[][]([][]OriginCityMarketDescription[] []=[] []
+factor[][](OriginCityMarketDescription,[] []levels[] []=[] []mkt.vol.by.yr[][](
+[][]2015[][],[] []"OriginCityMarketDescription"[][])))[] []%>%[][] 
+ []
+
+
+Overfull \hbox (191.10535pt too wide) in paragraph at lines 819--819
+[]  []\OT1/cmtt/m/n/10.95 ggplot[][]([][]aes[][]([][]x[] []= Year,[] []y[] []= 
+n,[] []color[] []= OriginCityMarketDescription,[] []group[] []= OriginCityMarke
+tDescription))[] []+[][] 
+ []
+
+
+Overfull \hbox (313.72884pt too wide) in paragraph at lines 823--823
+[]  []\OT1/cmtt/m/it/10.95 #geom_dl(method = list("top.points", dl.trans(y = y+
+0.25), fontfamily = "bold"), aes(label = OriginCityMarketDescription)) + [][] 
+ []
+
+
+Overfull \hbox (7.14734pt too wide) in paragraph at lines 825--825
+[][]\OT1/cmtt/m/n/10.95 direct.label[][](p,[] []list[][]([][]"top.points"[][],[
+] []dl.trans[][]([][]y[] []= y[][]+[][]0.25[][]),[] []fontface[][]=[][]"bold"[]
+[]))[][] 
+ []
+
+
+Overfull \hbox (30.14209pt too wide) in paragraph at lines 829--829
+[]\OT1/cmtt/m/n/10.95 ## Error in eval(expr, envir, enclos): could not find fun
+ction "direct.label"[] 
+ []
+
+Package color Info: Redefining color shadecolor on input line 835.
+
+Overfull \hbox (12.89603pt too wide) in paragraph at lines 839--839
+[]  []\OT1/cmtt/m/n/10.95 setnames[][]([][]old[] []=[] []c[][]([][]"tailnum"[][
+],[] []"year"[][]),[] []new[] []=[] []c[][]([][]"TailNum"[][],[] []"YearOfReg"[
+][]))[] []%>%[][] 
+ []
+
+Package color Info: Redefining color shadecolor on input line 846.
+
+Overfull \hbox (17.03508pt too wide) in paragraph at lines 859--859
+[]\OT1/cmtt/m/n/10.95 ## Warning: Removed 32765 rows containing non-finite valu
+es (stat[]density).[] 
+ []
+
+[13]
+Package color Info: Redefining color shadecolor on input line 863.
+
+Overfull \hbox (179.60797pt too wide) in paragraph at lines 874--874
+[]         []\OT1/cmtt/m/n/10.95 Label[] []=[] []ifelse[][](Route[] []%in%[] []
+c[][]([][]ROC-JFK[][],[] []SLC-PHX[][],[] []DCA-LGA[][],[] []ORD-EWR[][
+]), Route,[] []NA_character_[][]),[][] 
+ []
+
+
+Overfull \hbox (375.06335pt too wide) in paragraph at lines 878--878
+[]  []\OT1/cmtt/m/n/10.95 geom_point[][]([][]aes[][]([][]size[] []= n,[] []fill
+[] []= hasLabel,[] []alpha[] []= hasLabel),[] []color[] []=[] []"black"[][],[] 
+[]stroke[] []=[] []1[][],[] []shape[] []=[] []21[][])[] []+[] []scale_size_area
+[][]([][]max_size[] []=[] []10[][])[] []+[][] 
+ []
+
+
+Overfull \hbox (283.08435pt too wide) in paragraph at lines 881--881
+[]  []\OT1/cmtt/m/n/10.95 geom_text[][]([][]aes[][]([][]label[] []= Label),[] [
+]color[] []=[] []"red"[][],[] []fontface[] []=[] []"bold"[][],[] []hjust[] []=[
+] []1.1[][],[] []vjust[] []=[] []0.0[][],[] []nudge_x[] []=[] []-[][]1[][],[] [
+]nudge_y[] []=[] []0.2[][])[] []+[][] 
+ []
+
+Package color Info: Redefining color shadecolor on input line 896.
+
+Overfull \hbox (185.35666pt too wide) in paragraph at lines 901--901
+[]  []\OT1/cmtt/m/n/10.95 ggplot[][]([][]aes[][]([][]x[] []= fasttime[][]::[][]
+fastPOSIXct[][]([][]paste[][](Year, Month, DayofMonth,[] []sep[] []=[] []"-"[][
+])),[] []y[] []= prop_cancelled))[] []+[][] 
+ []
+
+[14] <figure/Cancellations-by-date-1.pdf, id=118, 606.265pt x 361.35pt>
+File: figure/Cancellations-by-date-1.pdf Graphic file (type pdf)
+
+<use figure/Cancellations-by-date-1.pdf>
+Package pdftex.def Info: figure/Cancellations-by-date-1.pdf used on input line 
+907.
+(pdftex.def)             Requested size: 597.50793pt x 356.1331pt.
+Package color Info: Redefining color shadecolor on input line 912.
+
+Overfull \hbox (179.60797pt too wide) in paragraph at lines 919--919
+[]  []\OT1/cmtt/m/n/10.95 ggplot[][]([][]aes[][]([][]x[] []=[] []jitter[][](ran
+k,[] []amount[] []=[] []0.1[][]),[] []y[] []= prop_cancelled))[] []+[] []geom_b
+ar[][]([][]stat[] []=[] []"identity"[][],[] []width[][]=[][]1[][])[][] 
+ []
+
+<figure/Sept11-cumulative-1.pdf, id=119, 606.265pt x 361.35pt>
+File: figure/Sept11-cumulative-1.pdf Graphic file (type pdf)
+
+<use figure/Sept11-cumulative-1.pdf>
+Package pdftex.def Info: figure/Sept11-cumulative-1.pdf used on input line 926.
+
+(pdftex.def)             Requested size: 597.50793pt x 356.1331pt.
+Package color Info: Redefining color shadecolor on input line 931.
+ [15 <./figure/Cancellations-by-date-1.pdf>] [16 <./figure/Sept11-cumulative-1.
+pdf>]
+<figure/Sept11-airports-1.pdf, id=136, 606.265pt x 361.35pt>
+File: figure/Sept11-airports-1.pdf Graphic file (type pdf)
+
+<use figure/Sept11-airports-1.pdf>
+Package pdftex.def Info: figure/Sept11-airports-1.pdf used on input line 948.
+(pdftex.def)             Requested size: 597.50793pt x 356.1331pt.
+Package color Info: Redefining color shadecolor on input line 952.
+ [17 <./figure/Sept11-airports-1.pdf>]
+[18] (dep_delay_analysis.aux) ) 
+Here is how much of TeX's memory you used:
+ 2897 strings out of 493634
+ 46265 string characters out of 3149406
+ 195625 words of memory out of 3000000
+ 6284 multiletter control sequences out of 15000+200000
+ 6633 words of font info for 25 fonts, out of 3000000 for 9000
+ 1025 hyphenation exceptions out of 8191
+ 41i,7n,66p,1775b,254s stack positions out of 5000i,500n,10000p,200000b,50000s
+<C:/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cm
+itt10.pfb><C:/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/MiKTeX 2.
+9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/MiKTeX 2.9/fonts/type1/public/am
+sfonts/cm/cmssbx10.pfb><C:/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb
+><C:/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
+Output written on dep_delay_analysis.pdf (29 pages, 429073 bytes).
+PDF statistics:
+ 168 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 500000)
+ 41 words of extra memory for PDF output out of 10000 (max. 10000000)
+
