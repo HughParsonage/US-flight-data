@@ -1,14 +1,16 @@
 \documentclass{scrreprt}
-\usepackage[landscape]{geometry}
+\usepackage[landscape,twocolumn]{geometry}
+\newlength\figurewidth
+\setlength\figurewidth\columnwidth
 \title{Flights 1987-2015}
 \author{Hugh P}
 \begin{document}
 <<knitrOpts>>=
 START.TIME <- Sys.time()
 knitr::opts_chunk$set(fig.show = 'hide',
-                      fig.width = 8.4, 
-                      fig.height = 5,
-                      out.width = "8.4in")
+                      fig.width = 11, 
+                      fig.height = 7,
+                      out.width = "11in")
 @
 
 <<loadPackages>>=
@@ -25,6 +27,7 @@ library(nycflights13)  # for airports
 nycflights.airports <- airports
 library(fasttime)
 library(grattan)
+library(directlabels)
 @
 
 <<originalloadData, eval=FALSE>>=
@@ -56,13 +59,14 @@ readr::write_csv(flights, path = "../1987-2015-On-Time-Performance.csv")
 
 <<loadData, cache=FALSE>>=
 Sys.time()
-flights <- fread("../1987-2015-On-Time-Performance.csv")
+flights <- fread("../1987-2015-On-Time-Performance.csv", select = c("Year", "Month", "DayofMonth", "DepTime", "ArrTime", "UniqueCarrier",
+                                                                    "ActualElapsedTime", "ArrDelay", "DepDelay", "Origin", "Dest", "Cancelled"))
 # flights <- readRDS("../1987-2015-On-Time-Performance.rds")
 @
 
 <<sample>>=
 flightsSanFran <- flights[Origin %in% c("SFO", "OAK") | Dest %in% c("SFO", "OAK")]
-sample.frac = 0.2
+sample.frac = 0.5
 sample.weight.int = as.integer(round(1/sample.frac))
 flights <- flights[sample(.N, .N * sample.frac)]
 @
@@ -177,6 +181,7 @@ maxN <- function(x, N=2){
 
 setkey(unique_dates, Week)
 flightsSanFran %>%
+  #sample_frac(0.05) %>%
   filter(!(Origin %in% c("SFO", "OAK") & Dest %in% c("SFO", "OAK"))) %>%
   mutate(SF_airport = ifelse(Origin %in% c("SFO", "OAK"),
                              Origin, 
@@ -206,7 +211,8 @@ flightsSanFran %>%
 @
 \begin{figure}
 \centering
-\makebox[\textwidth]{\includegraphics[width = \paperwidth]{figure/SanFran_Flights_by_date-1}}
+%\makebox[\textwidth]%
+{\includegraphics[width = \figurewidth]{figure/SanFran_Flights_by_date-1}}
 \caption{Number of depatures over time from Oakland and San Francisco Intl.}
 \end{figure}
 
@@ -243,7 +249,7 @@ flightsSanFran %>%
 @
 \begin{figure}
 \centering
-\makebox[\textwidth]{\includegraphics[width = \paperwidth]{figure/SanFran_Flights_by_Carrier-1}}
+{\includegraphics[width = \figurewidth]{figure/SanFran_Flights_by_Carrier-1}}
 \caption{Number of depatures over time from Oakland and San Francisco Intl.}
 \end{figure}
 
@@ -269,7 +275,7 @@ flights %>%
   scale_y_continuous(label = scales::comma)
 @
 \begin{figure}
-\makebox[\textwidth]{\includegraphics[width=\paperwidth]{figure/Volume-by-Carrier-1}}
+{\includegraphics[width=\figurewidth]{figure/Volume-by-Carrier-1}}
 \end{figure}
 
 <<Volume-by-major-airports>>=
@@ -323,12 +329,12 @@ rel_vol_major_airports  %>%
   geom_line() 
 @
 \begin{figure}
-\makebox[\textwidth]{\includegraphics[width=\paperwidth]{figure/Volume-by-major-airports-1}}
+{\includegraphics[width=\figurewidth]{figure/Volume-by-major-airports-1}}
 \caption{Annual flights by the top \Sexpr{majorAirportThreshold} airports by total volume.}
 \end{figure}
 
 \begin{figure}
-\makebox[\textwidth]{\includegraphics[width=\paperwidth]{figure/Relative-volume-by-major-airports-1}}
+{\includegraphics[width=\figurewidth]{figure/Relative-volume-by-major-airports-1}}
 \caption{Annual flights by airport, 1988 = 1.}
 \end{figure}
 
@@ -434,7 +440,7 @@ flights %>%
   geom_bar(stat = "identity", width=1)
 @
 \begin{figure}
-\makebox[\textwidth]{\includegraphics[width = \paperwidth]{figure/Cancellations-by-date-1}}
+{\includegraphics[width = \figurewidth]{figure/Cancellations-by-date-1}}
 \caption{Proportion of flights cancelled by date.}
 \end{figure}
 
@@ -447,7 +453,7 @@ flights %>%
   ggplot(aes(x = jitter(rank, amount = 0.1), y = prop_cancelled)) + geom_bar(stat = "identity", width=1)
 @
 \begin{figure}
-\makebox[\textwidth]{\includegraphics[width = \paperwidth]{figure/Sept11-cumulative-1}}
+{\includegraphics[width = \figurewidth]{figure/Sept11-cumulative-1}}
 \caption{Pareto distribution of cancellation proportions.}
 \end{figure}
 
@@ -465,8 +471,73 @@ flights %>%
 @
 \begin{figure}
 \caption{Number of airports closed by UTC (determined by date of last departure)}
-\makebox[\textwidth]{\includegraphics[width=\paperwidth]{figure/Sept11-airports-1}}
+{\includegraphics[width=\figurewidth]{figure/Sept11-airports-1}}
 \end{figure}
+
+\section{Atlanta, Chicago, and Dallas Fort-Worth}
+<<Hubs>>=
+flights_hubs <- flights[Origin %in% c('ATL', 'ORD', 'DFW')]
+@
+
+<<Hub-volumes>>=
+flights_hubs %>%
+  filter(Year < 2015 | Month < 9) %>%
+  count(Week, Origin) %>%
+  setkey(Week) %>%
+  data.table:::merge.data.table(unique(unique_dates)) %>%
+  mutate(Date = as.Date(paste0(Year, "-", Month, "-", DayofMonth))) %>%
+  ggplot(aes(x = Date, y = n * sample.weight.int, color = Origin, group = Origin)) + 
+  geom_line() + 
+  geom_point()
+@
+
+<<Hub-average-delay>>=
+summary.tbl <- 
+  flights_hubs %>%
+  group_by(Origin, Year, Month, DayofMonth) %>%
+  summarise(n = n(), average_delay = sum(DepDelay, na.rm = TRUE) / n()) 
+
+average_delay_by_hub <- 
+  summary.tbl %>%
+  mutate(Date = as.Date(paste0(Year, "-", Month, DayofMonth))) %>%
+  ggplot(aes(x = Date, y = average_delay, group = Origin, color = Origin)) + 
+  geom_smooth()
+
+total_flights_by_hub <- 
+  summary.tbl %>%
+  mutate(Date = as.Date(paste0(Year, "-", Month, DayofMonth)),
+         n = n * sample.weight.int) %>%
+  ggplot(aes(x = Date, y = n)) + 
+  geom_smooth(aes(group = Origin, color = Origin))
+
+gridExtra::grid.arrange(average_delay_by_hub, total_flights_by_hub, ncol = 1)
+@
+
+<<Hub-delay-correlation>>=
+summary.tbl <- 
+  flights_hubs %>%
+  group_by(Origin, Year, Month, DayofMonth) %>%
+  summarise(n = n(), total_depdelay = sum(DepDelay, na.rm = TRUE) / n()) 
+
+summary.tbl %>% select(-n) %>%
+  tidyr::spread(Origin, total_depdelay) %>%
+  tidyr::gather(Origin, dep_delay, DFW:ORD) %>%
+  ggplot(aes(x = ATL, y = dep_delay, color = Origin)) + 
+  geom_point(alpha = 0.051) + 
+  guides(color = guide_legend(override.aes = list(size = 4))) + 
+  theme(legend.position = c(0.8, 0.8)) + 
+  geom_smooth() + 
+  geom_abline(slope = 1) + 
+  coord_equal() + 
+  xlim(-10,60) + ylim(-10,60) + 
+  facet_grid(Origin ~ .)
+
+
+  
+
+@
+
+
 
 <<FINISHTIME>>=
 FINISH.TIME <- Sys.time()
