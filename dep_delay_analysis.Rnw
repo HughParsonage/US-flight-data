@@ -499,13 +499,13 @@ summary.tbl <-
 
 average_delay_by_hub <- 
   summary.tbl %>%
-  mutate(Date = as.Date(paste0(Year, "-", Month, DayofMonth))) %>%
+  mutate(Date = as.Date(paste0(Year, "-", Month, "-", DayofMonth))) %>%
   ggplot(aes(x = Date, y = average_delay, group = Origin, color = Origin)) + 
   geom_smooth()
 
 total_flights_by_hub <- 
   summary.tbl %>%
-  mutate(Date = as.Date(paste0(Year, "-", Month, DayofMonth)),
+  mutate(Date = as.Date(paste0(Year, "-", Month, "-", DayofMonth)),
          n = n * sample.weight.int) %>%
   ggplot(aes(x = Date, y = n)) + 
   geom_smooth(aes(group = Origin, color = Origin))
