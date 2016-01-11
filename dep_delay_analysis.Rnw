@@ -1,5 +1,5 @@
 \documentclass{scrreprt}
-\usepackage{geometry}
+\usepackage[landscape]{geometry}
 \title{Flights 1987-2015}
 \author{Hugh P}
 \begin{document}
