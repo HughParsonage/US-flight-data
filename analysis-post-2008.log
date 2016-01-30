@@ -1,0 +1,2025 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2016.1.3)  30 JAN 2016 20:57
+entering extended mode
+**./analysis-post-2008.tex
+(analysis-post-2008.tex
+LaTeX2e <2015/10/01> patch level 2
+Babel <3.9m> and hyphenation patterns for 69 languages loaded.
+("C:\MiKTeX 2.9\tex\latex\koma-script\scrreprt.cls"
+Document Class: scrreprt 2015/10/03 v3.19a KOMA-Script document class (report)
+("C:\MiKTeX 2.9\tex\latex\koma-script\scrkbase.sty"
+Package: scrkbase 2015/10/03 v3.19a KOMA-Script package (KOMA-Script-dependent 
+basics and keyval usage)
+
+("C:\MiKTeX 2.9\tex\latex\koma-script\scrbase.sty"
+Package: scrbase 2015/10/03 v3.19a KOMA-Script package (KOMA-Script-independent
+ basics and keyval usage)
+
+("C:\MiKTeX 2.9\tex\latex\graphics\keyval.sty"
+Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
+\KV@toks@=\toks14
+)
+("C:\MiKTeX 2.9\tex\latex\koma-script\scrlfile.sty"
+Package: scrlfile 2015/10/03 v3.19a KOMA-Script package (loading files)
+
+Package scrlfile, 2015/10/03 v3.19a KOMA-Script package (loading files)
+                  Copyright (C) Markus Kohm
+
+))) ("C:\MiKTeX 2.9\tex\latex\koma-script\tocbasic.sty"
+Package: tocbasic 2015/10/03 v3.19a KOMA-Script package (handling toc-files)
+)
+Package tocbasic Info: omitting babel extension for `toc'
+(tocbasic)             because of feature `nobabel' available
+(tocbasic)             for `toc' on input line 125.
+Package tocbasic Info: omitting babel extension for `lof'
+(tocbasic)             because of feature `nobabel' available
+(tocbasic)             for `lof' on input line 126.
+Package tocbasic Info: omitting babel extension for `lot'
+(tocbasic)             because of feature `nobabel' available
+(tocbasic)             for `lot' on input line 127.
+Package tocbasic Info: defining new hook before heading of `' on input line 158
+8.
+Class scrreprt Info: File `scrsize11pt.clo' used instead of
+(scrreprt)           file `scrsize11.clo' to setup font sizes on input line 224
+8.
+
+("C:\MiKTeX 2.9\tex\latex\koma-script\scrsize11pt.clo"
+File: scrsize11pt.clo 2015/10/03 v3.19a KOMA-Script font size class option (11p
+t)
+)
+("C:\MiKTeX 2.9\tex\latex\koma-script\typearea.sty"
+Package: typearea 2015/10/03 v3.19a KOMA-Script package (type area)
+
+Package typearea, 2015/10/03 v3.19a KOMA-Script package (type area)
+                  Copyright (C) Frank Neukam, 1992-1994
+                  Copyright (C) Markus Kohm, 1994-
+
+\ta@bcor=\skip41
+\ta@div=\count79
+\ta@hblk=\skip42
+\ta@vblk=\skip43
+\ta@temp=\skip44
+\footheight=\skip45
+Package typearea Info: These are the values describing the layout:
+(typearea)             DIV  = 10
+(typearea)             BCOR = 0.0pt
+(typearea)             \paperwidth      = 597.50793pt
+(typearea)              \textwidth      = 418.25555pt
+(typearea)              DIV departure   = -6%
+(typearea)              \evensidemargin = 17.3562pt
+(typearea)              \oddsidemargin  = 17.3562pt
+(typearea)             \paperheight     = 845.04694pt
+(typearea)              \textheight     = 595.80026pt
+(typearea)              \topmargin      = -25.16531pt
+(typearea)              \headheight     = 17.0pt
+(typearea)              \headsep        = 20.40001pt
+(typearea)              \topskip        = 11.0pt
+(typearea)              \footskip       = 47.6pt
+(typearea)              \baselineskip   = 13.6pt
+(typearea)              on input line 1509.
+)
+\c@part=\count80
+\c@chapter=\count81
+\c@section=\count82
+\c@subsection=\count83
+\c@subsubsection=\count84
+\c@paragraph=\count85
+\c@subparagraph=\count86
+LaTeX Info: Redefining \textsubscript on input line 4652.
+\abovecaptionskip=\skip46
+\belowcaptionskip=\skip47
+\c@pti@nb@sid@b@x=\box26
+\c@figure=\count87
+\c@table=\count88
+\bibindent=\dimen102
+) ("C:\MiKTeX 2.9\tex\latex\graphics\graphicx.sty"
+Package: graphicx 2014/10/28 v1.0g Enhanced LaTeX Graphics (DPC,SPQR)
+
+("C:\MiKTeX 2.9\tex\latex\graphics\graphics.sty"
+Package: graphics 2014/10/28 v1.0p Standard LaTeX Graphics (DPC,SPQR)
+
+("C:\MiKTeX 2.9\tex\latex\graphics\trig.sty"
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+("C:\MiKTeX 2.9\tex\latex\00miktex\graphics.cfg"
+File: graphics.cfg 2007/01/18 v1.5 graphics configuration of teTeX/TeXLive
+)
+Package graphics Info: Driver file: pdftex.def on input line 94.
+
+("C:\MiKTeX 2.9\tex\latex\pdftex-def\pdftex.def"
+File: pdftex.def 2011/05/27 v0.06d Graphics/color for pdfTeX
+
+("C:\MiKTeX 2.9\tex\generic\oberdiek\infwarerr.sty"
+Package: infwarerr 2010/04/08 v1.3 Providing info/warning/error messages (HO)
+)
+("C:\MiKTeX 2.9\tex\generic\oberdiek\ltxcmds.sty"
+Package: ltxcmds 2011/11/09 v1.22 LaTeX kernel commands for general use (HO)
+)
+\Gread@gobject=\count89
+))
+\Gin@req@height=\dimen103
+\Gin@req@width=\dimen104
+)
+("C:\MiKTeX 2.9\tex\latex\graphics\color.sty"
+Package: color 2014/10/28 v1.1a Standard LaTeX Color (DPC)
+
+("C:\MiKTeX 2.9\tex\latex\00miktex\color.cfg"
+File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
+)
+Package color Info: Driver file: pdftex.def on input line 142.
+)
+("C:\MiKTeX 2.9\tex\latex\framed\framed.sty"
+Package: framed 2011/10/22 v 0.96: framed or shaded text with page breaks
+\OuterFrameSep=\skip48
+\fb@frw=\dimen105
+\fb@frh=\dimen106
+\FrameRule=\dimen107
+\FrameSep=\dimen108
+)
+("C:\MiKTeX 2.9\tex\latex\base\alltt.sty"
+Package: alltt 1997/06/16 v2.0g defines alltt environment
+)
+("C:\MiKTeX 2.9\tex\latex\geometry\geometry.sty"
+Package: geometry 2010/09/12 v5.6 Page Geometry
+
+("C:\MiKTeX 2.9\tex\generic\oberdiek\ifpdf.sty"
+Package: ifpdf 2011/01/30 v2.3 Provides the ifpdf switch (HO)
+Package ifpdf Info: pdfTeX in PDF mode is detected.
+)
+("C:\MiKTeX 2.9\tex\generic\oberdiek\ifvtex.sty"
+Package: ifvtex 2010/03/01 v1.5 Detect VTeX and its facilities (HO)
+Package ifvtex Info: VTeX not detected.
+)
+("C:\MiKTeX 2.9\tex\generic\ifxetex\ifxetex.sty"
+Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
+)
+\Gm@cnth=\count90
+\Gm@cntv=\count91
+\c@Gm@tempcnt=\count92
+\Gm@bindingoffset=\dimen109
+\Gm@wd@mp=\dimen110
+\Gm@odd@mp=\dimen111
+\Gm@even@mp=\dimen112
+\Gm@layoutwidth=\dimen113
+\Gm@layoutheight=\dimen114
+\Gm@layouthoffset=\dimen115
+\Gm@layoutvoffset=\dimen116
+\Gm@dimlist=\toks15
+
+("C:\MiKTeX 2.9\tex\latex\geometry\geometry.cfg"))
+("C:\MiKTeX 2.9\tex\latex\upquote\upquote.sty"
+Package: upquote 2012/04/19 v1.3 upright-quote and grave-accent glyphs in verba
+tim
+) (analysis-post-2008.aux)
+\openout1 = `analysis-post-2008.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 53.
+LaTeX Font Info:    ... okay on input line 53.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 53.
+LaTeX Font Info:    ... okay on input line 53.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 53.
+LaTeX Font Info:    ... okay on input line 53.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 53.
+LaTeX Font Info:    ... okay on input line 53.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 53.
+LaTeX Font Info:    ... okay on input line 53.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 53.
+LaTeX Font Info:    ... okay on input line 53.
+
+("C:\MiKTeX 2.9\tex\context\base\supp-pdf.mkii"
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count93
+\scratchdimen=\dimen117
+\scratchbox=\box27
+\nofMPsegments=\count94
+\nofMParguments=\count95
+\everyMPshowfont=\toks16
+\MPscratchCnt=\count96
+\MPscratchDim=\dimen118
+\MPnumerator=\count97
+\makeMPintoPDFobject=\count98
+\everyMPtoPDFconversion=\toks17
+)
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+*geometry* verbose mode - [ preamble ] result:
+* driver: pdftex
+* paper: a3paper
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: 
+* h-part:(L,W,R)=(126.75832pt, 591.5302pt, 126.75833pt)
+* v-part:(T,H,B)=(143.40335pt, 836.50737pt, 215.10503pt)
+* \paperwidth=845.04684pt
+* \paperheight=1195.01575pt
+* \textwidth=591.5302pt
+* \textheight=836.50737pt
+* \oddsidemargin=54.48833pt
+* \evensidemargin=54.48833pt
+* \topmargin=33.73335pt
+* \headheight=17.0pt
+* \headsep=20.40001pt
+* \topskip=11.0pt
+* \footskip=47.6pt
+* \marginparwidth=59.7508pt
+* \marginparsep=12.8401pt
+* \columnsep=10.0pt
+* \skip\footins=10.0pt plus 4.0pt minus 2.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumntrue
+* \@twosidefalse
+* \@mparswitchfalse
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+Package color Info: Redefining color shadecolor on input line 55.
+LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <10.95> not available
+(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 57.
+LaTeX Font Info:    Try loading font information for OMS+cmtt on input line 58.
+
+(C:/R/R-32~1.3/share/texmf/tex/latex\omscmtt.fd
+File: omscmtt.fd 
+)
+LaTeX Font Info:    Font shape `OMS/cmtt/m/n' in size <10.95> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 58.
+
+Overfull \hbox (151.88387pt too wide) in paragraph at lines 62--62
+[]      []\OT1/cmtt/m/n/10.95 .duration[] []<-[] []round[][]([][]difftime[][]([
+][]Sys.time[][](), .current.time,[] []units[] []=[] []"secs"[][]))[][] 
+ []
+
+
+Overfull \hbox (13.91536pt too wide) in paragraph at lines 68--68
+[]        []\OT1/cmtt/m/n/10.95 file[] []=[] []"analysis-post-2008-CHUNKTIMINGS
+.txt"[][],[][] 
+ []
+
+
+Overfull \hbox (82.89961pt too wide) in paragraph at lines 77--77
+[]\OT1/cmtt/m/n/10.95 ## Warning in file.remove("analysis-post-2008-CHUNKTIMING
+S.txt"):
+ []
+
+
+Overfull \hbox (36.91011pt too wide) in paragraph at lines 77--77
+\OT1/cmtt/m/n/10.95 cannot remove file 'analysis-post-2008-CHUNKTIMINGS.txt',
+ []
+
+
+Overfull \hbox (59.90486pt too wide) in paragraph at lines 85--85
+[]                      []\OT1/cmtt/m/n/10.95 fig.path[] []= atlas[] []<-[] []"
+atlas-post-2008/"[][],[][] 
+ []
+
+Package color Info: Redefining color shadecolor on input line 94.
+LaTeX Font Info:    Font shape `OMS/cmtt/m/it' in size <10.95> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 102.
+
+Overfull \hbox (25.41273pt too wide) in paragraph at lines 102--102
+\OT1/cmtt/m/it/10.95 ## package:bit (c) 2008-2012 Jens Oehlschlaegel (GPL-2) 
+ []
+
+
+Overfull \hbox (19.66405pt too wide) in paragraph at lines 102--102
+\OT1/cmtt/m/it/10.95 ## coercion: as.logical as.integer as.bit as.bitwhich
+ []
+
+
+Overfull \hbox (8.16667pt too wide) in paragraph at lines 102--102
+\OT1/cmtt/m/it/10.95 ## querying: print length any all min max range sum
+ []
+
+
+Overfull \hbox (54.15617pt too wide) in paragraph at lines 102--102
+\OT1/cmtt/m/it/10.95 ## The following object is masked from 'package:data.table
+': 
+ []
+
+
+Overfull \hbox (19.66405pt too wide) in paragraph at lines 102--102
+\OT1/cmtt/m/it/10.95 ## The following object is masked from 'package:base': 
+ []
+
+
+Overfull \hbox (31.16142pt too wide) in paragraph at lines 102--102
+\OT1/cmtt/m/it/10.95 ## package:bit64 (c) 2011-2012 Jens Oehlschlaegel (GPL-2
+ []
+
+
+Overfull \hbox (42.6588pt too wide) in paragraph at lines 102--102
+\OT1/cmtt/m/it/10.95 ## coercion: as.integer64 as.vector as.logical as.integer
+ []
+
+
+Overfull \hbox (36.63643pt too wide) in paragraph at lines 102--102
+\OT1/cmtt/m/it/10.95 ## querying: is.integer64 is.vector [is.atomic\OMS/cmsy/m/
+n/10.95 g \OT1/cmtt/m/it/10.95 [length]
+ []
+
+
+Overfull \hbox (13.91536pt too wide) in paragraph at lines 102--102
+\OT1/cmtt/m/it/10.95 ## The following object is masked from 'package:bit': 
+ []
+
+
+Overfull \hbox (31.16142pt too wide) in paragraph at lines 102--102
+\OT1/cmtt/m/it/10.95 ## The following objects are masked from 'package:base': 
+ []
+
+
+Overfull \hbox (65.65355pt too wide) in paragraph at lines 107--107
+\OT1/cmtt/m/it/10.95 ## The following objects are masked from 'package:data.tab
+le': 
+ []
+
+
+Overfull \hbox (36.91011pt too wide) in paragraph at lines 107--107
+\OT1/cmtt/m/it/10.95 ## The following objects are masked from 'package:stats': 
+
+ []
+
+
+Overfull \hbox (31.16142pt too wide) in paragraph at lines 107--107
+\OT1/cmtt/m/it/10.95 ## The following objects are masked from 'package:base': 
+ []
+
+
+Overfull \hbox (25.41273pt too wide) in paragraph at lines 112--112
+\OT1/cmtt/m/it/10.95 ## The following object is masked from 'package:tidyr': 
+ []
+
+
+Overfull \hbox (226.6168pt too wide) in paragraph at lines 117--117
+[]                                 []\OT1/cmtt/m/n/10.95 face[] []=[] []"plain"
+[][],[] []colour[] []=[] []"black"[][],[] []size[] []= theme.text.size,[][] 
+ []
+
+
+Overfull \hbox (42.6588pt too wide) in paragraph at lines 119--119
+[]                                 []\OT1/cmtt/m/n/10.95 hjust[] []=[] []0.5[][
+],[] []vjust[] []=[] []0.5[][],[][] 
+ []
+
+
+Overfull \hbox (65.65355pt too wide) in paragraph at lines 120--120
+[]                                 []\OT1/cmtt/m/n/10.95 angle[] []=[] []0[][],
+[] []margin[] []=[] []margin[][](),[][] 
+ []
+
+
+Overfull \hbox (8.16667pt too wide) in paragraph at lines 122--122
+[][]\OT1/cmtt/m/n/10.95 update_geom_defaults[][]([][]"text"[][],[] []list[][]([
+][]size[] []= text.size))[][] 
+ []
+
+
+Overfull \hbox (174.87862pt too wide) in paragraph at lines 131--131
+[]  []\OT1/cmtt/m/n/10.95 set[][](nycflights.airlines,[] []j[] []= j,[] []value
+[] []=[] []as.character[][](nycflights.airlines[[j]]))[][] 
+ []
+
+
+Overfull \hbox (53.60881pt too wide) in paragraph at lines 133--133
+[][]\OT1/cmtt/m/n/10.95 nycflights.airlines[,short_name[] []:=[] []gsub[][]([][
+]"\OMS/cmsy/m/n/10.95 nn\OT1/cmtt/m/n/10.95 s.*$"[][],[] []""[][], name)][][] 
+ []
+
+
+Overfull \hbox (36.91011pt too wide) in paragraph at lines 134--134
+[][]\OT1/cmtt/m/n/10.95 setnames[][](nycflights.airlines,[] []"carrier"[][],[] 
+[]"UniqueCarrier"[][])[][] 
+ []
+
+
+Overfull \hbox (42.6588pt too wide) in paragraph at lines 141--141
+\OT1/cmtt/m/it/10.95 ## The following object is masked from 'package:datasets':
+ 
+ []
+
+[1
+
+{C:/Users/romanesd/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
+Package color Info: Redefining color shadecolor on input line 149.
+
+Overfull \hbox (122.86674pt too wide) in paragraph at lines 151--151
+[][]\OT1/cmtt/m/n/10.95 convert_week_to_date[] []<-[] []function[][]([][]DT_wit
+h_Week_column[][],[] []override[] []=[] []FALSE[][])\OMS/cmsy/m/n/10.95 f[][] 
+ []
+
+
+Overfull \hbox (209.37074pt too wide) in paragraph at lines 152--152
+[]  []\OT1/cmtt/m/n/10.95 stopifnot[][]([][]is.data.table[][](DT_with_Week_colu
+mn),[] []"Week"[] []%in%[] []names[][](DT_with_Week_column))[][] 
+ []
+
+
+Overfull \hbox (330.09319pt too wide) in paragraph at lines 157--157
+[]    []\OT1/cmtt/m/n/10.95 summarise[][]([][]Date[] []=[] []fastPOSIXct[][]([]
+[]sprintf[][]([][]"%d-%02d-%02d"[][],[] []first[][](Year),[] []first[][](Month)
+,[] []first[][](DayofMonth))))[] []%>%[][] 
+ []
+
+Package color Info: Redefining color shadecolor on input line 167.
+
+Overfull \hbox (105.89436pt too wide) in paragraph at lines 169--169
+[][]\OT1/cmtt/m/n/10.95 flights[] []<-[] []fread[][]([][]"../post2008_flights.c
+sv"[][],[] []na.strings[] []=[] []c[][]([][]"NA"[][],[] []""[][]))[][] 
+ []
+
+
+Overfull \hbox (128.88911pt too wide) in paragraph at lines 320--320
+[]\OT1/cmtt/m/n/10.95 Read 49153341 rows and 65 (of 65) columns from 13.203 GB 
+file in 00:03:20[] 
+ []
+
+
+Underfull \vbox (badness 10000) detected at line 321
+ []
+
+
+Underfull \vbox (badness 10000) detected at line 321
+ []
+
+[2]
+Underfull \vbox (badness 10000) detected at line 321
+ []
+
+
+Underfull \vbox (badness 10000) detected at line 321
+ []
+
+Package color Info: Redefining color shadecolor on input line 325.
+
+Overfull \hbox (65.65355pt too wide) in paragraph at lines 327--327
+[][]\OT1/cmtt/m/n/10.95 flights.by.carrier[] []<-[] []flights[,[] [].[][]([][]n
+[] []= .N),[] []by[] []= UniqueCarrier][][] 
+ []
+
+Package color Info: Redefining color shadecolor on input line 340.
+
+Overfull \hbox (42.6588pt too wide) in paragraph at lines 342--342
+[][]\OT1/cmtt/m/n/10.95 carrier.colors[] []<-[] []RColorBrewer[][]::[][]brewer.
+pal[][]([][]11[][],[] []"Spectral"[][])[][] 
+ []
+
+Package color Info: Redefining color shadecolor on input line 349.
+
+Overfull \hbox (182.52835pt too wide) in paragraph at lines 351--351
+[][]\OT1/cmtt/m/it/10.95 # First we want a time for each flight. This is more d
+ifficult that it might seem.[][] 
+ []
+
+
+Overfull \hbox (182.52835pt too wide) in paragraph at lines 352--352
+[][]\OT1/cmtt/m/it/10.95 # We need to concatenate the Year, Month, and DayofMon
+th fields, but we also need [][] 
+ []
+
+
+Overfull \hbox (159.5336pt too wide) in paragraph at lines 353--353
+[][]\OT1/cmtt/m/it/10.95 # to take into account the various time zones of the a
+irports in the database.[][] 
+ []
+
+
+Overfull \hbox (25.41273pt too wide) in paragraph at lines 363--363
+[]  []\OT1/cmtt/m/n/10.95 set[][](flights,[] []j[] []= j,[] []value[] []=[] []a
+s.integer[][](flights[[j]]))[][] 
+ []
+
+
+Overfull \hbox (38.81116pt too wide) in paragraph at lines 371--371
+[][]\OT1/cmtt/m/it/10.95 # See stackoverflow: links and comments under my quest
+ion[][] 
+ []
+
+
+Overfull \hbox (105.89436pt too wide) in paragraph at lines 374--374
+[]  []\OT1/cmtt/m/n/10.95 unique_dates[] []<-[] []unique[][](DT[,[][]list[][](Y
+ear, Month, DayofMonth, DepTime)])[][] 
+ []
+
+
+Overfull \hbox (249.61156pt too wide) in paragraph at lines 375--375
+[]  []\OT1/cmtt/m/n/10.95 unique_dates[,DepDateTime[] []:=[] []fastPOSIXct[][](
+[][]sprintf[][]([][]"%d-%02d-%02d %s"[][], Year, Month, DayofMonth,[][] 
+ []
+
+
+Overfull \hbox (385.39061pt too wide) in paragraph at lines 376--376
+[]                                                   []\OT1/cmtt/m/n/10.95 sub[
+][]([][]"([0-9]\OMS/cmsy/m/n/10.95 f\OT1/cmtt/m/n/10.95 2\OMS/cmsy/m/n/10.95 g\
+OT1/cmtt/m/n/10.95 )([0-9]\OMS/cmsy/m/n/10.95 f\OT1/cmtt/m/n/10.95 2\OMS/cmsy/m
+/n/10.95 g\OT1/cmtt/m/n/10.95 )"[][],[] []"\OMS/cmsy/m/n/10.95 nn\OT1/cmtt/m/n/
+10.95 1:\OMS/cmsy/m/n/10.95 nn\OT1/cmtt/m/n/10.95 2:00"[][],[] []sprintf[][]([]
+[]"%04d"[][], DepTime),[][] 
+ []
+
+
+Overfull \hbox (105.89436pt too wide) in paragraph at lines 377--377
+[]                                                       []\OT1/cmtt/m/n/10.95 
+perl[] []=[] []TRUE[][])),[][] 
+ []
+
+
+Overfull \hbox (25.41273pt too wide) in paragraph at lines 378--378
+[]                                           []\OT1/cmtt/m/n/10.95 tz[] []=[] [
+]"GMT"[][])][][] 
+ []
+
+
+Overfull \hbox (105.89436pt too wide) in paragraph at lines 384--384
+[]  []\OT1/cmtt/m/n/10.95 unique_dates[] []<-[] []unique[][](DT[,[][]list[][](Y
+ear, Month, DayofMonth, ArrTime)])[][] 
+ []
+
+
+Overfull \hbox (249.61156pt too wide) in paragraph at lines 385--385
+[]  []\OT1/cmtt/m/n/10.95 unique_dates[,ArrDateTime[] []:=[] []fastPOSIXct[][](
+[][]sprintf[][]([][]"%d-%02d-%02d %s"[][], Year, Month, DayofMonth,[][] 
+ []
+
+
+Overfull \hbox (385.39061pt too wide) in paragraph at lines 386--386
+[]                                                   []\OT1/cmtt/m/n/10.95 sub[
+][]([][]"([0-9]\OMS/cmsy/m/n/10.95 f\OT1/cmtt/m/n/10.95 2\OMS/cmsy/m/n/10.95 g\
+OT1/cmtt/m/n/10.95 )([0-9]\OMS/cmsy/m/n/10.95 f\OT1/cmtt/m/n/10.95 2\OMS/cmsy/m
+/n/10.95 g\OT1/cmtt/m/n/10.95 )"[][],[] []"\OMS/cmsy/m/n/10.95 nn\OT1/cmtt/m/n/
+10.95 1:\OMS/cmsy/m/n/10.95 nn\OT1/cmtt/m/n/10.95 2:00"[][],[] []sprintf[][]([]
+[]"%04d"[][], ArrTime),[][] 
+ []
+
+
+Overfull \hbox (105.89436pt too wide) in paragraph at lines 387--387
+[]                                                       []\OT1/cmtt/m/n/10.95 
+perl[] []=[] []TRUE[][])),[][] 
+ []
+
+
+Overfull \hbox (25.41273pt too wide) in paragraph at lines 388--388
+[]                                           []\OT1/cmtt/m/n/10.95 tz[] []=[] [
+]"GMT"[][])][][] 
+ []
+
+
+Overfull \hbox (245.76392pt too wide) in paragraph at lines 393--393
+[][]\OT1/cmtt/m/it/10.95 #flights[,:=(Year = NULL, Month = NULL, DayofMonth =
+ NULL, DepTime = NULL, ArrTime = NULL)][][] 
+ []
+
+Package color Info: Redefining color shadecolor on input line 403.
+[3]
+Overfull \hbox (234.26654pt too wide) in paragraph at lines 405--405
+[][]\OT1/cmtt/m/it/10.95 # Now we join it to the airports dataset from nycfligh
+ts13 to obtain time zone information.[][] 
+ []
+
+
+Overfull \hbox (88.6483pt too wide) in paragraph at lines 420--420
+[]\OT1/cmtt/m/n/10.95 ##              used    (Mb) gc trigger    (Mb)   max use
+d    (Mb)[] 
+ []
+
+
+Overfull \hbox (88.6483pt too wide) in paragraph at lines 420--420
+[]\OT1/cmtt/m/n/10.95 ## Ncells     568267    30.4    2756648   147.3     56826
+7    30.4[] 
+ []
+
+
+Overfull \hbox (88.6483pt too wide) in paragraph at lines 420--420
+[]\OT1/cmtt/m/n/10.95 ## Vcells 2067316392 15772.4 4176999658 31868.0 206731639
+2 15772.4[] 
+ []
+
+
+Overfull \hbox (117.39174pt too wide) in paragraph at lines 422--422
+[][]\OT1/cmtt/m/n/10.95 setnames[][](airports,[] []old[] []=[] []c[][]([][]"faa
+"[][],[] []"tz"[][]),[] []new[] []=[] []c[][]([][]"Origin"[][],[] []"tzOrigin"[
+][]))[][] 
+ []
+
+
+Overfull \hbox (146.13518pt too wide) in paragraph at lines 426--426
+[][]\OT1/cmtt/m/n/10.95 setnames[][](airports,[] []old[] []=[] []c[][]([][]"Ori
+gin"[][],[] []"tzOrigin"[][]),[] []new[] []=[] []c[][]([][]"Dest"[][],[] []"tzD
+est"[][]))[][] 
+ []
+
+
+Overfull \hbox (88.6483pt too wide) in paragraph at lines 436--436
+[]\OT1/cmtt/m/n/10.95 ##              used    (Mb) gc trigger    (Mb)   max use
+d    (Mb)[] 
+ []
+
+
+Overfull \hbox (88.6483pt too wide) in paragraph at lines 436--436
+[]\OT1/cmtt/m/n/10.95 ## Ncells     568305    30.4    1764254    94.3     56830
+5    30.4[] 
+ []
+
+
+Overfull \hbox (88.6483pt too wide) in paragraph at lines 436--436
+[]\OT1/cmtt/m/n/10.95 ## Vcells 2145122642 16366.0 5063784694 38633.7 214512264
+2 16366.0[] 
+ []
+
+
+Overfull \hbox (188.27704pt too wide) in paragraph at lines 438--438
+[][]\OT1/cmtt/m/it/10.95 # The joins produce NAs when the airports table isnt 
+present in the flights table.[][] 
+ []
+
+
+Overfull \hbox (88.6483pt too wide) in paragraph at lines 446--446
+[]\OT1/cmtt/m/n/10.95 ##              used    (Mb) gc trigger    (Mb)   max use
+d    (Mb)[] 
+ []
+
+
+Overfull \hbox (88.6483pt too wide) in paragraph at lines 446--446
+[]\OT1/cmtt/m/n/10.95 ## Ncells     568374    30.4    1764254    94.3     56837
+4    30.4[] 
+ []
+
+
+Overfull \hbox (88.6483pt too wide) in paragraph at lines 446--446
+[]\OT1/cmtt/m/n/10.95 ## Vcells 2145076126 16365.7 5063784694 38633.7 214507612
+6 16365.7[] 
+ []
+
+Package color Info: Redefining color shadecolor on input line 457.
+
+Overfull \hbox (134.6378pt too wide) in paragraph at lines 466--466
+[][]\OT1/cmtt/m/n/10.95 flights[,[][]:=[][]([][]DepDateTimeZulu[] []= DepDate
+Time[] []-[] []lubridate[][]::[][]hours[][](tzOrigin))][][] 
+ []
+
+
+Overfull \hbox (123.14043pt too wide) in paragraph at lines 467--467
+[][]\OT1/cmtt/m/n/10.95 flights[,[][]:=[][]([][]ArrDateTimeZulu[] []= ArrDate
+Time[] []-[] []lubridate[][]::[][]hours[][](tzDest))][][] 
+ []
+
+Package color Info: Redefining color shadecolor on input line 477.
+
+Overfull \hbox (211.27179pt too wide) in paragraph at lines 479--479
+[][]\OT1/cmtt/m/it/10.95 # Flights typically follow a weekly cycle, so we shoul
+d obtain the week in the dataset.[][] 
+ []
+
+
+Overfull \hbox (54.15617pt too wide) in paragraph at lines 489--489
+[][]\OT1/cmtt/m/n/10.95 unique_dates[] []<-[] []unique_dates[,[][]list[][](Year
+, Month, DayofMonth)][][] 
+ []
+
+
+Overfull \hbox (381.83138pt too wide) in paragraph at lines 490--490
+[][]\OT1/cmtt/m/n/10.95 unique_dates[,Week[] []:=[] [](Year[] []-[] []1987L[][]
+)[] []*[] []52[] []+[] []data.table[][]::[][]yday[][]([][]sprintf[][]([][]"%d-%
+02d-%02d"[][], Year, Month, DayofMonth))[] []%/%[] []7[][]][][] 
+ []
+
+Package color Info: Redefining color shadecolor on input line 504.
+
+Overfull \hbox (8.16667pt too wide) in paragraph at lines 507--507
+[][]\OT1/cmtt/m/n/10.95 flights[,[][].[][]([][]n[] []= .N),[] []keyby[] []= Wee
+k][unique_dates][]  []%>%[][] 
+ []
+
+
+Overfull \hbox (140.38649pt too wide) in paragraph at lines 509--509
+[]  []\OT1/cmtt/m/n/10.95 mutate[][]([][]Date[] []=[] []fastPOSIXct[][]([][]pas
+te0[][](Year,[] []"-"[][], Month,[] []"-"[][], DayofMonth)))[] []%>%[][] 
+ []
+
+<atlas-post-2008/Flights-by-week-1.pdf, id=15, 794.97pt x 505.89pt>
+File: atlas-post-2008/Flights-by-week-1.pdf Graphic file (type pdf)
+
+<use atlas-post-2008/Flights-by-week-1.pdf>
+Package pdftex.def Info: atlas-post-2008/Flights-by-week-1.pdf used on input li
+ne 517.
+(pdftex.def)             Requested size: 591.5302pt x 376.43692pt.
+Package color Info: Redefining color shadecolor on input line 521.
+
+Overfull \hbox (8.16667pt too wide) in paragraph at lines 524--524
+[][]\OT1/cmtt/m/n/10.95 flights[,[][].[][]([][]n[] []= .N),[] []keyby[] []= Wee
+k][unique_dates][]  []%>%[][] 
+ []
+
+
+Overfull \hbox (36.91011pt too wide) in paragraph at lines 527--527
+[]  []\OT1/cmtt/m/n/10.95 mutate[][]([][]difference[] []= n[] []-[] []lag[][](n
+,[] []1[][],[] []default[] []=[] []mean[][](.[][]$[][]n)),[][] 
+ []
+
+
+Overfull \hbox (117.39174pt too wide) in paragraph at lines 528--528
+[]         []\OT1/cmtt/m/n/10.95 Date[] []=[] []fastPOSIXct[][]([][]paste0[][](
+Year,[] []"-"[][], Month,[] []"-"[][], DayofMonth)),[][] 
+ []
+
+
+Overfull \hbox (36.91011pt too wide) in paragraph at lines 529--529
+[]         []\OT1/cmtt/m/n/10.95 diff.lab[] []=[] []ifelse[][]([][]ntile[][](di
+fference,[] []100[][])[] []==[] []100[][],[][] 
+ []
+
+
+Overfull \hbox (105.89436pt too wide) in paragraph at lines 530--530
+[]                           []\OT1/cmtt/m/n/10.95 paste0[][](Year,[] []"-"[][]
+, Month,[] []"-"[][], DayofMonth),[][] 
+ []
+
+
+Overfull \hbox (25.41273pt too wide) in paragraph at lines 540--540
+[]\OT1/cmtt/m/n/10.95 ## Warning: Removed 403 rows containing missing values
+ []
+
+Package color Info: Redefining color shadecolor on input line 544.
+
+Overfull \hbox (13.91536pt too wide) in paragraph at lines 547--547
+[]  []\OT1/cmtt/m/n/10.95 flights[,[][].[][]([][]n[] []= .N),[] []by[] []=[] []
+list[][](Week, UniqueCarrier)][][] 
+ []
+
+
+Overfull \hbox (31.16142pt too wide) in paragraph at lines 550--550
+[]  []\OT1/cmtt/m/n/10.95 flights[,[][].[][]([][]n[] []= .N),[] []by[] []= Uniq
+ueCarrier][[][]order[][]([][]-[][]n)][] []%>%[][] 
+ []
+
+
+Overfull \hbox (318.59581pt too wide) in paragraph at lines 554--554
+[][]\OT1/cmtt/m/n/10.95 nycflights.airlines[,Carrier_other[] []:=[] []ifelse[][
+](UniqueCarrier[] []%in%[] []biggest.carriers, UniqueCarrier,[] []"Other"[][])]
+[][] 
+ []
+
+
+Overfull \hbox (278.355pt too wide) in paragraph at lines 559--559
+[]           []\OT1/cmtt/m/n/10.95 Carrier_other[] []=[] []ifelse[][](UniqueCar
+rier[] []%in%[] []biggest.carriers, UniqueCarrier,[] []"Other"[][]))[] []%>%[][
+] 
+ []
+
+
+Overfull \hbox (151.88387pt too wide) in paragraph at lines 561--561
+[]  []\OT1/cmtt/m/n/10.95 merge[][](airlines,[] []by.x[] []=[] []"Carrier_other
+"[][],[] []by.y[] []=[] []"carrier"[][],[] []all.x[] []=[] []TRUE[][])[] []%>%[
+][] 
+ []
+
+
+Overfull \hbox (203.62206pt too wide) in paragraph at lines 562--562
+[]  []\OT1/cmtt/m/n/10.95 mutate[][]([][]Carrier_other[] []=[] []factor[][](Car
+rier_other,[] []levels[] []=[] []c[][](biggest.carriers,[] []"Other"[][])))[][]
+ 
+ []
+
+
+Overfull \hbox (19.66405pt too wide) in paragraph at lines 567--567
+[]  []\OT1/cmtt/m/n/10.95 ggplot[][]([][]aes[][]([][]x[] []= Date,[] []y[] []= 
+n,[] []fill[] []= Carrier_other))[] []+[][] 
+ []
+
+
+Overfull \hbox (48.40749pt too wide) in paragraph at lines 572--572
+[]  []\OT1/cmtt/m/n/10.95 annotate[][]([][]"blank"[][],[] []x[] []=[] []fastPOS
+IXct[][]([][]2016-03-01[][]),[] []y[] []=[] []0[][])[] []+[][] 
+ []
+
+
+Overfull \hbox (19.66405pt too wide) in paragraph at lines 574--574
+[]  []\OT1/cmtt/m/n/10.95 scale_y_continuous[][]([][]expand[] []=[] []c[][]([][
+]0[][],[][]0[][]),[] []label[] []= comma)[] []+[][] 
+ []
+
+
+Overfull \hbox (8.16667pt too wide) in paragraph at lines 579--579
+[]\OT1/cmtt/m/it/10.95 ## Scale for 'y' is already present. Adding another
+ []
+
+[4]
+<atlas-post-2008/Flights-by-week-and-carrier-1.pdf, id=19, 794.97pt x 505.89pt>
+File: atlas-post-2008/Flights-by-week-and-carrier-1.pdf Graphic file (type pdf)
+
+<use atlas-post-2008/Flights-by-week-and-carrier-1.pdf>
+Package pdftex.def Info: atlas-post-2008/Flights-by-week-and-carrier-1.pdf used
+ on input line 582.
+(pdftex.def)             Requested size: 591.5302pt x 376.43692pt.
+Package color Info: Redefining color shadecolor on input line 586.
+
+Overfull \hbox (65.65355pt too wide) in paragraph at lines 592--592
+[]  []\OT1/cmtt/m/n/10.95 mutate[][]([][]label.y[] []=[] []ifelse[][](Week[] []
+==[] []max[][](Week), r,[] []NA_real_[][]))[] []%>%[][] 
+ []
+
+
+Overfull \hbox (157.63255pt too wide) in paragraph at lines 594--594
+[]  []\OT1/cmtt/m/n/10.95 ggplot[][]([][]aes[][]([][]x[] []= Date,[] []y[] []= 
+r,[] []color[] []= Carrier_other,[] []group[] []= Carrier_other))[] []+[][] 
+ []
+
+
+Overfull \hbox (374.98796pt too wide) in paragraph at lines 596--596
+[]  []\OT1/cmtt/m/n/10.95 geom_dl[][]([][]method[] []=[] []"last.qp"[][],[] []a
+es[][]([][]label[] []=[] []ifelse[][]([][]is.na[][](name),[] []"Other"[][],[] [
+]gsub[][]([][]"^([A-Za-z]+)\OMS/cmsy/m/n/10.95 nn\OT1/cmtt/m/n/10.95 b.*$"[][],
+[] []"\OMS/cmsy/m/n/10.95 nn\OT1/cmtt/m/n/10.95 1"[][],  name))))[] []+[][] 
+ []
+
+
+Overfull \hbox (48.40749pt too wide) in paragraph at lines 601--601
+[]  []\OT1/cmtt/m/n/10.95 annotate[][]([][]"blank"[][],[] []x[] []=[] []fastPOS
+IXct[][]([][]2016-09-01[][]),[] []y[] []=[] []0[][])[] []+[][] 
+ []
+
+
+Overfull \hbox (19.66405pt too wide) in paragraph at lines 603--603
+[]  []\OT1/cmtt/m/n/10.95 scale_y_continuous[][]([][]expand[] []=[] []c[][]([][
+]0[][],[][]0[][]),[] []label[] []= comma)[] []+[][] 
+ []
+
+Package color Info: Redefining color shadecolor on input line 610.
+Package color Info: Redefining color shadecolor on input line 626.
+
+Overfull \hbox (59.90486pt too wide) in paragraph at lines 634--634
+[]  []\OT1/cmtt/m/n/10.95 ggplot[][]([][]aes[][]([][]x[] []= Year[] []+[] []Mon
+th[][]/[][]12[][],[] []y[] []= total_cancellations))[] []+[][] 
+ []
+
+Package color Info: Redefining color shadecolor on input line 641.
+
+Overfull \hbox (13.91536pt too wide) in paragraph at lines 646--646
+[]  []\OT1/cmtt/m/n/10.95 summarise[][]([][]total_cancellations[] []=[] []sum[]
+[](Cancelled))[] []%>%[][] 
+ []
+
+
+Overfull \hbox (312.84712pt too wide) in paragraph at lines 649--649
+[]  []\OT1/cmtt/m/n/10.95 group_by[][](Year,[] []Carrier_other[] []=[] []ifelse
+[][](UniqueCarrier[] []%in%[] []biggest.carriers, UniqueCarrier,[] []"Other"[][
+]))[] []%>%[][] 
+ []
+
+
+Overfull \hbox (48.40749pt too wide) in paragraph at lines 650--650
+[]  []\OT1/cmtt/m/n/10.95 summarise[][]([][]total_cancellations[] []=[] []sum[]
+[](total_cancellations))[][] 
+ []
+
+
+Overfull \hbox (226.6168pt too wide) in paragraph at lines 654--654
+[]  []\OT1/cmtt/m/n/10.95 mutate[][]([][]Carrier_other[] []=[] []factor[][](Car
+rier_other,[] []levels[] []=[] []c[][](biggest.carriers,[] []"Other"[][])))[] [
+]%>%[][] 
+ []
+
+
+Overfull \hbox (123.14043pt too wide) in paragraph at lines 656--656
+[]  []\OT1/cmtt/m/n/10.95 ggplot[][]([][]aes[][]([][]x[] []= Year,[] []y[] []= 
+total_cancellations,[] []fill[] []= Carrier_other))[] []+[][] 
+ []
+
+[5 <./atlas-post-2008/Flights-by-week-1.pdf>]
+Package color Info: Redefining color shadecolor on input line 665.
+
+Overfull \hbox (15.8164pt too wide) in paragraph at lines 670--670
+[][]\OT1/cmtt/m/it/10.95 #   select(Year, Month, UniqueCarrier, Cancelled) %>%[
+][] 
+ []
+
+
+Overfull \hbox (366.48636pt too wide) in paragraph at lines 671--671
+[][]\OT1/cmtt/m/it/10.95 #   group_by(Year, Month, Carrier_other = ifelse(Uniqu
+eCarrier %in% biggest.carriers, UniqueCarrier, "Other")) %>%[][] 
+ []
+
+
+Overfull \hbox (21.5651pt too wide) in paragraph at lines 672--672
+[][]\OT1/cmtt/m/it/10.95 #   summarise(expected_cancellation = mean(Cancelled))
+[][] 
+ []
+
+
+Overfull \hbox (297.5021pt too wide) in paragraph at lines 675--675
+[][]\OT1/cmtt/m/it/10.95 #   flights[,Carrier_other := ifelse(UniqueCarrier %in
+% biggest.carriers, UniqueCarrier, "Other")] %>%[][] 
+ []
+
+
+Overfull \hbox (233.99286pt too wide) in paragraph at lines 676--676
+[][]\OT1/cmtt/m/it/10.95 #   .[,.(expected_cancellation = mean(Cancelled)), by 
+= list(Year, Month, Carrier_other)]\OMS/cmsy/m/n/10.95 g\OT1/cmtt/m/it/10.95 )[
+][] 
+ []
+
+
+Overfull \hbox (2.41798pt too wide) in paragraph at lines 679--679
+[]  []\OT1/cmtt/m/n/10.95 select[][](Year, Month, UniqueCarrier, Cancelled)[] [
+]%>%[][] 
+ []
+
+
+Overfull \hbox (8.16667pt too wide) in paragraph at lines 684--684
+[]  []\OT1/cmtt/m/n/10.95 summarise[][]([][]expected_cancellation[] []=[] []mea
+n[][](Cancelled))[][] 
+ []
+
+
+Overfull \hbox (335.84187pt too wide) in paragraph at lines 688--688
+[]  []\OT1/cmtt/m/n/10.95 ggplot[][]([][]aes[][]([][]x[] []= Year[] []+[] []Mon
+th[][]/[][]12[][],[] []y[] []= expected_cancellation,[] []group[] []= Carrier_o
+ther,[] []color[] []= Carrier_other))[] []+[][] 
+ []
+
+Package color Info: Redefining color shadecolor on input line 695.
+
+Overfull \hbox (8.16667pt too wide) in paragraph at lines 704--704
+[]  []\OT1/cmtt/m/n/10.95 summarise[][]([][]expected_cancellation[] []=[] []mea
+n[][](Cancelled))[][] 
+ []
+
+
+Overfull \hbox (13.91536pt too wide) in paragraph at lines 708--708
+[]\OT1/cmtt/m/n/10.95 ## Error in eval(expr, envir, enclos): object 'Year'
+ []
+
+
+Overfull \hbox (157.63255pt too wide) in paragraph at lines 711--711
+[]  []\OT1/cmtt/m/n/10.95 mutate[][]([][]difference[] []= expected_cancellation
+[] []-[] []mean[][](expected_cancellation))[] []%>%[][] 
+ []
+
+
+Overfull \hbox (163.38124pt too wide) in paragraph at lines 718--718
+[]\OT1/cmtt/m/n/10.95 ## Error in eval(expr, envir, enclos): object 'expected.c
+ancellations.by.week'
+ []
+
+Package color Info: Redefining color shadecolor on input line 722.
+
+Overfull \hbox (157.63255pt too wide) in paragraph at lines 726--726
+[]  []\OT1/cmtt/m/n/10.95 mutate[][]([][]difference[] []= expected_cancellation
+[] []-[] []mean[][](expected_cancellation))[] []%>%[][] 
+ []
+
+
+Overfull \hbox (151.88387pt too wide) in paragraph at lines 727--727
+[]  []\OT1/cmtt/m/n/10.95 ggplot[][]([][]aes[][]([][]x[] []=[] []as.Date[][]([]
+[]paste0[][](Year,[] []"-"[][], Month,[] []"-01"[][])),[] []y[] []= difference)
+)[] []+[][] 
+ []
+
+
+<atlas-post-2008/Expected-cancellation-by-month-difference-1.pdf, id=28, 794.97
+pt x 505.89pt>
+File: atlas-post-2008/Expected-cancellation-by-month-difference-1.pdf Graphic f
+ile (type pdf)
+
+<use atlas-post-2008/Expected-cancellation-by-month-difference-1.pdf>
+Package pdftex.def Info: atlas-post-2008/Expected-cancellation-by-month-differe
+nce-1.pdf used on input line 738.
+(pdftex.def)             Requested size: 581.53018pt x 370.07626pt.
+
+Overfull \hbox (76.00827pt too wide) in paragraph at lines 737--739
+\OT1/cmr/m/n/10.95 air-lines, monthly. [] 
+ []
+
+Package color Info: Redefining color shadecolor on input line 742.
+
+Overfull \hbox (36.91011pt too wide) in paragraph at lines 747--747
+[]  []\OT1/cmtt/m/n/10.95 summarise[][]([][]total_ArrDelay[] []=[] []sum[][](Ar
+rDelay,[] []na.rm[] []=[] []TRUE[][]))[][] 
+ []
+
+[6 <./atlas-post-2008/Flights-by-week-and-carrier-1.pdf>] [7 <./atlas-post-2008
+/Expected-cancellation-by-month-difference-1.pdf>]
+Package color Info: Redefining color shadecolor on input line 758.
+
+Overfull \hbox (36.91011pt too wide) in paragraph at lines 763--763
+[]  []\OT1/cmtt/m/n/10.95 summarise[][]([][]total_ArrDelay[] []=[] []sum[][](Ar
+rDelay,[] []na.rm[] []=[] []TRUE[][]))[][] 
+ []
+
+
+Overfull \hbox (146.13518pt too wide) in paragraph at lines 766--766
+[]  []\OT1/cmtt/m/n/10.95 ggplot[][]([][]aes[][]([][]as.Date[][]([][]sprintf[][
+]([][]"%d-%02d-01"[][], Year, Month)), total_ArrDelay))[] []+[][] 
+ []
+
+Package color Info: Redefining color shadecolor on input line 774.
+
+Overfull \hbox (36.91011pt too wide) in paragraph at lines 778--778
+[]  []\OT1/cmtt/m/n/10.95 mutate[][]([][]rel_delay[] []= total_ArrDelay[][]/[][
+]mean[][](total_ArrDelay))[][] 
+ []
+
+
+Overfull \hbox (151.88387pt too wide) in paragraph at lines 782--782
+[]  []\OT1/cmtt/m/n/10.95 mutate[][]([][]rel_cancellations[] []= total_cancella
+tions[] []/[] []mean[][](total_cancellations))[][] 
+ []
+
+
+Overfull \hbox (330.09319pt too wide) in paragraph at lines 788--788
+[]  []\OT1/cmtt/m/n/10.95 melt.data.table[][]([][]measure.vars[] []=[] []c[][](
+[][]"rel_delay"[][],[] []"rel_cancellations"[][]),[] []variable.name[] []=[] []
+"delay_or_cancel"[][])[] []%>%[][] 
+ []
+
+
+Overfull \hbox (232.3655pt too wide) in paragraph at lines 789--789
+[]  []\OT1/cmtt/m/n/10.95 ggplot[][]([][]aes[][]([][]as.Date[][]([][]sprintf[][
+]([][]"%d-%02d-01"[][], Year, Month)), value,[] []fill[] []= delay_or_cancel))[
+] []+[][] 
+ []
+
+
+Overfull \hbox (71.40224pt too wide) in paragraph at lines 790--790
+[]  []\OT1/cmtt/m/n/10.95 geom_bar[][]([][]stat[] []=[] []"identity"[][],[] []p
+osition[] []=[] []"stack"[][],[] []width[] []=[] []30[][])[] []+[][] 
+ []
+
+
+Overfull \hbox (2.41798pt too wide) in paragraph at lines 795--796
+[]\OT1/cmtt/m/n/10.95 ## Warning: Stacking not well defined when ymin !=
+ []
+
+
+Overfull \hbox (6.55704pt too wide) in paragraph at lines 797--797
+[]\OT1/cmtt/m/n/10.95 ## Warning: position[]stack requires non-overlapping
+ []
+
+Package color Info: Redefining color shadecolor on input line 805.
+Package color Info: Redefining color shadecolor on input line 842.
+
+Overfull \hbox (67.5546pt too wide) in paragraph at lines 844--844
+[][]\OT1/cmtt/m/it/10.95 # Define hubbiness to be the Gini coefficient of each 
+carrier.[][] 
+ []
+
+
+Overfull \hbox (100.14568pt too wide) in paragraph at lines 860--860
+[]  []\OT1/cmtt/m/n/10.95 mutate[][]([][]short_name[] []=[] []factor[][](short_
+name,[] []levels[] []= .[][]$[][]short_name))[] []%>%[][] 
+ []
+
+
+Overfull \hbox (54.15617pt too wide) in paragraph at lines 862--862
+[]    []\OT1/cmtt/m/n/10.95 ggplot[][](.,[] []aes[][]([][]x[] []= short_name,[]
+ []y[] []= gini,[] []order[] []= gini))[] []+[][] 
+ []
+
+
+Overfull \hbox (238.11418pt too wide) in paragraph at lines 865--865
+[]      []\OT1/cmtt/m/n/10.95 geom_text[][]([][]aes[][]([][]label[] []=[] []pas
+te[][](short_name,[] []percent[][](gini))),[] []hjust[] []=[] []0[][],[] []nudg
+e_y[] []=[] []0.025[][])[] []+[][] 
+ []
+
+
+Overfull \hbox (146.13518pt too wide) in paragraph at lines 866--866
+[]      []\OT1/cmtt/m/n/10.95 theme[][]([][]axis.title.y[] []=[] []element_blan
+k[][](),[] []axis.text.y[] []=[] []element_blank[][]())[] []+[][] 
+ []
+
+
+Overfull \hbox (387.58006pt too wide) in paragraph at lines 867--867
+[]      []\OT1/cmtt/m/n/10.95 scale_y_continuous[][]([][]"Gini of airport volum
+e"[][],[] []expand[] []=[] []c[][]([][]0[][],[][]0[][]),[] []limits[] []=[] []c
+[][]([][]0[][],[] []max[][](.[][]$[][]gini)[] []*[] []1.3[][]),[] []label[] []=
+ percent)[][] 
+ []
+
+<atlas-post-2008/Hubbiness-1.pdf, id=46, 578.16pt x 794.97pt>
+File: atlas-post-2008/Hubbiness-1.pdf Graphic file (type pdf)
+
+<use atlas-post-2008/Hubbiness-1.pdf>
+Package pdftex.def Info: atlas-post-2008/Hubbiness-1.pdf used on input line 873
+.
+(pdftex.def)             Requested size: 436.14763pt x 599.6953pt.
+
+Overfull \hbox (300.7651pt too wide) in paragraph at lines 873--874
+[][] 
+ []
+
+Package color Info: Redefining color shadecolor on input line 877.
+
+Overfull \hbox (105.89436pt too wide) in paragraph at lines 879--879
+[][]\OT1/cmtt/m/n/10.95 ggplot[][](hubbiness.by.carrier[flights.by.carrier][nyc
+flights.airlines],[][] 
+ []
+
+
+Overfull \hbox (128.88911pt too wide) in paragraph at lines 882--882
+[]  []\OT1/cmtt/m/n/10.95 geom_text_repel[][]([][]aes[][]([][]label[] []= short
+_name),[] []fontface[] []=[] []"bold"[][],[] []size[] []=[] []6[][])[] []+[][] 
+
+ []
+
+
+Overfull \hbox (180.6273pt too wide) in paragraph at lines 883--883
+[]  []\OT1/cmtt/m/n/10.95 scale_y_continuous[][]([][]"Volume (2008-2015)"[][],[
+] []labels[] []=[] []function[][]([][]x[][])[][]paste0[][](x[][]/[][]1e6[][],[]
+ []"M"[][]))[][] 
+ []
+
+
+Overfull \hbox (100.14568pt too wide) in paragraph at lines 887--887
+[]\OT1/cmtt/m/n/10.95 ## Error in `[.data.table`(hubbiness.by.carrier[flights.b
+y.carrier],
+ []
+
+
+Overfull \hbox (48.40749pt too wide) in paragraph at lines 887--887
+\OT1/cmtt/m/n/10.95 nycflights.airlines): When i is a data.table (or character
+ []
+
+
+Overfull \hbox (2.41798pt too wide) in paragraph at lines 887--887
+\OT1/cmtt/m/n/10.95 vector), x must be keyed (i.e. sorted, and, marked
+ []
+
+
+Overfull \hbox (8.16667pt too wide) in paragraph at lines 887--887
+\OT1/cmtt/m/n/10.95 as sorted) so data.table knows which columns to join
+ []
+
+
+Overfull \hbox (54.15617pt too wide) in paragraph at lines 887--887
+\OT1/cmtt/m/n/10.95 to and take advantage of x being sorted. Call setkey(x,...)
+
+ []
+
+Package color Info: Redefining color shadecolor on input line 891.
+
+Overfull \hbox (13.91536pt too wide) in paragraph at lines 894--894
+[]  []\OT1/cmtt/m/n/10.95 flights[,[][].[][]([][]n[] []= .N),[] []by[] []=[] []
+list[][](Year, UniqueCarrier)][][] 
+ []
+
+
+Overfull \hbox (8.16667pt too wide) in paragraph at lines 895--895
+[][]\OT1/cmtt/m/n/10.95 setkey[][](flights.by.carrier.year, Year, UniqueCarrier
+)[][] 
+ []
+
+
+Overfull \hbox (19.66405pt too wide) in paragraph at lines 904--904
+[][]\OT1/cmtt/m/n/10.95 setkey[][](hubbiness.by.carrier.year, Year, UniqueCarri
+er)[][] 
+ []
+
+
+Overfull \hbox (307.09843pt too wide) in paragraph at lines 905--905
+[][]\OT1/cmtt/m/n/10.95 merge[][](hubbiness.by.carrier.year[flights.by.carrier.
+year], nycflights.airlines,[] []by[] []=[] []"UniqueCarrier"[][])[] []%>%[][] 
+ []
+
+
+Overfull \hbox (36.91011pt too wide) in paragraph at lines 906--906
+[]  []\OT1/cmtt/m/n/10.95 filter[][](UniqueCarrier[] []%in%[] []select_large_ca
+rriers[][]([][]9[][]))[] []%>%[][] 
+ []
+
+
+Overfull \hbox (77.15092pt too wide) in paragraph at lines 907--907
+[]  []\OT1/cmtt/m/n/10.95 mutate[][]([][]tempCarrierGroup[] []=[] []factor[][](
+[][]ifelse[][](UniqueCarrier[] []==[] []"WN"[][],[][] 
+ []
+
+
+Overfull \hbox (243.86287pt too wide) in paragraph at lines 909--909
+[]                                          []\OT1/cmtt/m/n/10.95 ifelse[][](Un
+iqueCarrier[] []%in%[] []select_large_carriers[][]([][]5[][]),[][] 
+ []
+
+
+Overfull \hbox (2.41798pt too wide) in paragraph at lines 910--910
+[]                                                 []\OT1/cmtt/m/n/10.95 2[][],
+[][] 
+ []
+
+
+Overfull \hbox (42.6588pt too wide) in paragraph at lines 911--911
+[]                                                 []\OT1/cmtt/m/n/10.95 3[][])
+)))[] []%>%[][] 
+ []
+
+
+Overfull \hbox (88.6483pt too wide) in paragraph at lines 914--914
+[]  []\OT1/cmtt/m/n/10.95 geom_point[][]([][]aes[][]([][]alpha[] []= Year,[] []
+color[] []= UniqueCarrier),[] []size[] []=[] []4[][])[] []+[][] 
+ []
+
+
+Overfull \hbox (134.6378pt too wide) in paragraph at lines 915--915
+[]  []\OT1/cmtt/m/n/10.95 geom_line[][]([][]aes[][]([][]group[] []= UniqueCarri
+er,[] []color[] []= UniqueCarrier),[] []size[] []=[] []1[][])[] []+[][] 
+ []
+
+
+Overfull \hbox (186.37599pt too wide) in paragraph at lines 918--918
+[]  []\OT1/cmtt/m/n/10.95 geom_text_repel[][]([][]aes[][]([][]label[] []=[] []i
+felse[][](Year[] []==[] []max[][](Year), short_name,[] []NA_character_[][]),[][
+] 
+ []
+
+
+Overfull \hbox (123.14043pt too wide) in paragraph at lines 921--921
+[]  []\OT1/cmtt/m/n/10.95 scale_y_continuous[][]([][]"Volume"[][],[] []labels[]
+ []=[] []function[][]([][]x[][])[][]paste0[][](x[][]/[][]1e6[][],[] []"M"[][]))
+[] []+[][] 
+ []
+
+
+Overfull \hbox (19.66405pt too wide) in paragraph at lines 927--927
+[]\OT1/cmtt/m/n/10.95 ## Warning: Removed 63 rows containing missing values
+ []
+
+[8]
+Package color Info: Redefining color shadecolor on input line 931.
+
+Overfull \hbox (117.39174pt too wide) in paragraph at lines 935--935
+[]  []\OT1/cmtt/m/n/10.95 select[][](UniqueCarrier, Origin, Year, Month, DayofM
+onth, Cancelled)[] []%>%[][] 
+ []
+
+
+Overfull \hbox (8.16667pt too wide) in paragraph at lines 937--937
+[]  []\OT1/cmtt/m/n/10.95 data.table[][]:::[][]merge.data.table[][](hub1.by.car
+rier)[] []%>%[][] 
+ []
+
+
+Overfull \hbox (13.91536pt too wide) in paragraph at lines 938--938
+[]  []\OT1/cmtt/m/n/10.95 data.table[][]:::[][]merge.data.table[][](hub2.by.car
+rier)[]  []%>%[][] 
+ []
+
+
+Overfull \hbox (19.66405pt too wide) in paragraph at lines 939--939
+[]  []\OT1/cmtt/m/n/10.95 group_by[][](UniqueCarrier, Year, Month, DayofMonth)[
+] []%>%[][] 
+ []
+
+
+Overfull \hbox (88.6483pt too wide) in paragraph at lines 941--941
+[]            []\OT1/cmtt/m/n/10.95 cancelled_at_hub1[] []=[] []sum[][](Cancell
+ed[] []*[] [](Origin[] []==[] []Hub1)),[][] 
+ []
+
+
+Overfull \hbox (88.6483pt too wide) in paragraph at lines 942--942
+[]            []\OT1/cmtt/m/n/10.95 cancelled_at_hub2[] []=[] []sum[][](Cancell
+ed[] []*[] [](Origin[] []==[] []Hub2)))[][] 
+ []
+
+Package color Info: Redefining color shadecolor on input line 948.
+
+Overfull \hbox (186.37599pt too wide) in paragraph at lines 952--952
+[]  []\OT1/cmtt/m/n/10.95 ggplot[][]([][]aes[][]([][]x[] []= cancelled_at_hub1,
+[] []y[] []= total_cancellations[] []-[] []cancelled_at_hub1))[] []+[][] 
+ []
+
+
+<atlas-post-2008/cancelled-relative-hub1-plot-1.pdf, id=51, 794.97pt x 505.89pt
+>
+File: atlas-post-2008/cancelled-relative-hub1-plot-1.pdf Graphic file (type pdf
+)
+ <use atlas-post-2008/cancelled-relative-hub1-plot-1.pdf>
+Package pdftex.def Info: atlas-post-2008/cancelled-relative-hub1-plot-1.pdf use
+d on input line 962.
+(pdftex.def)             Requested size: 591.5302pt x 376.43692pt.
+Package color Info: Redefining color shadecolor on input line 967.
+
+Overfull \hbox (186.37599pt too wide) in paragraph at lines 971--971
+[]  []\OT1/cmtt/m/n/10.95 ggplot[][]([][]aes[][]([][]x[] []= cancelled_at_hub1,
+[] []y[] []= total_cancellations[] []-[] []cancelled_at_hub1))[] []+[][] 
+ []
+
+
+Overfull \hbox (31.16142pt too wide) in paragraph at lines 972--972
+[]  []\OT1/cmtt/m/n/10.95 geom_point[][]([][]aes[][]([][]color[] []= UniqueCarr
+ier),[] []alpha[] []=[] []0.25[][])[] []+[][] 
+ []
+
+
+<atlas-post-2008/cancelled-relative-hub1-plot-free-1.pdf, id=52, 794.97pt x 505
+.89pt>
+File: atlas-post-2008/cancelled-relative-hub1-plot-free-1.pdf Graphic file (typ
+e pdf)
+ <use atlas-post-2008/cancelled-relative-hub1-plot-free-1.pdf>
+Package pdftex.def Info: atlas-post-2008/cancelled-relative-hub1-plot-free-1.pd
+f used on input line 983.
+(pdftex.def)             Requested size: 591.5302pt x 376.43692pt.
+Package color Info: Redefining color shadecolor on input line 987.
+ [9 <./atlas-post-2008/Hubbiness-1.pdf>] [10 <./atlas-post-2008/cancelled-relat
+ive-hub1-plot-1.pdf> <./atlas-post-2008/cancelled-relative-hub1-plot-free-1.pdf
+>]
+Overfull \hbox (186.37599pt too wide) in paragraph at lines 991--991
+[]  []\OT1/cmtt/m/n/10.95 ggplot[][]([][]aes[][]([][]x[] []= cancelled_at_hub2,
+[] []y[] []= total_cancellations[] []-[] []cancelled_at_hub2))[] []+[][] 
+ []
+
+
+Overfull \hbox (31.16142pt too wide) in paragraph at lines 992--992
+[]  []\OT1/cmtt/m/n/10.95 geom_point[][]([][]aes[][]([][]color[] []= UniqueCarr
+ier),[] []alpha[] []=[] []0.25[][])[] []+[][] 
+ []
+
+
+<atlas-post-2008/cancelled-relative-hub2-plot-free-1.pdf, id=78, 794.97pt x 505
+.89pt>
+File: atlas-post-2008/cancelled-relative-hub2-plot-free-1.pdf Graphic file (typ
+e pdf)
+ <use atlas-post-2008/cancelled-relative-hub2-plot-free-1.pdf>
+Package pdftex.def Info: atlas-post-2008/cancelled-relative-hub2-plot-free-1.pd
+f used on input line 1003.
+(pdftex.def)             Requested size: 591.5302pt x 376.43692pt.
+Package color Info: Redefining color shadecolor on input line 1008.
+
+Overfull \hbox (215.11943pt too wide) in paragraph at lines 1013--1013
+[]  []\OT1/cmtt/m/n/10.95 mutate[][]([][]cancelled_at_hub1_rel_other_hubs[] []=
+ cancelled_at_hub1[] []-[] []mean[][](cancelled_at_hub1),[][] 
+ []
+
+
+Overfull \hbox (238.11418pt too wide) in paragraph at lines 1014--1014
+[]         []\OT1/cmtt/m/n/10.95 cancelled_rel_other_carriers[] []= total_cance
+llations[] []-[] []mean[][](total_cancellations))[] []%>%[][] 
+ []
+
+
+Overfull \hbox (209.37074pt too wide) in paragraph at lines 1015--1015
+[]  []\OT1/cmtt/m/n/10.95 ggplot[][]([][]aes[][]([][]x[] []= cancelled_at_hub1_
+rel_other_hubs,[] []y[] []= cancelled_rel_other_carriers))[] []+[][] 
+ []
+
+
+Overfull \hbox (31.16142pt too wide) in paragraph at lines 1016--1016
+[]  []\OT1/cmtt/m/n/10.95 geom_point[][]([][]aes[][]([][]color[] []= UniqueCarr
+ier),[] []alpha[] []=[] []0.25[][])[] []+[][] 
+ []
+
+Package color Info: Redefining color shadecolor on input line 1026.
+
+Overfull \hbox (215.11943pt too wide) in paragraph at lines 1031--1031
+[]  []\OT1/cmtt/m/n/10.95 mutate[][]([][]cancelled_at_hub1_rel_other_hubs[] []=
+ cancelled_at_hub1[] []-[] []mean[][](cancelled_at_hub1),[][] 
+ []
+
+
+Overfull \hbox (548.54332pt too wide) in paragraph at lines 1032--1032
+[]         []\OT1/cmtt/m/n/10.95 cancelled_outside_hub_rel_other_carriers[] []=
+ (total_cancellations[] []-[] []cancelled_at_hub1)[] []-[] []mean[][](total_can
+cellations[] []-[] []cancelled_at_hub1))[] []%>%[][] 
+ []
+
+
+Overfull \hbox (278.355pt too wide) in paragraph at lines 1033--1033
+[]  []\OT1/cmtt/m/n/10.95 ggplot[][]([][]aes[][]([][]x[] []= cancelled_at_hub1_
+rel_other_hubs,[] []y[] []= cancelled_outside_hub_rel_other_carriers))[] []+[][
+] 
+ []
+
+
+Overfull \hbox (31.16142pt too wide) in paragraph at lines 1034--1034
+[]  []\OT1/cmtt/m/n/10.95 geom_point[][]([][]aes[][]([][]color[] []= UniqueCarr
+ier),[] []alpha[] []=[] []0.25[][])[] []+[][] 
+ []
+
+Package color Info: Redefining color shadecolor on input line 1044.
+
+Overfull \hbox (128.88911pt too wide) in paragraph at lines 1050--1050
+[]  []\OT1/cmtt/m/n/10.95 summarise[][]([][]total_ArrDelay_allcarriers[] []=[] 
+[]sum[][](ArrDelay,[] []na.rm[] []=[] []TRUE[][]))[] []%>%[][] 
+ []
+
+
+Overfull \hbox (140.38649pt too wide) in paragraph at lines 1057--1057
+[]  []\OT1/cmtt/m/n/10.95 summarise[][]([][]avg_ArrDelay_allcarriers[] []=[] []
+sum[][](ArrDelay,[] []na.rm[] []=[] []TRUE[][])[][]/[][]n[][]())[] []%>%[][] 
+ []
+
+
+Overfull \hbox (111.64305pt too wide) in paragraph at lines 1062--1062
+[]  []\OT1/cmtt/m/n/10.95 select[][](Year, Month, DayofMonth, UniqueCarrier, Or
+igin, ArrDelay)[] []%>%[][] 
+ []
+
+
+Overfull \hbox (8.16667pt too wide) in paragraph at lines 1064--1064
+[]  []\OT1/cmtt/m/n/10.95 data.table[][]:::[][]merge.data.table[][](hub1.by.car
+rier)[] []%>%[][] 
+ []
+
+
+Overfull \hbox (19.66405pt too wide) in paragraph at lines 1065--1065
+[]  []\OT1/cmtt/m/n/10.95 group_by[][](Year, Month, DayofMonth, UniqueCarrier)[
+] []%>%[][] 
+ []
+
+
+Overfull \hbox (36.91011pt too wide) in paragraph at lines 1066--1066
+[]  []\OT1/cmtt/m/n/10.95 summarise[][]([][]total_arrdelay[] []=[] []sum[][](Ar
+rDelay,[] []na.rm[] []=[] []TRUE[][]),[][] 
+ []
+
+
+Overfull \hbox (151.88387pt too wide) in paragraph at lines 1067--1067
+[]            []\OT1/cmtt/m/n/10.95 arrdelay_at_hub[] []=[] []sum[][](ArrDelay[
+] []*[] [](Origin[] []==[] []Hub1),[] []na.rm[] []=[] []TRUE[][]),[][] 
+ []
+
+
+Overfull \hbox (197.87337pt too wide) in paragraph at lines 1068--1068
+[]            []\OT1/cmtt/m/n/10.95 arrdelay_not_at_hub[] []=[] []sum[][](ArrDe
+lay[] []*[] [](Origin[] []!=[] []Hub1),[] []na.rm[] []=[] []TRUE[][]))[] []%>%[
+][] 
+ []
+
+
+Overfull \hbox (111.64305pt too wide) in paragraph at lines 1074--1074
+[]  []\OT1/cmtt/m/n/10.95 select[][](Year, Month, DayofMonth, UniqueCarrier, Or
+igin, ArrDelay)[] []%>%[][] 
+ []
+
+
+Overfull \hbox (8.16667pt too wide) in paragraph at lines 1076--1076
+[]  []\OT1/cmtt/m/n/10.95 data.table[][]:::[][]merge.data.table[][](hub1.by.car
+rier)[] []%>%[][] 
+ []
+
+
+Overfull \hbox (19.66405pt too wide) in paragraph at lines 1077--1077
+[]  []\OT1/cmtt/m/n/10.95 group_by[][](Year, Month, DayofMonth, UniqueCarrier)[
+] []%>%[][] 
+ []
+
+
+Overfull \hbox (48.40749pt too wide) in paragraph at lines 1078--1078
+[]  []\OT1/cmtt/m/n/10.95 summarise[][]([][]avg_arrdelay[] []=[] []sum[][](ArrD
+elay,[] []na.rm[] []=[] []TRUE[][])[][]/[][]n[][](),[][] 
+ []
+
+
+Overfull \hbox (289.85237pt too wide) in paragraph at lines 1079--1079
+[]            []\OT1/cmtt/m/n/10.95 avg_arrdelay_at_hub[] []=[] []sum[][](ArrDe
+lay[] []*[] [](Origin[] []==[] []Hub1),[] []na.rm[] []=[] []TRUE[][])[][]/[][]s
+um[][](Origin[] []==[] []Hub1),[][] 
+ []
+
+
+Overfull \hbox (347.33925pt too wide) in paragraph at lines 1080--1080
+[]            []\OT1/cmtt/m/n/10.95 avg_arrdelay_not_at_hub[] []=[] []sum[][](A
+rrDelay[] []*[] [](Origin[] []!=[] []Hub1),[] []na.rm[] []=[] []TRUE[][])[] []/
+[] []sum[][](Origin[] []!=[] []Hub1))[] []%>%[][] 
+ []
+
+
+Overfull \hbox (13.91536pt too wide) in paragraph at lines 1082--1082
+[]  []\OT1/cmtt/m/n/10.95 data.table[][]:::[][]merge.data.table[][](ArrDelays.a
+vg.by.day)[][] 
+ []
+
+
+Overfull \hbox (36.91011pt too wide) in paragraph at lines 1086--1086
+[]  []\OT1/cmtt/m/n/10.95 filter[][](UniqueCarrier[] []%in%[] []select_large_ca
+rriers[][]([][]9[][]))[] []%>%[][] 
+ []
+
+
+Overfull \hbox (163.38124pt too wide) in paragraph at lines 1087--1087
+[]  []\OT1/cmtt/m/n/10.95 ggplot[][]([][]aes[][]([][]x[] []= total_arrdelay,[] 
+[]y[] []= arrdelay_at_hub,[] []color[] []= UniqueCarrier))[] []+[][] 
+ []
+
+Package color Info: Redefining color shadecolor on input line 1097.
+
+Overfull \hbox (36.91011pt too wide) in paragraph at lines 1100--1100
+[]  []\OT1/cmtt/m/n/10.95 filter[][](UniqueCarrier[] []%in%[] []select_large_ca
+rriers[][]([][]9[][]))[] []%>%[][] 
+ []
+
+
+Overfull \hbox (19.66405pt too wide) in paragraph at lines 1101--1101
+[]  []\OT1/cmtt/m/n/10.95 merge[][](nycflights.airlines,[] []by[] []=[] []"Uniq
+ueCarrier"[][])[] []%>%[][] 
+ []
+
+
+Overfull \hbox (238.11418pt too wide) in paragraph at lines 1102--1102
+[]  []\OT1/cmtt/m/n/10.95 ggplot[][]([][]aes[][]([][]x[] []= avg_arrdelay_at_hu
+b,[] []y[] []= avg_arrdelay_not_at_hub,[] []color[] []= UniqueCarrier))[] []+[]
+[] 
+ []
+
+
+Overfull \hbox (36.91011pt too wide) in paragraph at lines 1106--1106
+[]  []\OT1/cmtt/m/n/10.95 scale_color_brewer[][]([][]palette[] []=[] []"Spectra
+l"[][],[] []guide[] []=[] []FALSE[][])[][] 
+ []
+
+Package color Info: Redefining color shadecolor on input line 1112.
+
+Overfull \hbox (36.91011pt too wide) in paragraph at lines 1115--1115
+[]  []\OT1/cmtt/m/n/10.95 filter[][](UniqueCarrier[] []%in%[] []select_large_ca
+rriers[][]([][]9[][]))[] []%>%[][] 
+ []
+
+
+Overfull \hbox (19.66405pt too wide) in paragraph at lines 1116--1116
+[]  []\OT1/cmtt/m/n/10.95 merge[][](nycflights.airlines,[] []by[] []=[] []"Uniq
+ueCarrier"[][])[] []%>%[][] 
+ []
+
+
+Overfull \hbox (238.11418pt too wide) in paragraph at lines 1117--1117
+[]  []\OT1/cmtt/m/n/10.95 ggplot[][]([][]aes[][]([][]x[] []= avg_arrdelay_at_hu
+b,[] []y[] []= avg_arrdelay_not_at_hub,[] []color[] []= UniqueCarrier))[] []+[]
+[] 
+ []
+
+
+Overfull \hbox (36.91011pt too wide) in paragraph at lines 1121--1121
+[]  []\OT1/cmtt/m/n/10.95 scale_color_brewer[][]([][]palette[] []=[] []"Spectra
+l"[][],[] []guide[] []=[] []FALSE[][])[][] 
+ []
+
+Package color Info: Redefining color shadecolor on input line 1127.
+
+Overfull \hbox (36.91011pt too wide) in paragraph at lines 1130--1130
+[]  []\OT1/cmtt/m/n/10.95 filter[][](UniqueCarrier[] []%in%[] []select_large_ca
+rriers[][]([][]9[][]))[] []%>%[][] 
+ []
+
+
+Overfull \hbox (19.66405pt too wide) in paragraph at lines 1131--1131
+[]  []\OT1/cmtt/m/n/10.95 merge[][](nycflights.airlines,[] []by[] []=[] []"Uniq
+ueCarrier"[][])[] []%>%[][] 
+ []
+
+
+Overfull \hbox (548.54332pt too wide) in paragraph at lines 1132--1132
+[]  []\OT1/cmtt/m/n/10.95 ggplot[][]([][]aes[][]([][]x[] []= avg_arrdelay_at_hu
+b[] []-[] []avg_ArrDelay_allcarriers,[] []y[] []= avg_arrdelay_not_at_hub[] []-
+[] []avg_ArrDelay_allcarriers,[] []color[] []= UniqueCarrier))[] []+[][] 
+ []
+
+
+Overfull \hbox (36.91011pt too wide) in paragraph at lines 1137--1137
+[]  []\OT1/cmtt/m/n/10.95 scale_color_brewer[][]([][]palette[] []=[] []"Spectra
+l"[][],[] []guide[] []=[] []FALSE[][])[][] 
+ []
+
+Package color Info: Redefining color shadecolor on input line 1143.
+
+Overfull \hbox (36.91011pt too wide) in paragraph at lines 1146--1146
+[]  []\OT1/cmtt/m/n/10.95 filter[][](UniqueCarrier[] []%in%[] []select_large_ca
+rriers[][]([][]9[][]))[] []%>%[][] 
+ []
+
+
+Overfull \hbox (19.66405pt too wide) in paragraph at lines 1147--1147
+[]  []\OT1/cmtt/m/n/10.95 merge[][](nycflights.airlines,[] []by[] []=[] []"Uniq
+ueCarrier"[][])[] []%>%[][] 
+ []
+
+
+Overfull \hbox (548.54332pt too wide) in paragraph at lines 1148--1148
+[]  []\OT1/cmtt/m/n/10.95 ggplot[][]([][]aes[][]([][]x[] []= avg_arrdelay_at_hu
+b[] []-[] []avg_ArrDelay_allcarriers,[] []y[] []= avg_arrdelay_not_at_hub[] []-
+[] []avg_ArrDelay_allcarriers,[] []color[] []= UniqueCarrier))[] []+[][] 
+ []
+
+Package color Info: Redefining color shadecolor on input line 1158.
+[11]
+Overfull \hbox (399.07744pt too wide) in paragraph at lines 1160--1160
+[][]\OT1/cmtt/m/n/10.95 city.market.decoder[] []<-[] []fread[][]([][]"../metada
+ta/L_CITY_MARKET_ID.csv"[][],[] []verbose[] []=[] []TRUE[][],[] []colClasses[] 
+[]=[] []c[][]([][]"integer"[][],[] []"character"[][]))[][] 
+ []
+
+
+Overfull \hbox (59.90486pt too wide) in paragraph at lines 1179--1179
+[]\OT1/cmtt/m/n/10.95 ## Input contains no \n. Taking this to be a filename to 
+open[] 
+ []
+
+
+Overfull \hbox (94.39699pt too wide) in paragraph at lines 1179--1179
+[]\OT1/cmtt/m/n/10.95 ## Detected eol as \r\n (CRLF) in that order, the Windows
+ standard.[] 
+ []
+
+
+Overfull \hbox (243.86287pt too wide) in paragraph at lines 1179--1179
+[]\OT1/cmtt/m/n/10.95 ## This line is the autostart and not blank so searching 
+up for the last non-blank ... line 1[] 
+ []
+
+
+Overfull \hbox (82.89961pt too wide) in paragraph at lines 1179--1179
+[]\OT1/cmtt/m/n/10.95 ## Detected 2 columns. Longest stretch was from line 1 to
+ line 30[] 
+ []
+
+
+Overfull \hbox (330.09319pt too wide) in paragraph at lines 1179--1179
+[]\OT1/cmtt/m/n/10.95 ## Starting data input on line 1 (either column names or 
+first row of data). First 10 characters: Code,Descr[] 
+ []
+
+
+Overfull \hbox (163.38124pt too wide) in paragraph at lines 1179--1179
+[]\OT1/cmtt/m/n/10.95 ## All the fields on line 1 are character fields. Treatin
+g as the column names.[] 
+ []
+
+
+Overfull \hbox (146.13518pt too wide) in paragraph at lines 1179--1179
+[]\OT1/cmtt/m/n/10.95 ## nrow = MIN( nsep [11506] / ncol [2] -1, neol [5750] - 
+nblank [1] ) = 5749[] 
+ []
+
+
+Overfull \hbox (20.58383pt too wide) in paragraph at lines 1182--1182
+[]\OT1/cmtt/m/n/10.95 ## Warning in fread("../metadata/L[]CITY[]MARKET[]ID.csv"
+,
+ []
+
+
+Overfull \hbox (2.41798pt too wide) in paragraph at lines 1182--1182
+\OT1/cmtt/m/n/10.95 verbose = TRUE, colClasses = c("integer", : Column
+ []
+
+
+Overfull \hbox (48.40749pt too wide) in paragraph at lines 1182--1182
+\OT1/cmtt/m/n/10.95 1 ('Code') has been detected as type 'character'. Ignoring
+ []
+
+
+Overfull \hbox (13.91536pt too wide) in paragraph at lines 1182--1182
+\OT1/cmtt/m/n/10.95 request from colClasses to read as 'integer' (a lower
+ []
+
+
+Overfull \hbox (48.40749pt too wide) in paragraph at lines 1197--1197
+[]\OT1/cmtt/m/n/10.95 ## Type codes: 44 (after applying colClasses and integer6
+4)[] 
+ []
+
+
+Overfull \hbox (65.65355pt too wide) in paragraph at lines 1197--1197
+[]\OT1/cmtt/m/n/10.95 ## Type codes: 44 (after applying drop or select (if supp
+lied)[] 
+ []
+
+
+Overfull \hbox (100.14568pt too wide) in paragraph at lines 1197--1197
+[]\OT1/cmtt/m/n/10.95 ## Read 5749 rows. Exactly what was estimated and allocat
+ed up front[] 
+ []
+
+
+Overfull \hbox (13.91536pt too wide) in paragraph at lines 1197--1197
+[]\OT1/cmtt/m/n/10.95 ##    0.000s (  0%) Memory map (rerun may be quicker)[] 
+ []
+
+
+Overfull \hbox (128.88911pt too wide) in paragraph at lines 1197--1197
+[]\OT1/cmtt/m/n/10.95 ##    0.000s (  0%) Column type detection (first, middle 
+and last 5 rows)[] 
+ []
+
+
+Overfull \hbox (54.15617pt too wide) in paragraph at lines 1197--1197
+[]\OT1/cmtt/m/n/10.95 ##    0.000s (  0%) Allocation of 5749x2 result (xMB) in 
+RAM[] 
+ []
+
+
+Overfull \hbox (203.62206pt too wide) in paragraph at lines 1197--1197
+[]\OT1/cmtt/m/n/10.95 ##    0.000s (  0%) Allocation for type bumps (if any), i
+ncluding gc time if triggered[] 
+ []
+
+
+Overfull \hbox (105.89436pt too wide) in paragraph at lines 1197--1197
+[]\OT1/cmtt/m/n/10.95 ##    0.000s (  0%) Coercing data already read in type bu
+mps (if any)[] 
+ []
+
+
+Overfull \hbox (146.13518pt too wide) in paragraph at lines 1204--1204
+[]  []\OT1/cmtt/m/n/10.95 merge[][](city.market.decoder,[] []by.x[] []=[] []"Or
+iginCityMarketID"[][],[] []by.y[] []=[] []"Code"[][])[] []%>%[][] 
+ []
+
+Package color Info: Redefining color shadecolor on input line 1211.
+
+Overfull \hbox (71.40224pt too wide) in paragraph at lines 1214--1214
+[]  []\OT1/cmtt/m/n/10.95 flights[Year[] []==[] []2014[][],[] [].[][]([][]n[] [
+]= .N),[] []by[] []= OriginCityMarketID][] []%>%[][] 
+ []
+
+
+Overfull \hbox (146.13518pt too wide) in paragraph at lines 1216--1216
+[]  []\OT1/cmtt/m/n/10.95 merge[][](city.market.decoder,[] []by.x[] []=[] []"Or
+iginCityMarketID"[][],[] []by.y[] []=[] []"Code"[][])[] []%>%[][] 
+ []
+
+
+Overfull \hbox (54.15617pt too wide) in paragraph at lines 1219--1219
+[][]\OT1/cmtt/m/n/10.95 flights[,[][].[][]([][]n[] []= .N),[] []by[] []=[] []li
+st[][](Year, OriginCityMarketID)][] []%>%[][] 
+ []
+
+
+Overfull \hbox (146.13518pt too wide) in paragraph at lines 1220--1220
+[]  []\OT1/cmtt/m/n/10.95 merge[][](city.market.decoder,[] []by.x[] []=[] []"Or
+iginCityMarketID"[][],[] []by.y[] []=[] []"Code"[][])[] []%>%[][] 
+ []
+
+
+Overfull \hbox (146.13518pt too wide) in paragraph at lines 1226--1226
+[]                              []\OT1/cmtt/m/n/10.95 levels[] []= city.market.
+volumes.2014[][]$[][]Description,[][] 
+ []
+
+
+Overfull \hbox (329.54582pt too wide) in paragraph at lines 1227--1227
+[]                              []\OT1/cmtt/m/n/10.95 labels[] []=[] []gsub[][]
+([][]", [A-Z]\OMS/cmsy/m/n/10.95 f\OT1/cmtt/m/n/10.95 2\OMS/cmsy/m/n/10.95 g\OT
+1/cmtt/m/n/10.95 .*$"[][],[] []""[][], city.market.volumes.2014[][]$[][]Descrip
+tion)))[] []%>%[][] 
+ []
+
+
+Overfull \hbox (151.88387pt too wide) in paragraph at lines 1230--1230
+[]  []\OT1/cmtt/m/n/10.95 ggplot[][](.,[] []aes[][]([][]x[] []= Year,[] []y[] [
+]= n,[] []group[] []= Description,[] []color[] []= Description))[] []+[][] 
+ []
+
+
+Overfull \hbox (59.90486pt too wide) in paragraph at lines 1232--1232
+[]  []\OT1/cmtt/m/n/10.95 geom_dl[][]([][]method[] []=[] []"last.points"[][],[]
+ []aes[][]([][]label[] []= Description))[] []+[][] 
+ []
+
+
+Overfull \hbox (249.61156pt too wide) in paragraph at lines 1235--1235
+[]  []\OT1/cmtt/m/n/10.95 scale_x_continuous[][]([][]limits[] []=[] []c[][]([][
+]min[][](.[][]$[][]Year),[] []max[][](.[][]$[][]Year)[]  []+[] []([][]max[][](.
+[][]$[][]Year)[] []-[] []min[][](.[][]$[][]Year))[][]*[][]0.15[][]))[][] 
+ []
+
+[12 <./atlas-post-2008/cancelled-relative-hub2-plot-free-1.pdf>]
+Package color Info: Redefining color shadecolor on input line 1242.
+
+Overfull \hbox (71.40224pt too wide) in paragraph at lines 1245--1245
+[]  []\OT1/cmtt/m/n/10.95 flights[Year[] []==[] []2014[][],[] [].[][]([][]n[] [
+]= .N),[] []by[] []= OriginCityMarketID][] []%>%[][] 
+ []
+
+
+Overfull \hbox (146.13518pt too wide) in paragraph at lines 1247--1247
+[]  []\OT1/cmtt/m/n/10.95 merge[][](city.market.decoder,[] []by.x[] []=[] []"Or
+iginCityMarketID"[][],[] []by.y[] []=[] []"Code"[][])[] []%>%[][] 
+ []
+
+
+Overfull \hbox (54.15617pt too wide) in paragraph at lines 1250--1250
+[][]\OT1/cmtt/m/n/10.95 flights[,[][].[][]([][]n[] []= .N),[] []by[] []=[] []li
+st[][](Week, OriginCityMarketID)][] []%>%[][] 
+ []
+
+
+Overfull \hbox (146.13518pt too wide) in paragraph at lines 1251--1251
+[]  []\OT1/cmtt/m/n/10.95 merge[][](city.market.decoder,[] []by.x[] []=[] []"Or
+iginCityMarketID"[][],[] []by.y[] []=[] []"Code"[][])[] []%>%[][] 
+ []
+
+
+Overfull \hbox (174.87862pt too wide) in paragraph at lines 1253--1253
+[]  []\OT1/cmtt/m/n/10.95 filter[][](OriginCityMarketID[] []%in%[] []city.marke
+t.volumes.2014[][]$[][]OriginCityMarketID)[] []%>%[][] 
+ []
+
+
+Overfull \hbox (146.13518pt too wide) in paragraph at lines 1257--1257
+[]                              []\OT1/cmtt/m/n/10.95 levels[] []= city.market.
+volumes.2014[][]$[][]Description,[][] 
+ []
+
+
+Overfull \hbox (329.54582pt too wide) in paragraph at lines 1258--1258
+[]                              []\OT1/cmtt/m/n/10.95 labels[] []=[] []gsub[][]
+([][]", [A-Z]\OMS/cmsy/m/n/10.95 f\OT1/cmtt/m/n/10.95 2\OMS/cmsy/m/n/10.95 g\OT
+1/cmtt/m/n/10.95 .*$"[][],[] []""[][], city.market.volumes.2014[][]$[][]Descrip
+tion)))[] []%>%[][] 
+ []
+
+
+Overfull \hbox (289.85237pt too wide) in paragraph at lines 1261--1261
+[]  []\OT1/cmtt/m/n/10.95 mutate[][]([][]Description.label[] []=[] []ifelse[][]
+(Week[] []==[] []max[][](Week),[] []as.character[][](Description),[] []NA_chara
+cter_[][]))[] []%>%[][] 
+ []
+
+
+Overfull \hbox (163.38124pt too wide) in paragraph at lines 1263--1263
+[]    []\OT1/cmtt/m/n/10.95 ggplot[][](.,[] []aes[][]([][]x[] []= Week,[] []y[]
+ []= n,[] []group[] []= Description,[] []color[] []= Description))[] []+[][] 
+ []
+
+
+Overfull \hbox (268.75867pt too wide) in paragraph at lines 1265--1265
+[]      []\OT1/cmtt/m/it/10.95 # geom_text_repel(aes(x = Week, label = Descript
+ion.label), size = 6, fontface = "bold") + [][] 
+ []
+
+
+Overfull \hbox (96.29803pt too wide) in paragraph at lines 1266--1266
+[]      []\OT1/cmtt/m/it/10.95 # geom_dl(method = "last.points", aes(label = De
+scription)) +[][] 
+ []
+
+
+Overfull \hbox (180.6273pt too wide) in paragraph at lines 1267--1267
+[]      []\OT1/cmtt/m/n/10.95 geom_text[][]([][]aes[][]([][]label[] []= Descrip
+tion.label),[] []hjust[] []=[] []0[][],[] []check_overlap[] []=[] []TRUE[][])[]
+ []+[][] 
+ []
+
+
+Overfull \hbox (65.65355pt too wide) in paragraph at lines 1270--1270
+[]      []\OT1/cmtt/m/n/10.95 annotate[][]([][]"blank"[][],[] []x[] []=[] []max
+[][](.[][]$[][]Week)[] []+[] []50[][],[] []y[] []=[] []mean[][](.[][]$[][]n))[]
+ []+[][] 
+ []
+
+
+Overfull \hbox (31.16142pt too wide) in paragraph at lines 1277--1277
+[]\OT1/cmtt/m/n/10.95 ## Warning: Removed 3240 rows containing missing values
+ []
+
+Package color Info: Redefining color shadecolor on input line 1281.
+
+Overfull \hbox (163.38124pt too wide) in paragraph at lines 1284--1284
+[]  []\OT1/cmtt/m/n/10.95 flights[, Corridor[] []:=[] []pmin[][]([][]paste0[][]
+(OriginCityMarketID,[] []"-"[][], DestCityMarketID),[][] 
+ []
+
+
+Overfull \hbox (238.11418pt too wide) in paragraph at lines 1285--1285
+[]                             []\OT1/cmtt/m/n/10.95 paste0[][](DestCityMarketI
+D,[] []"-"[][], OriginCityMarketID))][,[][].[][]([][]n[] []= .N),[][] 
+ []
+
+
+Overfull \hbox (381.83138pt too wide) in paragraph at lines 1286--1286
+[]                                                                             
+    []\OT1/cmtt/m/n/10.95 by[] []=[] []list[][](Week,Corridor)][[][]order[][]([
+][]-[][]n)][][] 
+ []
+
+Package color Info: Redefining color shadecolor on input line 1292.
+
+Overfull \hbox (140.38649pt too wide) in paragraph at lines 1296--1296
+[]                                []\OT1/cmtt/m/n/10.95 pmin[][](OriginCityMark
+etID, DestCityMarketID),[][] 
+ []
+
+
+Overfull \hbox (215.11943pt too wide) in paragraph at lines 1297--1297
+[]                                []\OT1/cmtt/m/n/10.95 pmax[][](OriginCityMark
+etID, DestCityMarketID))][,[][].[][]([][]n[] []= .N),[][] 
+ []
+
+
+Overfull \hbox (358.83662pt too wide) in paragraph at lines 1298--1298
+[]                                                                             
+[]\OT1/cmtt/m/n/10.95 by[] []=[] []list[][](Week,Corridor)][[][]order[][]([][]-
+[][]n)][][] 
+ []
+
+Package color Info: Redefining color shadecolor on input line 1306.
+
+Overfull \hbox (71.40224pt too wide) in paragraph at lines 1309--1309
+[]  []\OT1/cmtt/m/n/10.95 data.table[][]::[][]CJ[][]([][]OriginCityMarketID[] [
+]= city.market.decoder[][]$[][]Code,[][] 
+ []
+
+
+Overfull \hbox (82.89961pt too wide) in paragraph at lines 1310--1310
+[]                 []\OT1/cmtt/m/n/10.95 DestCityMarketID[] []= city.market.dec
+oder[][]$[][]Code)[] []%>%[][] 
+ []
+
+
+Overfull \hbox (146.13518pt too wide) in paragraph at lines 1311--1311
+[]  []\OT1/cmtt/m/n/10.95 merge[][](city.market.decoder,[] []by.x[] []=[] []"Or
+iginCityMarketID"[][],[] []by.y[] []=[] []"Code"[][])[] []%>%[][] 
+ []
+
+
+Overfull \hbox (19.66405pt too wide) in paragraph at lines 1312--1312
+[]  []\OT1/cmtt/m/n/10.95 setnames[][]([][]"Description"[][],[] []"OriginCityMa
+rketID_DS"[][])[] []%>%[][] 
+ []
+
+
+Overfull \hbox (134.6378pt too wide) in paragraph at lines 1313--1313
+[]  []\OT1/cmtt/m/n/10.95 merge[][](city.market.decoder,[] []by.x[] []=[] []"De
+stCityMarketID"[][],[] []by.y[] []=[] []"Code"[][])[] []%>%[][] 
+ []
+
+
+Overfull \hbox (128.88911pt too wide) in paragraph at lines 1316--1316
+[][]\OT1/cmtt/m/n/10.95 Corridors[,Corridor[] []:=[] []paste0[][](OriginCityMar
+ketID,[] []"-"[][], DestCityMarketID)][][] 
+ []
+
+
+Overfull \hbox (180.6273pt too wide) in paragraph at lines 1317--1317
+[][]\OT1/cmtt/m/n/10.95 Corridors[,Corridor_DS[] []:=[] []paste0[][](OriginCity
+MarketID_DS,[] []"-"[][], DestCityMarketID_DS)][][] 
+ []
+
+
+Overfull \hbox (82.89961pt too wide) in paragraph at lines 1318--1318
+[][]\OT1/cmtt/m/n/10.95 Corridors[] []%<>%[] []select[][](Corridor, Corridor_DS
+)[] []%>%[] []setkey[][](Corridor)[][] 
+ []
+
+
+Overfull \hbox (88.6483pt too wide) in paragraph at lines 1325--1325
+[]\OT1/cmtt/m/n/10.95 ##              used    (Mb) gc trigger    (Mb)   max use
+d    (Mb)[] 
+ []
+
+
+Overfull \hbox (88.6483pt too wide) in paragraph at lines 1325--1325
+[]\OT1/cmtt/m/n/10.95 ## Ncells   66830879  3569.2   90165604  4815.4   6683087
+9  3569.2[] 
+ []
+
+
+Overfull \hbox (88.6483pt too wide) in paragraph at lines 1325--1325
+[]\OT1/cmtt/m/n/10.95 ## Vcells 2717880664 20735.8 6076621632 46361.0 271788066
+4 20735.8[] 
+ []
+
+Package color Info: Redefining color shadecolor on input line 1330.
+
+Overfull \hbox (48.40749pt too wide) in paragraph at lines 1339--1339
+[]  []\OT1/cmtt/m/n/10.95 filter[][](Corridor[] []%in%[] []corridor.volumes[][]
+$[][]Corridor[[][]1[][]:[][]10[][]])[] []%>%[][] 
+ []
+
+
+Overfull \hbox (219.77339pt too wide) in paragraph at lines 1342--1342
+[]  []\OT1/cmtt/m/n/10.95 mutate[][]([][]Corridor_DS_x[] []=[] []gsub[][]([][]"
+^([A-Z].+),.*-([A-Z].+),.*$"[][],[] []"\OMS/cmsy/m/n/10.95 nn\OT1/cmtt/m/n/10.9
+5 1-\OMS/cmsy/m/n/10.95 nn\OT1/cmtt/m/n/10.95 2"[][], Corridor_DS))[] []%>%[][]
+ 
+ []
+
+
+Overfull \hbox (157.63255pt too wide) in paragraph at lines 1348--1348
+[]  []\OT1/cmtt/m/n/10.95 ggplot[][]([][]aes[][]([][]x[] []= Week,[] []y[] []= 
+n,[] []group[] []= Corridor_DS_x,[] []color[] []= Corridor_DS_x))[] []+[][] 
+ []
+
+
+Overfull \hbox (71.40224pt too wide) in paragraph at lines 1351--1351
+[]  []\OT1/cmtt/m/n/10.95 geom_dl[][]([][]method[] []=[] []"last.points"[][],[]
+ []aes[][]([][]label[] []= Corridor_DS_x))[] []+[][] 
+ []
+
+[13] (analysis-post-2008.aux) ) 
+Here is how much of TeX's memory you used:
+ 3390 strings out of 493634
+ 53874 string characters out of 3149406
+ 225711 words of memory out of 3000000
+ 6765 multiletter control sequences out of 15000+200000
+ 5426 words of font info for 21 fonts, out of 3000000 for 9000
+ 1025 hyphenation exceptions out of 8191
+ 41i,7n,66p,1731b,282s stack positions out of 5000i,500n,10000p,200000b,50000s
+<C:/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cm
+itt10.pfb><C:/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/MiKTeX 2.
+9/fonts/type1/public/amsfonts/cm/cmssbx10.pfb><C:/MiKTeX 2.9/fonts/type1/public
+/amsfonts/cm/cmsy10.pfb><C:/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt10.pf
+b>
+Output written on analysis-post-2008.pdf (13 pages, 1384218 bytes).
+PDF statistics:
+ 115 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 500000)
+ 36 words of extra memory for PDF output out of 10000 (max. 10000000)
+

@@ -1,0 +1,838 @@
+\documentclass{scrreprt}
+\usepackage[a3paper,twocolumn]{geometry}
+
+\begin{document}
+<<knitrOpts>>=
+library(knitr)
+knit_hooks$set(timeit = function(before) {
+    if (before) {
+      .current.time <<- Sys.time()
+    } else {
+      .duration <- round(difftime(Sys.time(), .current.time, units = "secs"))
+      write(
+        paste0(
+          knitr::opts_current$get(name = "label"), 
+          ": ", 
+          .duration),
+        file = "analysis-post-2008-CHUNKTIMINGS.txt",
+        ncolumns = 1,
+        append = TRUE)
+    }
+})
+file.remove("analysis-post-2008-CHUNKTIMINGS.txt")
+START.TIME <- Sys.time()
+knitr::opts_chunk$set(fig.show = 'hide',
+                      fig.width = 11, 
+                      fig.height = 7,
+                      fig.path = atlas <- "atlas-post-2008/",
+                      timeit = TRUE,
+                      cache=FALSE,
+                      out.width = "11in")
+@
+
+<<loadPackages>>=
+library(tidyr)
+library(data.table)
+library(bit64)
+library(dplyr)
+library(magrittr)
+library(ggplot2)
+theme.text.size = 18
+text.size = (5/14) * theme.text.size
+theme_update(text = element_text(family = "", 
+                                 face = "plain", colour = "black", size = theme.text.size, 
+                                 lineheight = 0.9, 
+                                 hjust = 0.5, vjust = 0.5, 
+                                 angle = 0, margin = margin(), 
+                                 debug = FALSE))
+update_geom_defaults("text", list(size = text.size))
+update_geom_defaults("line", list(size = 2))
+library(ggrepel)
+library(scales)
+library(nycflights13)  # for airports
+nycflights.airports <- airports
+nycflights.planes   <- planes
+nycflights.airlines <- as.data.table(airlines)
+for (j in 1:ncol(nycflights.airlines)){
+  set(nycflights.airlines, j = j, value = as.character(nycflights.airlines[[j]]))
+}
+nycflights.airlines[,short_name := gsub("\\s.*$", "", name)]
+setnames(nycflights.airlines, "carrier", "UniqueCarrier")
+setkey(nycflights.airlines, UniqueCarrier)
+library(fasttime)
+library(grattan)
+library(directlabels)
+library(ineq)  # for Gini()
+@
+
+<<convert_week_to_date>>=
+convert_week_to_date <- function(DT_with_Week_column, override = FALSE){
+  stopifnot(is.data.table(DT_with_Week_column), "Week" %in% names(DT_with_Week_column))
+  setkey(DT_with_Week_column, Week)
+  temp <- 
+    unique_dates %>%
+    group_by(Week) %>%
+    summarise(Date = fastPOSIXct(sprintf("%d-%02d-%02d", first(Year), first(Month), first(DayofMonth)))) %>%
+    setkey(Week)
+  
+  DT_with_Week_column[temp]
+}
+@
+
+<<loadPost2008Flights>>=
+flights <- fread("../post2008_flights.csv", na.strings = c("NA", ""))
+@
+
+<<Flights-by-carrier>>=
+flights.by.carrier <- flights[, .(n = .N), by = UniqueCarrier]
+
+select_large_carriers <- function(ranking){
+  flights.by.carrier %>%
+    arrange(desc(n)) %>%
+    head(ranking) %$%
+    UniqueCarrier
+}
+@
+
+<<graphical-parameters>>=
+carrier.colors <- RColorBrewer::brewer.pal(11, "Spectral")
+names(carrier.colors) <- select_large_carriers(11)
+@
+
+<<cleanse1>>=
+# First we want a time for each flight. This is more difficult that it might seem.
+# We need to concatenate the Year, Month, and DayofMonth fields, but we also need 
+# to take into account the various time zones of the airports in the database.
+integer.cols <- grep("Time$", names(flights))
+
+Sys.time()
+for (j in integer.cols){
+  set(flights, j = j, value = as.integer(flights[[j]]))
+}
+Sys.time()
+# See stackoverflow: links and comments under my question
+create_DepDateTime <- function(DT){
+  setkey(DT, Year, Month, DayofMonth, DepTime)
+  unique_dates <- unique(DT[,list(Year, Month, DayofMonth, DepTime)])
+  unique_dates[,DepDateTime := fastPOSIXct(sprintf("%d-%02d-%02d %s", Year, Month, DayofMonth, 
+                                                   sub("([0-9]{2})([0-9]{2})", "\\1:\\2:00", sprintf("%04d", DepTime), 
+                                                       perl = TRUE)), 
+                                           tz = "GMT")]
+  DT[unique_dates]
+}
+
+create_ArrDateTime <- function(DT){
+  setkey(DT, Year, Month, DayofMonth, ArrTime)
+  unique_dates <- unique(DT[,list(Year, Month, DayofMonth, ArrTime)])
+  unique_dates[,ArrDateTime := fastPOSIXct(sprintf("%d-%02d-%02d %s", Year, Month, DayofMonth, 
+                                                   sub("([0-9]{2})([0-9]{2})", "\\1:\\2:00", sprintf("%04d", ArrTime), 
+                                                       perl = TRUE)),
+                                           tz = "GMT")]
+  DT[unique_dates]
+}
+flights <- create_DepDateTime(flights)
+flights <- create_ArrDateTime(flights)
+#flights[,`:=`(Year = NULL, Month = NULL, DayofMonth = NULL, DepTime = NULL, ArrTime = NULL)]
+Sys.time()
+@
+
+<<Cleanse2>>=
+# Now we join it to the airports dataset from nycflights13 to obtain time zone information.
+Sys.time()
+airports <- as.data.table(airports)
+airports <- airports[,list(faa, tz)]
+gc(1,1)
+setnames(airports, old = c("faa", "tz"), new = c("Origin", "tzOrigin"))
+setkey(airports, Origin)
+setkey(flights, Origin)
+flights <- flights[airports]
+setnames(airports, old = c("Origin", "tzOrigin"), new = c("Dest", "tzDest"))
+setkey(flights, Dest)
+flights <- flights[airports]
+rm(airports)
+gc(1,1)
+# The joins produce NAs when the airports table isn't present in the flights table.
+flights <- flights[!is.na(Origin)]
+gc(1,1)
+Sys.time()
+@
+
+<<Cleanse3-timezones>>=
+Sys.time()
+# setting keys doesn't improve timing
+flights[,`:=`(DepDateTimeZulu = DepDateTime - lubridate::hours(tzOrigin))]
+flights[,`:=`(ArrDateTimeZulu = ArrDateTime - lubridate::hours(tzDest))]
+Sys.time()
+@
+
+<<Cleanse-weeks>>=
+# Flights typically follow a weekly cycle, so we should obtain the week in the dataset.
+# Pretty quick!
+Sys.time()
+setkey(flights, Year, Month, DayofMonth)
+unique_dates <- unique(flights)
+unique_dates <- unique_dates[,list(Year, Month, DayofMonth)]
+unique_dates[,Week := (Year - 1987L) * 52 + data.table::yday(sprintf("%d-%02d-%02d", Year, Month, DayofMonth)) %/% 7]
+unique_dates[,Week := Week - min(Week)]
+flights <- flights[unique_dates]
+Sys.time()
+@
+
+
+
+<<Flights-by-week>>=
+setkey(unique_dates, Week)
+flights[,.(n = .N), keyby = Week][unique_dates]  %>%
+  filter(Week < max(Week)) %>%
+  mutate(Date = fastPOSIXct(paste0(Year, "-", Month, "-", DayofMonth))) %>%
+  ggplot(aes(x = Date, y = n)) + 
+  geom_line(group = 1) + 
+  scale_y_continuous()
+@
+\begin{figure*}
+\includegraphics[width=\textwidth]{atlas-post-2008/Flights-by-week-1}
+\end{figure*}
+
+<<Flights-by-week-with-annotations>>=
+setkey(unique_dates, Week)
+flights[,.(n = .N), keyby = Week][unique_dates]  %>%
+  distinct(Week) %>%
+  filter(Week < max(Week)) %>%
+  mutate(difference = n - lag(n, 1, default = mean(.$n)),
+         Date = fastPOSIXct(paste0(Year, "-", Month, "-", DayofMonth)),
+         diff.lab = ifelse(ntile(difference, 100) == 100, 
+                           paste0(Year, "-", Month, "-", DayofMonth), 
+                           NA)) %>%
+  ggplot(aes(x = Date, y = n)) + 
+  geom_line(group = 1, size = 2) + 
+  geom_point() + 
+  geom_text(aes(label = diff.lab)) + 
+  scale_y_continuous(label = comma)
+@
+
+<<Flights-by-week-and-carrier>>=
+flights.by.week.and.carrier <- 
+  flights[,.(n = .N), by = list(Week, UniqueCarrier)]
+
+biggest.carriers <-
+  flights[,.(n = .N), by = UniqueCarrier][order(-n)] %>%
+  filter(row_number(-n) <= 6) %$%
+  UniqueCarrier
+
+nycflights.airlines[,Carrier_other := ifelse(UniqueCarrier %in% biggest.carriers, UniqueCarrier, "Other")]
+
+flights.by.week.and.carrier.other <- 
+  flights.by.week.and.carrier %>%
+  group_by(Week, 
+           Carrier_other = ifelse(UniqueCarrier %in% biggest.carriers, UniqueCarrier, "Other")) %>%
+  summarise(n = sum(n)) %>%
+  merge(airlines, by.x = "Carrier_other", by.y = "carrier", all.x = TRUE) %>%
+  mutate(Carrier_other = factor(Carrier_other, levels = c(biggest.carriers, "Other")))
+
+flights.by.week.and.carrier.other %>%
+  convert_week_to_date %>%
+  arrange(Date, Carrier_other) %>%
+  ggplot(aes(x = Date, y = n, fill = Carrier_other)) + 
+  geom_area() + 
+  scale_y_continuous(label = scales::comma) + 
+  scale_fill_brewer("", palette = "Spectral") + 
+  guides(fill = guide_legend(reverse = TRUE)) +
+  annotate("blank", x = fastPOSIXct('2016-03-01'), y = 0) +
+  scale_x_datetime(expand = c(0,0)) +
+  scale_y_continuous(expand = c(0,0), label = comma) + 
+  theme(legend.position = "right")
+@
+\begin{figure*}
+\includegraphics[width=\textwidth]{atlas-post-2008/Flights-by-week-and-carrier-1}
+\end{figure*}
+
+<<Flights-by-week-carrier-relative>>=
+flights.by.week.and.carrier.other %>%
+  group_by(Carrier_other) %>%
+  mutate(r = n/first(n)) %>%
+  filter(Week < max(Week)) %>%
+  mutate(label.y = ifelse(Week == max(Week), r, NA_real_)) %>%
+  convert_week_to_date %>%
+  ggplot(aes(x = Date, y = r, color = Carrier_other, group = Carrier_other)) + 
+  geom_line() + 
+  geom_dl(method = "last.qp", aes(label = ifelse(is.na(name), "Other", gsub("^([A-Za-z]+)\\b.*$", "\\1",  name)))) +
+#   geom_text(aes(y = label.y, label = name
+#                 ), hjust = 0, nudge_x = 1) + 
+  #scale_color_brewer(palette = "Spectral") +
+  guides(color = guide_legend(reverse = TRUE)) + 
+  annotate("blank", x = fastPOSIXct('2016-09-01'), y = 0) +
+  scale_x_datetime(expand = c(0,0)) +
+  scale_y_continuous(expand = c(0,0), label = comma) + 
+  theme(legend.position = "none") 
+@
+
+<<Cancellations-by-week>>=
+cancellations.by.week <- 
+  flights %>%
+  group_by(Week) %>%
+  summarise(total_cancellations = sum(Cancelled))
+
+cancellations.by.week %>% 
+  convert_week_to_date %>%
+  ggplot(aes(x = Date, y = total_cancellations)) + 
+  geom_line(group = 1)
+@
+
+<<cancellations-by-month>>=
+cancellations.by.month <- 
+  flights %>%
+  group_by(Year, Month) %>%
+  summarise(total_cancellations = sum(Cancelled))
+
+cancellations.by.month %>%
+  ggplot(aes(x = Year + Month/12, y = total_cancellations)) + 
+  geom_line()
+@
+
+<<cancellations-by-carrier>>=
+cancellations.by.year.carrier.other <- 
+  flights %>%
+  group_by(Year, UniqueCarrier) %>%
+  summarise(total_cancellations = sum(Cancelled)) %>%
+  setkey(UniqueCarrier) %>%
+  merge(nycflights.airlines) %>%
+  group_by(Year, Carrier_other = ifelse(UniqueCarrier %in% biggest.carriers, UniqueCarrier, "Other")) %>%
+  summarise(total_cancellations = sum(total_cancellations))
+
+cancellations.by.year.carrier.other %>%
+  tbl_df %>%
+  mutate(Carrier_other = factor(Carrier_other, levels = c(biggest.carriers, "Other"))) %>%
+  arrange(Year, Carrier_other) %>%
+  ggplot(aes(x = Year, y = total_cancellations, fill = Carrier_other)) + 
+  geom_area() + 
+  guides(fill = guide_legend(reverse = TRUE)) + 
+  scale_fill_brewer(palette = "Spectral")
+@
+
+<<Expected-cancellations-by-month>>=
+expected.cancellations.by.month <- 
+#   system.time({
+#   flights %>%
+#   select(Year, Month, UniqueCarrier, Cancelled) %>%
+#   group_by(Year, Month, Carrier_other = ifelse(UniqueCarrier %in% biggest.carriers, UniqueCarrier, "Other")) %>%
+#   summarise(expected_cancellation = mean(Cancelled))
+#   })
+# system.time({
+#   flights[,Carrier_other := ifelse(UniqueCarrier %in% biggest.carriers, UniqueCarrier, "Other")] %>%
+#   .[,.(expected_cancellation = mean(Cancelled)), by = list(Year, Month, Carrier_other)]})
+  
+  flights %>%
+  select(Year, Month, UniqueCarrier, Cancelled) %>%
+  # Get Carrier_other variable
+    setkey(UniqueCarrier) %>%
+    .[nycflights.airlines] %>%
+  group_by(Year, Month, Carrier_other) %>%
+  summarise(expected_cancellation = mean(Cancelled))
+
+
+expected.cancellations.by.month %>%
+  ggplot(aes(x = Year + Month/12, y = expected_cancellation, group = Carrier_other, color = Carrier_other)) + 
+  geom_line()
+@
+
+<<Expected-cancellation-by-week-difference>>=
+expected.cancellations.by.week <- 
+  flights %>%
+  select(Week, UniqueCarrier, Cancelled) %>%
+  # Get Carrier_other variable
+    setkey(UniqueCarrier) %>%
+    .[nycflights.airlines] %>%
+  group_by(Year, Month, Carrier_other) %>%
+  summarise(expected_cancellation = mean(Cancelled)) 
+
+expected.cancellations.by.week %>%
+  group_by(Week) %>%
+  mutate(difference = expected_cancellation - mean(expected_cancellation)) %>%
+  ggplot(aes(x = Week, y = difference)) + 
+  geom_area(group = 1) + 
+  facet_grid(Carrier_other ~ .)
+@
+
+<<Expected-cancellation-by-month-difference>>=
+expected.cancellations.by.month %>%
+  group_by(Year, Month) %>%
+  mutate(difference = expected_cancellation - mean(expected_cancellation)) %>%
+  ggplot(aes(x = as.Date(paste0(Year, "-", Month, "-01")), y = difference)) + 
+  geom_area(group = 1) + 
+  facet_grid(Carrier_other ~ .) + 
+  theme(axis.title = element_blank())
+@
+\begin{figure*}
+\caption{Southwest airlines (and Delta Air Lines from the start of 2011) have had consistently lower cancellation rates. ExpressJet has had substantially higher.}
+\vspace*{11pt}
+\caption*{The difference of each airline's expected cancellation (cancellations per flight) from the average expected cancellation across all airlines, monthly.}
+\includegraphics[width=2\columnwidth]{atlas-post-2008/Expected-cancellation-by-month-difference-1}
+\end{figure*}
+
+<<delays-by-week>>=
+ArrDelays.by.week <- 
+  flights %>%
+  group_by(Week) %>%
+  summarise(total_ArrDelay = sum(ArrDelay, na.rm = TRUE))
+
+ArrDelays.by.week %>%
+  ggplot(aes(Week, total_ArrDelay)) + 
+  geom_area(group = 1) + 
+  geom_hline(yintercept = 0, color = "black")
+@
+
+<<delays-by-month>>=
+ArrDelays.by.month <- 
+  flights %>%
+  group_by(Year, Month) %>%
+  summarise(total_ArrDelay = sum(ArrDelay, na.rm = TRUE))
+
+ArrDelays.by.month %>%
+  ggplot(aes(as.Date(sprintf("%d-%02d-01", Year, Month)), total_ArrDelay)) + 
+  geom_area(group = 1) + 
+  geom_hline(yintercept = 0, color = "black")
+@
+
+<<cancellation-and-delays-by-month>>=
+ArrDelays.by.month %<>%
+  ungroup %>%
+  mutate(rel_delay = total_ArrDelay/mean(total_ArrDelay))
+
+cancellations.by.month %<>%
+  ungroup %>%
+  mutate(rel_cancellations = total_cancellations / mean(total_cancellations))
+
+setkey(ArrDelays.by.month, Year, Month)
+setkey(cancellations.by.month, Year, Month)
+ArrDelays.by.month[cancellations.by.month] %>%
+  select(Year, Month, starts_with("rel")) %>%
+  melt.data.table(measure.vars = c("rel_delay", "rel_cancellations"), variable.name = "delay_or_cancel") %>%
+  ggplot(aes(as.Date(sprintf("%d-%02d-01", Year, Month)), value, fill = delay_or_cancel)) + 
+  geom_bar(stat = "identity", position = "stack", width = 30) + 
+  theme(legend.position = "top")
+
+@
+
+
+
+
+\section{Which airport causes the most delays}
+<<Hubs>>=
+flights.by.origin <- 
+  count(flights, Origin) %>%
+  arrange(desc(n))
+
+flights.by.airport.carrier <-
+  flights %>%
+  count(Origin, UniqueCarrier) %>%
+  arrange(desc(n))
+
+hubs <- 
+  flights.by.airport.carrier %>%
+  ungroup %>%
+  group_by(UniqueCarrier) %>%
+  filter(n >= nth(n, order_by = -1*n, 2))
+
+hub1.by.carrier <- 
+  hubs %>%
+  group_by(UniqueCarrier) %>%
+  filter(n == max(n)) %>%
+  select(-n) %>%
+  setnames("Origin", "Hub1") %>%
+  setkey(UniqueCarrier)
+
+hub2.by.carrier <- 
+  hubs %>%
+  group_by(UniqueCarrier) %>%
+  filter(n != max(n)) %>%
+  select(-n) %>%
+  setnames("Origin", "Hub2") %>%
+  setkey(UniqueCarrier)
+@
+
+<<Hubbiness, fig.height = 11, fig.width = 8, out.width = "8in", out.height = "11in">>=
+# Define hubbiness to be the Gini coefficient of each carrier.
+hubbiness.by.carrier <- 
+  flights %>%
+  select(UniqueCarrier, Origin) %>%
+  group_by(UniqueCarrier, Origin) %>%
+  tally() %>%
+  ungroup %>%
+  group_by(UniqueCarrier) %>%
+  summarise(gini = ineq::Gini(n))
+
+hubbiness.by.carrier %>%
+  ungroup %>%
+  setkey(UniqueCarrier) %>%
+  merge(nycflights.airlines) %>%
+  ungroup %>%
+  arrange(desc(gini)) %>%
+  mutate(short_name = factor(short_name, levels = .$short_name)) %>% 
+  {
+    ggplot(., aes(x = short_name, y = gini, order = gini)) + 
+      geom_bar(stat = "identity", width = 0.9) +
+      coord_flip() + 
+      geom_text(aes(label = paste(short_name, percent(gini))), hjust = 0, nudge_y = 0.025) + 
+      theme(axis.title.y = element_blank(), axis.text.y = element_blank()) + 
+      scale_y_continuous("Gini of airport volume", expand = c(0,0), limits = c(0, max(.$gini) * 1.3), label = percent) 
+  }
+@
+\begin{figure}
+\makebox[\textwidth][l]{\includegraphics[width=1.5\columnwidth]{atlas-post-2008/Hubbiness-1}}
+\end{figure}
+
+<<Hubbiness-by-volume>>=
+ggplot(hubbiness.by.carrier[flights.by.carrier][nycflights.airlines], 
+       aes(x = gini, y = n)) + 
+  geom_point(size = 2) + 
+  geom_text_repel(aes(label = short_name), fontface = "bold", size = 6) + 
+  scale_y_continuous("Volume (2008-2015)", labels = function(x)paste0(x/1e6, "M"))
+@
+
+<<Hubbiness-by-volume-per-year>>=
+flights.by.carrier.year <- 
+  flights[,.(n = .N), by = list(Year, UniqueCarrier)]
+setkey(flights.by.carrier.year, Year, UniqueCarrier)
+hubbiness.by.carrier.year <- 
+  flights %>%
+  select(Year, UniqueCarrier, Origin) %>%
+  count(Year, UniqueCarrier, Origin) %>%
+  group_by(Year, UniqueCarrier) %>%
+  summarise(gini = ineq::Gini(n)) %>%
+  setkey(Year, UniqueCarrier)
+
+setkey(hubbiness.by.carrier.year, Year, UniqueCarrier)
+merge(hubbiness.by.carrier.year[flights.by.carrier.year], nycflights.airlines, by = "UniqueCarrier") %>%
+  filter(UniqueCarrier %in% select_large_carriers(9)) %>%
+  mutate(tempCarrierGroup = factor(ifelse(UniqueCarrier == "WN", 
+                                          1, 
+                                          ifelse(UniqueCarrier %in% select_large_carriers(5),
+                                                 2, 
+                                                 3)))) %>%
+  ggplot(., 
+       aes(x = gini, y = n)) + 
+  geom_point(aes(alpha = Year, color = UniqueCarrier), size = 4) + 
+  geom_line(aes(group = UniqueCarrier, color = UniqueCarrier), size = 1) + 
+  scale_color_manual(values = carrier.colors) + 
+  #facet_grid(tempCarrierGroup~.) + 
+  geom_text_repel(aes(label = ifelse(Year == max(Year), short_name, NA_character_),
+                      color = UniqueCarrier), 
+                  fontface = "bold", size = 6) + 
+  scale_y_continuous("Volume", labels = function(x)paste0(x/1e6, "M")) + 
+  theme_dark() + 
+  theme(legend.position = "none")
+@
+
+<<cancellations-relative-to-hubs>>=
+cancelled.flights.with.hub.cancelled <- 
+  flights %>%
+  select(UniqueCarrier, Origin, Year, Month, DayofMonth, Cancelled) %>%
+  setkey(UniqueCarrier) %>%
+  data.table:::merge.data.table(hub1.by.carrier) %>%
+  data.table:::merge.data.table(hub2.by.carrier)  %>%
+  group_by(UniqueCarrier, Year, Month, DayofMonth) %>%
+  summarise(total_cancellations = sum(Cancelled),
+            cancelled_at_hub1 = sum(Cancelled * (Origin == Hub1)),
+            cancelled_at_hub2 = sum(Cancelled * (Origin == Hub2)))
+@
+
+<<cancelled-relative-hub1-plot>>=
+cancelled.flights.with.hub.cancelled %>%
+  filter(UniqueCarrier %in% biggest.carriers) %>%
+  ggplot(aes(x = cancelled_at_hub1, y = total_cancellations - cancelled_at_hub1)) + 
+  geom_point(aes(color = UniqueCarrier)) + 
+  scale_color_brewer(palette = "Spectral") + 
+  guides(color = FALSE) + 
+  facet_wrap(~UniqueCarrier) + 
+  theme_dark()
+@
+\begin{figure*}
+\includegraphics[width=\textwidth]{atlas-post-2008/cancelled-relative-hub1-plot-1}
+\end{figure*}
+
+
+<<cancelled-relative-hub1-plot-free>>=
+cancelled.flights.with.hub.cancelled %>%
+  filter(UniqueCarrier %in% biggest.carriers) %>%
+  ggplot(aes(x = cancelled_at_hub1, y = total_cancellations - cancelled_at_hub1)) + 
+  geom_point(aes(color = UniqueCarrier), alpha = 0.25) + 
+  scale_color_brewer(palette = "Spectral") + 
+  guides(color = FALSE) + 
+  scale_x_log10() + scale_y_log10() + 
+  facet_wrap(~UniqueCarrier, scales = "free") + 
+  theme_dark()
+@
+
+\begin{figure*}
+\includegraphics[width=\textwidth]{atlas-post-2008/cancelled-relative-hub1-plot-free-1}
+\end{figure*}
+
+<<cancelled-relative-hub2-plot-free>>=
+cancelled.flights.with.hub.cancelled %>%
+  filter(UniqueCarrier %in% biggest.carriers) %>%
+  ggplot(aes(x = cancelled_at_hub2, y = total_cancellations - cancelled_at_hub2)) + 
+  geom_point(aes(color = UniqueCarrier), alpha = 0.25) + 
+  scale_color_brewer(palette = "Spectral") + 
+  guides(color = FALSE) + 
+  scale_x_log10() + scale_y_log10() + 
+  facet_wrap(~UniqueCarrier, scales = "free") + 
+  theme_dark()
+@
+
+\begin{figure*}
+\includegraphics[width=\textwidth]{atlas-post-2008/cancelled-relative-hub2-plot-free-1}
+\end{figure*}
+
+% Cancelled at one hub but not others.
+<<cancelled-at-hub-but-not-others>>=
+cancelled.flights.with.hub.cancelled %>%
+  filter(UniqueCarrier %in% biggest.carriers) %>%
+  group_by(Year, Month, DayofMonth) %>%
+  mutate(cancelled_at_hub1_rel_other_hubs = cancelled_at_hub1 - mean(cancelled_at_hub1),
+         cancelled_rel_other_carriers = total_cancellations - mean(total_cancellations)) %>%
+  ggplot(aes(x = cancelled_at_hub1_rel_other_hubs, y = cancelled_rel_other_carriers)) + 
+  geom_point(aes(color = UniqueCarrier), alpha = 0.25) + 
+  scale_color_brewer(palette = "Spectral") + 
+  guides(color = FALSE) + 
+  facet_wrap(~UniqueCarrier, scales = "free") + 
+  theme_dark()
+@
+
+<<cancelled-at-hub-but-not-others-2>>=
+cancelled.flights.with.hub.cancelled %>%
+  filter(UniqueCarrier %in% biggest.carriers) %>%
+  group_by(Year, Month, DayofMonth) %>%
+  mutate(cancelled_at_hub1_rel_other_hubs = cancelled_at_hub1 - mean(cancelled_at_hub1),
+         cancelled_outside_hub_rel_other_carriers = (total_cancellations - cancelled_at_hub1) - mean(total_cancellations - cancelled_at_hub1)) %>%
+  ggplot(aes(x = cancelled_at_hub1_rel_other_hubs, y = cancelled_outside_hub_rel_other_carriers)) + 
+  geom_point(aes(color = UniqueCarrier), alpha = 0.25) + 
+  scale_color_brewer(palette = "Spectral") + 
+  guides(color = FALSE) + 
+  facet_wrap(~UniqueCarrier, scales = "free") + 
+  theme_dark()
+@
+
+<<delays-due-to-hub>>=
+ArrDelays.by.day <- 
+  flights %>%
+  select(Year, Month, DayofMonth, ArrDelay) %>%
+  group_by(Year, Month, DayofMonth) %>%
+  summarise(total_ArrDelay_allcarriers = sum(ArrDelay, na.rm = TRUE)) %>%
+  setkey(Year, Month, DayofMonth)
+
+ArrDelays.avg.by.day <- 
+  flights %>%
+  select(Year, Month, DayofMonth, ArrDelay) %>%
+  group_by(Year, Month, DayofMonth) %>%
+  summarise(avg_ArrDelay_allcarriers = sum(ArrDelay, na.rm = TRUE)/n()) %>%
+  setkey(Year, Month, DayofMonth)
+
+dates.arrdelay.rel.hub <- 
+  flights %>%
+  select(Year, Month, DayofMonth, UniqueCarrier, Origin, ArrDelay) %>%
+  setkey(UniqueCarrier) %>% 
+  data.table:::merge.data.table(hub1.by.carrier) %>%
+  group_by(Year, Month, DayofMonth, UniqueCarrier) %>%
+  summarise(total_arrdelay = sum(ArrDelay, na.rm = TRUE),
+            arrdelay_at_hub = sum(ArrDelay * (Origin == Hub1), na.rm = TRUE),
+            arrdelay_not_at_hub = sum(ArrDelay * (Origin != Hub1), na.rm = TRUE)) %>%
+  setkey(Year, Month, DayofMonth) %>%
+  data.table:::merge.data.table(ArrDelays.by.day)
+
+dates.avg.arrdelay.rel.hub <- 
+  flights %>%
+  select(Year, Month, DayofMonth, UniqueCarrier, Origin, ArrDelay) %>%
+  setkey(UniqueCarrier) %>% 
+  data.table:::merge.data.table(hub1.by.carrier) %>%
+  group_by(Year, Month, DayofMonth, UniqueCarrier) %>%
+  summarise(avg_arrdelay = sum(ArrDelay, na.rm = TRUE)/n(),
+            avg_arrdelay_at_hub = sum(ArrDelay * (Origin == Hub1), na.rm = TRUE)/sum(Origin == Hub1),
+            avg_arrdelay_not_at_hub = sum(ArrDelay * (Origin != Hub1), na.rm = TRUE) / sum(Origin != Hub1)) %>%
+  setkey(Year, Month, DayofMonth) %>%
+  data.table:::merge.data.table(ArrDelays.avg.by.day)
+  
+
+dates.arrdelay.rel.hub %>%
+  filter(UniqueCarrier %in% select_large_carriers(9)) %>%
+  ggplot(aes(x = total_arrdelay, y = arrdelay_at_hub, color = UniqueCarrier)) + 
+  geom_point(alpha = 0.33) + 
+  facet_wrap(~UniqueCarrier) + 
+  theme_dark() + 
+  scale_color_brewer(palette = "Spectral")
+  
+@
+
+<<delays_at_hub_v_not_at_hub>>=
+dates.avg.arrdelay.rel.hub %>%
+  filter(UniqueCarrier %in% select_large_carriers(9)) %>%
+  merge(nycflights.airlines, by = "UniqueCarrier") %>%
+  ggplot(aes(x = avg_arrdelay_at_hub, y = avg_arrdelay_not_at_hub, color = UniqueCarrier)) + 
+  geom_point(alpha = 0.33) + 
+  facet_wrap(~short_name) + 
+  theme_dark() + 
+  scale_color_brewer(palette = "Spectral", guide = FALSE)
+@
+
+<<delays_at_hub_v_not_at_hub_free_scales>>=
+dates.avg.arrdelay.rel.hub %>%
+  filter(UniqueCarrier %in% select_large_carriers(9)) %>%
+  merge(nycflights.airlines, by = "UniqueCarrier") %>%
+  ggplot(aes(x = avg_arrdelay_at_hub, y = avg_arrdelay_not_at_hub, color = UniqueCarrier)) + 
+  geom_point(alpha = 0.33) + 
+  facet_wrap(~short_name, scales = "free") + 
+  theme_dark() + 
+  scale_color_brewer(palette = "Spectral", guide = FALSE)
+@
+
+<<delays-at-hub-not-at-hub-rel-to-national>>=
+dates.avg.arrdelay.rel.hub %>%
+  filter(UniqueCarrier %in% select_large_carriers(9)) %>%
+  merge(nycflights.airlines, by = "UniqueCarrier") %>%
+  ggplot(aes(x = avg_arrdelay_at_hub - avg_ArrDelay_allcarriers, y = avg_arrdelay_not_at_hub - avg_ArrDelay_allcarriers, color = UniqueCarrier)) + 
+  geom_point(alpha = 0.33) + 
+  facet_wrap(~short_name) + 
+  theme_dark() + 
+  geom_abline(slope = 1, color = "white") + 
+  scale_color_brewer(palette = "Spectral", guide = FALSE)
+@
+
+<<delays-at-hub-not-at-hub-rel-to-national-free>>=
+dates.avg.arrdelay.rel.hub %>%
+  filter(UniqueCarrier %in% select_large_carriers(9)) %>%
+  merge(nycflights.airlines, by = "UniqueCarrier") %>%
+  ggplot(aes(x = avg_arrdelay_at_hub - avg_ArrDelay_allcarriers, y = avg_arrdelay_not_at_hub - avg_ArrDelay_allcarriers, color = UniqueCarrier)) + 
+  geom_point(alpha = 0.33) + 
+  facet_wrap(~short_name, scales = "free") + 
+  theme_dark() + 
+  scale_color_manual(values = carrier.colors)
+@
+
+<<City-market-volumes>>=
+city.market.decoder <- fread("../metadata/L_CITY_MARKET_ID.csv", verbose = TRUE, colClasses = c("integer", "character"))
+city.market.decoder[,Code := as.integer(Code)]
+city.market.volumes <- 
+  flights %>%
+  select(OriginCityMarketID) %>%
+  count(OriginCityMarketID) %>%
+  merge(city.market.decoder, by.x = "OriginCityMarketID", by.y = "Code") %>%
+  arrange(n)
+@
+
+<<City-market-volumes-by-year>>=
+city.market.volumes.2014 <- 
+  flights[Year == 2014, .(n = .N), by = OriginCityMarketID] %>%
+  filter(n >= nth(n, 8, order_by = -n)) %>%
+  merge(city.market.decoder, by.x = "OriginCityMarketID", by.y = "Code") %>% 
+  arrange(desc(n))
+
+flights[,.(n = .N), by = list(Year, OriginCityMarketID)] %>%
+  merge(city.market.decoder, by.x = "OriginCityMarketID", by.y = "Code") %>%
+  group_by(Year) %>%
+  filter(n >= nth(n, 8, order_by = -n)) %>% 
+  tbl_df %>%
+  mutate(Description = factor(Description)) %>%
+  mutate(Description = factor(Description, 
+                              levels = city.market.volumes.2014$Description,
+                              labels = gsub(", [A-Z]{2}.*$", "", city.market.volumes.2014$Description))) %>%
+  filter(Year < max(Year)) %>%
+  {
+  ggplot(., aes(x = Year, y = n, group = Description, color = Description)) + 
+  geom_line() +
+  geom_dl(method = "last.points", aes(label = Description)) +
+  scale_color_brewer(palette = "Spectral") + 
+  theme(legend.position = "none") + 
+  scale_x_continuous(limits = c(min(.$Year), max(.$Year)  + (max(.$Year) - min(.$Year))*0.15))
+  }
+@
+
+<<City-market-volumes-by-week>>=
+city.market.volumes.2014 <- 
+  flights[Year == 2014, .(n = .N), by = OriginCityMarketID] %>%
+  filter(n >= nth(n, 8, order_by = -n)) %>%
+  merge(city.market.decoder, by.x = "OriginCityMarketID", by.y = "Code") %>% 
+  arrange(desc(n))
+
+flights[,.(n = .N), by = list(Week, OriginCityMarketID)] %>%
+  merge(city.market.decoder, by.x = "OriginCityMarketID", by.y = "Code") %>%
+  group_by(Week) %>%
+  filter(OriginCityMarketID %in% city.market.volumes.2014$OriginCityMarketID) %>% 
+  tbl_df %>%
+  mutate(Description = factor(Description)) %>%
+  mutate(Description = factor(Description, 
+                              levels = city.market.volumes.2014$Description,
+                              labels = gsub(", [A-Z]{2}.*$", "", city.market.volumes.2014$Description))) %>%
+  
+  filter(Week < max(Week) & Week > min(Week)) %>%
+  mutate(Description.label = ifelse(Week == max(Week), as.character(Description), NA_character_)) %>%
+  {
+    ggplot(., aes(x = Week, y = n, group = Description, color = Description)) + 
+      geom_line() +
+      # geom_text_repel(aes(x = Week, label = Description.label), size = 6, fontface = "bold") + 
+      # geom_dl(method = "last.points", aes(label = Description)) +
+      geom_text(aes(label = Description.label), hjust = 0, check_overlap = TRUE) + 
+      scale_color_brewer(palette = "Spectral") + 
+      theme(legend.position = "none") +
+      annotate("blank", x = max(.$Week) + 50, y = mean(.$n)) + 
+      theme_dark() 
+      
+  }
+@
+
+<<City-market-routes>>=
+corridor.volumes.by.week <- 
+  flights[, Corridor := pmin(paste0(OriginCityMarketID, "-", DestCityMarketID), 
+                             paste0(DestCityMarketID, "-", OriginCityMarketID))][,.(n = .N), 
+                                                                                 by = list(Week,Corridor)][order(-n)]
+@
+
+<<City-market-routes-bad, eval=FALSE>>=
+corridor.volumes.by.week <- 
+  flights[, Corridor := sprintf("%s-%s", 
+                                pmin(OriginCityMarketID, DestCityMarketID), 
+                                pmax(OriginCityMarketID, DestCityMarketID))][,.(n = .N), 
+                                                                             by = list(Week,Corridor)][order(-n)]
+@
+
+
+
+<<Corridors-by-description>>=
+Corridors <- 
+  data.table::CJ(OriginCityMarketID = city.market.decoder$Code, 
+                 DestCityMarketID = city.market.decoder$Code) %>%
+  merge(city.market.decoder, by.x = "OriginCityMarketID", by.y = "Code") %>%
+  setnames("Description", "OriginCityMarketID_DS") %>%
+  merge(city.market.decoder, by.x = "DestCityMarketID", by.y = "Code") %>%
+  setnames("Description", "DestCityMarketID_DS")
+
+Corridors[,Corridor := paste0(OriginCityMarketID, "-", DestCityMarketID)]
+Corridors[,Corridor_DS := paste0(OriginCityMarketID_DS, "-", DestCityMarketID_DS)]
+Corridors %<>% select(Corridor, Corridor_DS) %>% setkey(Corridor)
+gc(T,T)
+@
+
+<<City-market-routes-chart>>=
+corridor.volumes <- 
+  corridor.volumes.by.week %>% 
+  group_by(Corridor) %>%
+  summarise(total_volume = sum(n)) %>%
+  arrange(desc(total_volume))
+
+corridor.volumes.by.week %>%
+  filter(Corridor %in% corridor.volumes$Corridor[1:10]) %>%
+  setkey(Corridor) %>%
+  merge(Corridors) %>%
+  mutate(Corridor_DS_x = gsub("^([A-Z].+),.*-([A-Z].+),.*$", "\\1-\\2", Corridor_DS)) %>%
+  filter(Week < max(Week)) %>%
+  group_by(Corridor) %>%
+  mutate(maxn = max(n)) %>%
+  ungroup %>%
+  mutate(Facet = rank(maxn) %% 5) %>%
+  ggplot(aes(x = Week, y = n, group = Corridor_DS_x, color = Corridor_DS_x)) + 
+  geom_line() + 
+  scale_x_continuous(limits = c(0, 450)) + 
+  geom_dl(method = "last.points", aes(label = Corridor_DS_x)) + 
+  facet_grid(Facet ~ .)
+@
+
+COMPILATION TIME: \Sexpr{difftime(Sys.time(), START.TIME)}
+\end{document}
