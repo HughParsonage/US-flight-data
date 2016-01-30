@@ -32,6 +32,12 @@ knitr::opts_chunk$set(fig.show = 'hide',
                       out.width = "11in")
 @
 
+<<otherOpts>>=
+# use RDS: allow previously generated files to be read in again
+# saves time but might be dangerous. Must rely on `tempkey`
+useRDS = TRUE
+@
+
 <<loadPackages>>=
 library(tidyr)
 library(data.table)
@@ -87,7 +93,7 @@ flights[,tempkey := 1:.N]
 @
 
 <<Flights-by-carrier>>=
-flights.by.carrier <- flights[, .(n = .N), by = UniqueCarrier]
+flights.by.carrier <- flights[, .(n = .N), keyby = UniqueCarrier]
 
 select_large_carriers <- function(ranking){
   flights.by.carrier %>%
@@ -806,25 +812,38 @@ flights[,.(n = .N), by = list(Week, OriginCityMarketID)] %>%
   }
 @
 
-<<City-market-routes>>=
+<<City-market-routes-slow-and-steady, eval=FALSE>>=
+flights %>%
+  select(tempkey, OriginCityMarketID, DestCityMarketID) %>%
+  .[, Corridor := pmin(paste0(OriginCityMarketID, "-", DestCityMarketID), 
+                       paste0(DestCityMarketID, "-", OriginCityMarketID))] %>%
+  select(tempkey, Corridor) %>%
+  setkey(tempkey) %>%
+  saveRDS(file = "flights-with-corridor.rds", compress = FALSE)
+
 corridor.volumes.by.week <- 
   flights[, Corridor := pmin(paste0(OriginCityMarketID, "-", DestCityMarketID), 
                              paste0(DestCityMarketID, "-", OriginCityMarketID))][,.(n = .N), 
                                                                                  by = list(Week,Corridor)][order(-n)]
 @
 
-<<City-market-routes-bad, eval=FALSE>>=
-corridor.volumes.by.week <- 
-  flights[, Corridor := sprintf("%s-%s", 
-                                pmin(OriginCityMarketID, DestCityMarketID), 
-                                pmax(OriginCityMarketID, DestCityMarketID))][,.(n = .N), 
-                                                                             by = list(Week,Corridor)][order(-n)]
+<<City-market-routes-fast>>=
+flights.with.corridor <- 
+  readRDS("flights-with-corridor.rds")
+
+flights <- 
+  flights %>%
+  setkey(tempkey) %>%
+  .[flights.with.corridor]
+
+corridor.volumes.by.week <- flights[,(.n = .N), by = list(Week, Corridor)][order(-n)]
 @
 
 
 
 <<Corridors-by-description>>=
-Corridors <- 
+if (!useRDS){
+  Corridors <- 
   data.table::CJ(OriginCityMarketID = city.market.decoder$Code, 
                  DestCityMarketID = city.market.decoder$Code) %>%
   merge(city.market.decoder, by.x = "OriginCityMarketID", by.y = "Code") %>%
@@ -836,6 +855,9 @@ Corridors[,Corridor := paste0(OriginCityMarketID, "-", DestCityMarketID)]
 Corridors[,Corridor_DS := paste0(OriginCityMarketID_DS, "-", DestCityMarketID_DS)]
 Corridors %<>% select(Corridor, Corridor_DS) %>% setkey(Corridor)
 gc(T,T)
+} else {
+  Corridors <- readRDS("Corridors.rds")
+}
 @
 
 <<City-market-routes-chart>>=
