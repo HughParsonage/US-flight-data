@@ -14,6 +14,7 @@ knitr::opts_chunk$set(fig.show = 'hide',
 @
 
 <<loadPackages>>=
+library(tidyr)
 library(data.table)
 library(bit64)
 library(dplyr)
@@ -25,6 +26,7 @@ theme_update(text = element_text(family = "",
                                  debug = FALSE))
 library(nycflights13)  # for airports
 nycflights.airports <- airports
+nycflights.planes   <- planes
 library(fasttime)
 library(grattan)
 library(directlabels)
@@ -48,10 +50,17 @@ read_and_report <-
   }
 
 gc(1,1)
+post2008.flights.names <- 
+  names(fread("F:/data-raw/dep_delay/2008_1/On_Time_On_Time_Performance_2008_1.csv", nrows = 1))
+
+selected.names <- post2008.flights.names[!grepl("Div[0-9A-Z]", post2008.flights.names)]
+
 post2008_flights <- 
-  rbindlist(lapply(list.files(path = "../flights", recursive = TRUE, pattern = "2[0-9]{3}.{3,4}csv$",
+  rbindlist(lapply(list.files(path = "F:/data-raw/dep_delay/", recursive = TRUE, pattern = "On.*Time.*2[0-9]{3}.{3,4}csv$",
                               full.names = TRUE),
-                   read_and_report))
+                   function(filename) fread(filename, select = selected.names)))
+
+readr::write_csv(post2008_flights, "../post2008_flights.csv")
 
 flights <- rbindlist(list(pre2008_flights, post2008_flights), use.names = TRUE)
 readr::write_csv(flights, path = "../1987-2015-On-Time-Performance.csv")
@@ -59,14 +68,24 @@ readr::write_csv(flights, path = "../1987-2015-On-Time-Performance.csv")
 
 <<loadData, cache=FALSE>>=
 Sys.time()
-flights <- fread("../1987-2015-On-Time-Performance.csv", select = c("Year", "Month", "DayofMonth", "DepTime", "ArrTime", "UniqueCarrier",
-                                                                    "ActualElapsedTime", "ArrDelay", "DepDelay", "Origin", "Dest", "Cancelled"))
-# flights <- readRDS("../1987-2015-On-Time-Performance.rds")
+flights <- fread("../1987-2015-On-Time-Performance.csv", 
+                 select = c("Year", "Month", "DayofMonth", "DepTime", 
+                            "ArrTime", "UniqueCarrier",
+                            "ActualElapsedTime", "ArrDelay", "DepDelay", "Origin",
+                            "Dest", "Cancelled", "WeatherDelay",
+                            "TailNum"),
+                 na.strings = c("NA", "(null)", ""))
+planes <- readRDS("./data-raw/planes.rds")
+setnames(planes, "tailnum", "TailNum")
+setkey(planes, TailNum)
 @
+
+
 
 <<sample>>=
 flightsSanFran <- flights[Origin %in% c("SFO", "OAK") | Dest %in% c("SFO", "OAK")]
-sample.frac = 0.5
+flights_hubs <- flights[Origin %in% c('ATL', 'ORD', 'DFW')]
+sample.frac = 0.05
 sample.weight.int = as.integer(round(1/sample.frac))
 flights <- flights[sample(.N, .N * sample.frac)]
 @
@@ -155,7 +174,7 @@ Sys.time()
 
 \maketitle
 \chapter{}
-There were \Sexpr{texNum(nrow(flights) /  sample.frac)} flights from \Sexpr{min(flights$DepDateTimeZulu)} to \Sexpr{max(flights$DepDateTimeZulu)}. 
+There were \Sexpr{texNum(nrow(flights) * sample.weight.inc)} flights from \Sexpr{min(flights$DepDateTimeZulu)} to \Sexpr{max(flights$DepDateTimeZulu)}. 
 
 \chapter{San Francisco}
 <<SanFran>>=
@@ -476,19 +495,35 @@ flights %>%
 
 \section{Atlanta, Chicago, and Dallas Fort-Worth}
 <<Hubs>>=
-flights_hubs <- flights[Origin %in% c('ATL', 'ORD', 'DFW')]
+Sys.time()
+setkey(flights_hubs, Year, Month, DayofMonth)
+unique_dates <- unique(flights_hubs)
+unique_dates <- unique_dates[,list(Year, Month, DayofMonth)]
+unique_dates[,Week := (Year - 1987L) * 52 + data.table::yday(sprintf("%d-%02d-%02d", Year, Month, DayofMonth)) %/% 7]
+unique_dates[,Week := Week - min(Week)]
+flights_hubs <- flights_hubs[unique_dates]
+Sys.time()
 @
 
 <<Hub-volumes>>=
+setkey(unique_dates, Week)
 flights_hubs %>%
-  filter(Year < 2015 | Month < 9) %>%
+  select(Year, Month, Week, Origin) %>%
+  filter(Week < max(Week)) %>%
   count(Week, Origin) %>%
   setkey(Week) %>%
   data.table:::merge.data.table(unique(unique_dates)) %>%
   mutate(Date = as.Date(paste0(Year, "-", Month, "-", DayofMonth))) %>%
-  ggplot(aes(x = Date, y = n * sample.weight.int, color = Origin, group = Origin)) + 
-  geom_line() + 
-  geom_point()
+  group_by(Origin) %>%
+  mutate(Origin.label = ifelse(Week < max(Week), NA_character_,
+                               ifelse(Origin == "ATL", "Atlanta",
+                                      ifelse(Origin == "DFW", "Dallas-Fort Worth", "Chicago O'Hare")))) %>%
+  ggplot(aes(x = Date, y = n, color = Origin, group = Origin)) + 
+  geom_line(size = 0.5) + 
+  geom_point() + 
+  geom_text(aes(label = Origin.label), 
+            hjust = 0, nudge_x = 1, size = 6, fontface = "bold") +
+  theme(legend.position = c(0.1,0.8), legend.background = element_blank())
 @
 
 <<Hub-average-delay>>=
@@ -531,10 +566,154 @@ summary.tbl %>% select(-n) %>%
   coord_equal() + 
   xlim(-10,60) + ylim(-10,60) + 
   facet_grid(Origin ~ .)
+@
 
+<<ATL-weather>>=
+ATL_weather <- 
+  fread("data-raw/weather/ATL.csv", na.strings = "M") %>%
+  # Zulu time when valid
+  mutate(valid = fasttime::fastPOSIXct(valid)) %>%
+  setnames(old = c("station", "valid"), 
+           new = c("Origin", "DepDateTimeZulu")) %>%
+  setkey(Origin, DepDateTimeZulu)
 
+ATL_non_cancelled_flights  <- 
+  flights_hubs %>%
+  filter(Origin == "ATL", Cancelled == 0) %>%
+  create_DepDateTime %>% 
+  # airports %>% filter(faa == "ATL") 
+  mutate(DepDateTimeZulu = DepDateTime + lubridate::hours(5)) %>%
+  setkey(Origin, DepDateTimeZulu)
+
+ATL_with_Weather <- ATL_weather[ATL_non_cancelled_flights, roll = 'nearest']
+@
+
+<<Effect-of-cross-wind>>=
+ATL_with_Weather %>%
+  sample_n(10000) %>%
+  mutate(drct = as.numeric(drct)) %>%
+  # ATLANTA has parallel runways at 274.9 degrees
+  # sknt = wind speed
+  mutate(xw_cmpnt = as.numeric(sknt) * abs(sin((drct - 274.9) * pi / 180))) %>%
+  group_by(xw_cmpnt_bin = cut(xw_cmpnt, breaks = seq(-2, 20, by = 2), include.lowest = TRUE)) %>%
+  summarise(average_dep_delay = sum(DepDelay, na.rm = TRUE) / n(), n()) %>%
+  ggplot(aes(x = xw_cmpnt_bin, y = average_dep_delay)) + 
+  geom_bar(stat = "identity", width = 1)
+
+ATL_with_Weather %>%
+  mutate(DepDelay = ifelse(is.na(DepDelay) | DepDelay <= 0, 0, DepDelay)) %>%
+  sample_n(10000) %>%
+  mutate(drct = as.numeric(drct)) %>%
+  # ATLANTA has parallel runways at 274.9 degrees
+  # sknt = wind speed
+  mutate(xw_cmpnt = as.numeric(sknt) * abs(sin((drct - 274.9) * pi / 180))) %>%
+  ggplot(aes(x = xw_cmpnt, y = ..density.., weights = DepDelay)) + 
+  geom_density()
+@
+
+<<Effect-of-visibility-explore>>=
+ATL_with_Weather %>%
+  sample_n(100000) %>%
+  select(DepDateTimeZulu, vsby, DepDelay, ArrDelay) %>%
+  ggplot(aes(1/vsby, ArrDelay)) + 
+  geom_point() + 
+  scale_x_log10() + 
+  stat_smooth()
+
+ATL_with_Weather %>%
+  sample_n(1e5) %>%
+  select(DepDateTimeZulu, vsby, DepDelay, ArrDelay) %>%
+  ggplot(aes(x = factor(vsby), y = ArrDelay)) + 
+  geom_boxplot()
+
+ATL_with_Weather %>%
+  # sample_n(1e6) %>%
+  select(DepDateTimeZulu, vsby, DepDelay, ArrDelay, WeatherDelay) %>%
+  ggplot(aes(x = factor(vsby), y = WeatherDelay)) + 
+  geom_boxplot()
+
+ATL_with_Weather %>%
+  sample_n(10000) %>%
+  filter(!is.na(WeatherDelay)) %>%
+  select_(.dots = c("WeatherDelay",names(ATL_weather))) %>%
+  select(-Origin, -DepDateTimeZulu, -metar, -contains("skyc"), -presentwx) %>% 
+  # rpart::rpart(WeatherDelay ~ ., data = ., control = rpart.contro)
+  party::ctree(WeatherDelay ~ ., data = .)
   
+@
 
+<<ATL_delays>>=
+ATL_with_Weather %>%
+  merge(nycflights.planes, by.y = "tailnum", by.x = "TailNum", all.x = TRUE) %>%
+  group_by(Year = year(DepDateTimeZulu)) %>%
+  summarise(number_seats = sum(seats, na.rm = TRUE),
+         number_nas = sum(is.na(seats)),
+         number_flights = n()) %>%
+  gather(type, value, number_seats:number_flights) %>%
+  ggplot(aes(x = Year, y = value, color = type, group = type)) + 
+  geom_line() + 
+  facet_grid(type ~ ., scales = "free_y")
+@
+
+<<>>=
+ATL_with_Weather %>%
+  merge(planes, by.y = "TailNum", by.x = "TailNum", all.x = TRUE) %>%
+  mutate(seats = NO_SEATS) %>%
+  group_by(Year = year(DepDateTimeZulu)) %>%
+  summarise(number_seats = sum(seats, na.rm = TRUE),
+         number_nas = sum(is.na(seats)),
+         number_flights = n()) %>%
+  gather(type, value, number_seats:number_flights) %>%
+  ggplot(aes(x = Year, y = value, color = type, group = type)) + 
+  geom_line() + 
+  facet_grid(type ~ ., scales = "free_y")
+@
+
+<<Why-do-tailnums-not-match>>=
+tailnums.by.year <- 
+  ATL_with_Weather %>% 
+  distinct(TailNum) %>% 
+  count(Year) %>%
+  select(Year, tailnums = n)
+  
+badtailnums.by.year <-
+  ATL_with_Weather %>% 
+  distinct(TailNum) %>%
+  anti_join(planes) %>%
+  count(Year) %>%
+  select(Year, bad_tailnums = n)
+
+
+merge(tailnums.by.year, badtailnums.by.year) %>%
+  mutate(badprop = bad_tailnums/tailnums) %>%
+  head(30)
+
+nycflights.planes2 <- nycflights.planes %>% mutate(TailNum = tailnum) %>% select(-tailnum) %>% data.table(., keyby = "TailNum")
+
+badtailnums.by.year.nycflights <-
+  ATL_with_Weather %>% 
+  distinct(TailNum) %>%
+  anti_join(nycflights.planes2) %>%
+  count(Year) %>%
+  select(Year, bad_tailnums = n)
+
+merge(tailnums.by.year, badtailnums.by.year.nycflights) %>%
+  mutate(badprop = bad_tailnums/tailnums) %>%
+  head(30)
+
+source("./data-raw/planes_like_hadley.R")
+setnames(all, "tailnum", "TailNum")
+all <- as.data.table(all)
+badtailnums.by.year.hadley <-
+  flights %>% 
+  distinct(TailNum) %>%
+  anti_join(all) %>%
+  count(Year) %>%
+  select(Year, bad_tailnums = n)
+
+merge(tailnums.by.year, badtailnums.by.year.hadley) %>%
+  mutate(badprop = bad_tailnums/tailnums) %>%
+  head(30)
 @
 
 
