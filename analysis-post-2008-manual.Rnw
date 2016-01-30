@@ -3,11 +3,29 @@
 
 \begin{document}
 <<knitrOpts>>=
+library(knitr)
+knit_hooks$set(timeit = function(before) {
+    if (before) {
+      .current.time <<- Sys.time()
+    } else {
+      .duration <- round(difftime(Sys.time(), .current.time, units = "secs"))
+      write(
+        paste0(
+          knitr::opts_current$get(name = "label"), 
+          ": ", 
+          .duration),
+        file = "analysis-post-2008-CHUNKTIMINGS.txt",
+        ncolumns = 1,
+        append = TRUE)
+    }
+})
+file.remove("analysis-post-2008-CHUNKTIMINGS.txt")
 START.TIME <- Sys.time()
 knitr::opts_chunk$set(fig.show = 'hide',
                       fig.width = 11, 
                       fig.height = 7,
                       fig.path = atlas <- "atlas-post-2008/",
+                      timeit = TRUE,
                       cache=FALSE,
                       out.width = "11in")
 @
@@ -59,7 +77,6 @@ convert_week_to_date <- function(DT_with_Week_column, override = FALSE){
   
   DT_with_Week_column[temp]
 }
-
 @
 
 <<loadPost2008Flights>>=
@@ -164,16 +181,34 @@ Sys.time()
 
 
 <<Flights-by-week>>=
+setkey(unique_dates, Week)
 flights[,.(n = .N), keyby = Week][unique_dates]  %>%
+  filter(Week < max(Week)) %>%
   mutate(Date = fastPOSIXct(paste0(Year, "-", Month, "-", DayofMonth))) %>%
   ggplot(aes(x = Date, y = n)) + 
   geom_line(group = 1) + 
   scale_y_continuous()
-
 @
 \begin{figure*}
 \includegraphics[width=\textwidth]{atlas-post-2008/Flights-by-week-1}
 \end{figure*}
+
+<<Flights-by-week-with-annotations>>=
+setkey(unique_dates, Week)
+flights[,.(n = .N), keyby = Week][unique_dates]  %>%
+  distinct(Week) %>%
+  filter(Week < max(Week)) %>%
+  mutate(difference = n - lag(n, 1, default = mean(.$n)),
+         Date = fastPOSIXct(paste0(Year, "-", Month, "-", DayofMonth)),
+         diff.lab = ifelse(ntile(difference, 100) == 100, 
+                           paste0(Year, "-", Month, "-", DayofMonth), 
+                           NA)) %>%
+  ggplot(aes(x = Date, y = n)) + 
+  geom_line(group = 1, size = 2) + 
+  geom_point() + 
+  geom_text(aes(label = diff.lab)) + 
+  scale_y_continuous(label = comma)
+@
 
 <<Flights-by-week-and-carrier>>=
 flights.by.week.and.carrier <- 
@@ -183,6 +218,8 @@ biggest.carriers <-
   flights[,.(n = .N), by = UniqueCarrier][order(-n)] %>%
   filter(row_number(-n) <= 6) %$%
   UniqueCarrier
+
+nycflights.airlines[,Carrier_other := ifelse(UniqueCarrier %in% biggest.carriers, UniqueCarrier, "Other")]
 
 flights.by.week.and.carrier.other <- 
   flights.by.week.and.carrier %>%
@@ -274,10 +311,24 @@ cancellations.by.year.carrier.other %>%
 
 <<Expected-cancellations-by-month>>=
 expected.cancellations.by.month <- 
-  flights %>%
-  group_by(Year, Month, Carrier_other = ifelse(UniqueCarrier %in% biggest.carriers, UniqueCarrier, "Other")) %>%
-  summarise(expected_cancellation = mean(Cancelled))
+#   system.time({
+#   flights %>%
+#   select(Year, Month, UniqueCarrier, Cancelled) %>%
+#   group_by(Year, Month, Carrier_other = ifelse(UniqueCarrier %in% biggest.carriers, UniqueCarrier, "Other")) %>%
+#   summarise(expected_cancellation = mean(Cancelled))
+#   })
+# system.time({
+#   flights[,Carrier_other := ifelse(UniqueCarrier %in% biggest.carriers, UniqueCarrier, "Other")] %>%
+#   .[,.(expected_cancellation = mean(Cancelled)), by = list(Year, Month, Carrier_other)]})
   
+  flights %>%
+  select(Year, Month, UniqueCarrier, Cancelled) %>%
+  # Get Carrier_other variable
+    setkey(UniqueCarrier) %>%
+    .[nycflights.airlines] %>%
+  group_by(Year, Month, Carrier_other) %>%
+  summarise(expected_cancellation = mean(Cancelled))
+
 
 expected.cancellations.by.month %>%
   ggplot(aes(x = Year + Month/12, y = expected_cancellation, group = Carrier_other, color = Carrier_other)) + 
