@@ -55,27 +55,27 @@
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
 \hlkwd{library}\hlstd{(knitr)}
+\hlstd{.finished} \hlkwb{<-} \hlnum{FALSE}
 \hlstd{knit_hooks}\hlopt{$}\hlkwd{set}\hlstd{(}\hlkwc{timeit} \hlstd{=} \hlkwa{function}\hlstd{(}\hlkwc{before}\hlstd{) \{}
     \hlkwa{if} \hlstd{(before) \{}
       \hlstd{.current.time} \hlkwb{<<-} \hlkwd{Sys.time}\hlstd{()}
     \hlstd{\}} \hlkwa{else} \hlstd{\{}
       \hlstd{.duration} \hlkwb{<-} \hlkwd{round}\hlstd{(}\hlkwd{difftime}\hlstd{(}\hlkwd{Sys.time}\hlstd{(), .current.time,} \hlkwc{units} \hlstd{=} \hlstr{"secs"}\hlstd{))}
-      \hlkwd{write}\hlstd{(}
-        \hlkwd{paste0}\hlstd{(}
-          \hlstd{knitr}\hlopt{::}\hlstd{opts_current}\hlopt{$}\hlkwd{get}\hlstd{(}\hlkwc{name} \hlstd{=} \hlstr{"label"}\hlstd{),}
-          \hlstr{": "}\hlstd{,}
-          \hlstd{.duration),}
-        \hlkwc{file} \hlstd{=} \hlstr{"analysis-post-2008-CHUNKTIMINGS.txt"}\hlstd{,}
-        \hlkwc{ncolumns} \hlstd{=} \hlnum{1}\hlstd{,}
-        \hlkwc{append} \hlstd{=} \hlnum{TRUE}\hlstd{)}
+      \hlkwa{if}\hlstd{(}\hlopt{!}\hlstd{.finished)}
+        \hlkwd{write}\hlstd{(}
+          \hlkwd{paste0}\hlstd{(}
+            \hlstd{knitr}\hlopt{::}\hlstd{opts_current}\hlopt{$}\hlkwd{get}\hlstd{(}\hlkwc{name} \hlstd{=} \hlstr{"label"}\hlstd{),}
+            \hlstr{": "}\hlstd{,}
+            \hlstd{.duration),}
+          \hlkwc{file} \hlstd{=} \hlstr{"analysis-post-2008-CHUNKTIMINGS.txt"}\hlstd{,}
+          \hlkwc{ncolumns} \hlstd{=} \hlnum{1}\hlstd{,}
+          \hlkwc{append} \hlstd{=} \hlnum{TRUE}\hlstd{)}
     \hlstd{\}}
 \hlstd{\})}
 \hlkwd{file.remove}\hlstd{(}\hlstr{"analysis-post-2008-CHUNKTIMINGS.txt"}\hlstd{)}
 \end{alltt}
-
-
-{\ttfamily\noindent\color{warningcolor}{\#\# Warning in file.remove("{}analysis-post-2008-CHUNKTIMINGS.txt"{}): cannot remove file 'analysis-post-2008-CHUNKTIMINGS.txt', reason 'No such file or directory'}}\begin{verbatim}
-## [1] FALSE
+\begin{verbatim}
+## [1] TRUE
 \end{verbatim}
 \begin{alltt}
 \hlstd{START.TIME} \hlkwb{<-} \hlkwd{Sys.time}\hlstd{()}
@@ -169,8 +169,11 @@
 \hlstd{flights} \hlkwb{<-} \hlkwd{fread}\hlstd{(}\hlstr{"../post2008_flights.csv"}\hlstd{,} \hlkwc{na.strings} \hlstd{=} \hlkwd{c}\hlstd{(}\hlstr{"NA"}\hlstd{,} \hlstr{""}\hlstd{))}
 \end{alltt}
 \begin{verbatim}
-## Read 0.0% of 49153341 rowsRead 0.7% of 49153341 rowsRead 1.4% of 49153341 rowsRead 2.1% of 49153341 rowsRead 2.8% of 49153341 rowsRead 3.5% of 49153341 rowsRead 4.2% of 49153341 rowsRead 4.8% of 49153341 rowsRead 5.5% of 49153341 rowsRead 6.2% of 49153341 rowsRead 6.9% of 49153341 rowsRead 7.6% of 49153341 rowsRead 8.3% of 49153341 rowsRead 9.0% of 49153341 rowsRead 9.7% of 49153341 rowsRead 10.4% of 49153341 rowsRead 11.1% of 49153341 rowsRead 11.8% of 49153341 rowsRead 12.5% of 49153341 rowsRead 13.1% of 49153341 rowsRead 13.8% of 49153341 rowsRead 14.5% of 49153341 rowsRead 15.2% of 49153341 rowsRead 15.9% of 49153341 rowsRead 16.6% of 49153341 rowsRead 17.3% of 49153341 rowsRead 18.0% of 49153341 rowsRead 18.7% of 49153341 rowsRead 19.3% of 49153341 rowsRead 20.0% of 49153341 rowsRead 20.7% of 49153341 rowsRead 21.4% of 49153341 rowsRead 22.1% of 49153341 rowsRead 22.8% of 49153341 rowsRead 23.5% of 49153341 rowsRead 24.2% of 49153341 rowsRead 24.9% of 49153341 rowsRead 25.6% of 49153341 rowsRead 26.2% of 49153341 rowsRead 26.9% of 49153341 rowsRead 27.6% of 49153341 rowsRead 28.3% of 49153341 rowsRead 29.0% of 49153341 rowsRead 29.7% of 49153341 rowsRead 30.4% of 49153341 rowsRead 31.1% of 49153341 rowsRead 31.8% of 49153341 rowsRead 32.4% of 49153341 rowsRead 33.1% of 49153341 rowsRead 33.8% of 49153341 rowsRead 34.5% of 49153341 rowsRead 35.2% of 49153341 rowsRead 35.9% of 49153341 rowsRead 36.6% of 49153341 rowsRead 37.3% of 49153341 rowsRead 38.0% of 49153341 rowsRead 38.7% of 49153341 rowsRead 39.3% of 49153341 rowsRead 40.0% of 49153341 rowsRead 40.7% of 49153341 rowsRead 41.4% of 49153341 rowsRead 42.1% of 49153341 rowsRead 42.8% of 49153341 rowsRead 43.5% of 49153341 rowsRead 44.2% of 49153341 rowsRead 44.9% of 49153341 rowsRead 45.6% of 49153341 rowsRead 46.2% of 49153341 rowsRead 46.9% of 49153341 rowsRead 47.6% of 49153341 rowsRead 48.3% of 49153341 rowsRead 49.0% of 49153341 rowsRead 49.7% of 49153341 rowsRead 50.4% of 49153341 rowsRead 51.1% of 49153341 rowsRead 51.8% of 49153341 rowsRead 52.4% of 49153341 rowsRead 53.1% of 49153341 rowsRead 53.8% of 49153341 rowsRead 54.5% of 49153341 rowsRead 55.2% of 49153341 rowsRead 55.9% of 49153341 rowsRead 56.6% of 49153341 rowsRead 57.3% of 49153341 rowsRead 58.0% of 49153341 rowsRead 58.7% of 49153341 rowsRead 59.3% of 49153341 rowsRead 60.0% of 49153341 rowsRead 60.7% of 49153341 rowsRead 61.4% of 49153341 rowsRead 62.1% of 49153341 rowsRead 62.8% of 49153341 rowsRead 63.5% of 49153341 rowsRead 64.2% of 49153341 rowsRead 64.9% of 49153341 rowsRead 65.5% of 49153341 rowsRead 66.2% of 49153341 rowsRead 66.9% of 49153341 rowsRead 67.6% of 49153341 rowsRead 68.3% of 49153341 rowsRead 69.0% of 49153341 rowsRead 69.7% of 49153341 rowsRead 70.4% of 49153341 rowsRead 71.1% of 49153341 rowsRead 71.8% of 49153341 rowsRead 72.4% of 49153341 rowsRead 73.1% of 49153341 rowsRead 73.8% of 49153341 rowsRead 74.5% of 49153341 rowsRead 75.1% of 49153341 rowsRead 75.8% of 49153341 rowsRead 76.5% of 49153341 rowsRead 77.2% of 49153341 rowsRead 77.9% of 49153341 rowsRead 78.6% of 49153341 rowsRead 79.3% of 49153341 rowsRead 80.0% of 49153341 rowsRead 80.6% of 49153341 rowsRead 81.3% of 49153341 rowsRead 82.0% of 49153341 rowsRead 82.7% of 49153341 rowsRead 83.4% of 49153341 rowsRead 84.1% of 49153341 rowsRead 84.8% of 49153341 rowsRead 85.5% of 49153341 rowsRead 86.2% of 49153341 rowsRead 86.9% of 49153341 rowsRead 87.5% of 49153341 rowsRead 88.2% of 49153341 rowsRead 88.9% of 49153341 rowsRead 89.6% of 49153341 rowsRead 90.3% of 49153341 rowsRead 91.0% of 49153341 rowsRead 91.7% of 49153341 rowsRead 92.4% of 49153341 rowsRead 93.1% of 49153341 rowsRead 93.7% of 49153341 rowsRead 94.4% of 49153341 rowsRead 95.1% of 49153341 rowsRead 95.8% of 49153341 rowsRead 96.5% of 49153341 rowsRead 97.2% of 49153341 rowsRead 97.9% of 49153341 rowsRead 98.6% of 49153341 rowsRead 99.3% of 49153341 rowsRead 100.0% of 49153341 rowsRead 49153341 rows and 65 (of 65) columns from 13.203 GB file in 00:03:20
+## Read 0.0% of 49153341 rowsRead 0.7% of 49153341 rowsRead 1.4% of 49153341 rowsRead 2.0% of 49153341 rowsRead 2.7% of 49153341 rowsRead 3.4% of 49153341 rowsRead 4.1% of 49153341 rowsRead 4.8% of 49153341 rowsRead 5.5% of 49153341 rowsRead 6.2% of 49153341 rowsRead 6.9% of 49153341 rowsRead 7.5% of 49153341 rowsRead 8.2% of 49153341 rowsRead 8.9% of 49153341 rowsRead 9.6% of 49153341 rowsRead 10.3% of 49153341 rowsRead 11.0% of 49153341 rowsRead 11.7% of 49153341 rowsRead 12.3% of 49153341 rowsRead 13.0% of 49153341 rowsRead 13.7% of 49153341 rowsRead 14.4% of 49153341 rowsRead 15.1% of 49153341 rowsRead 15.8% of 49153341 rowsRead 16.5% of 49153341 rowsRead 17.2% of 49153341 rowsRead 17.9% of 49153341 rowsRead 18.6% of 49153341 rowsRead 19.3% of 49153341 rowsRead 20.0% of 49153341 rowsRead 20.6% of 49153341 rowsRead 21.3% of 49153341 rowsRead 22.0% of 49153341 rowsRead 22.7% of 49153341 rowsRead 23.4% of 49153341 rowsRead 24.1% of 49153341 rowsRead 24.8% of 49153341 rowsRead 25.5% of 49153341 rowsRead 26.2% of 49153341 rowsRead 26.9% of 49153341 rowsRead 27.6% of 49153341 rowsRead 28.3% of 49153341 rowsRead 29.0% of 49153341 rowsRead 29.6% of 49153341 rowsRead 30.3% of 49153341 rowsRead 31.0% of 49153341 rowsRead 31.7% of 49153341 rowsRead 32.4% of 49153341 rowsRead 33.1% of 49153341 rowsRead 33.8% of 49153341 rowsRead 34.5% of 49153341 rowsRead 35.2% of 49153341 rowsRead 35.8% of 49153341 rowsRead 36.5% of 49153341 rowsRead 37.2% of 49153341 rowsRead 37.9% of 49153341 rowsRead 38.6% of 49153341 rowsRead 39.3% of 49153341 rowsRead 40.0% of 49153341 rowsRead 40.7% of 49153341 rowsRead 41.4% of 49153341 rowsRead 42.1% of 49153341 rowsRead 42.7% of 49153341 rowsRead 43.4% of 49153341 rowsRead 44.1% of 49153341 rowsRead 44.8% of 49153341 rowsRead 45.5% of 49153341 rowsRead 46.2% of 49153341 rowsRead 46.9% of 49153341 rowsRead 47.6% of 49153341 rowsRead 48.3% of 49153341 rowsRead 49.0% of 49153341 rowsRead 49.7% of 49153341 rowsRead 50.3% of 49153341 rowsRead 51.0% of 49153341 rowsRead 51.7% of 49153341 rowsRead 52.4% of 49153341 rowsRead 53.1% of 49153341 rowsRead 53.8% of 49153341 rowsRead 54.5% of 49153341 rowsRead 55.2% of 49153341 rowsRead 55.9% of 49153341 rowsRead 56.6% of 49153341 rowsRead 57.2% of 49153341 rowsRead 57.9% of 49153341 rowsRead 58.6% of 49153341 rowsRead 59.3% of 49153341 rowsRead 60.0% of 49153341 rowsRead 60.7% of 49153341 rowsRead 61.4% of 49153341 rowsRead 62.1% of 49153341 rowsRead 62.8% of 49153341 rowsRead 63.5% of 49153341 rowsRead 64.2% of 49153341 rowsRead 64.9% of 49153341 rowsRead 65.5% of 49153341 rowsRead 66.2% of 49153341 rowsRead 66.9% of 49153341 rowsRead 67.6% of 49153341 rowsRead 68.3% of 49153341 rowsRead 69.0% of 49153341 rowsRead 69.7% of 49153341 rowsRead 70.4% of 49153341 rowsRead 71.0% of 49153341 rowsRead 71.7% of 49153341 rowsRead 72.4% of 49153341 rowsRead 73.1% of 49153341 rowsRead 73.8% of 49153341 rowsRead 74.5% of 49153341 rowsRead 75.2% of 49153341 rowsRead 75.9% of 49153341 rowsRead 76.6% of 49153341 rowsRead 77.3% of 49153341 rowsRead 78.0% of 49153341 rowsRead 78.7% of 49153341 rowsRead 79.3% of 49153341 rowsRead 80.0% of 49153341 rowsRead 80.7% of 49153341 rowsRead 81.4% of 49153341 rowsRead 82.1% of 49153341 rowsRead 82.8% of 49153341 rowsRead 83.5% of 49153341 rowsRead 84.2% of 49153341 rowsRead 84.9% of 49153341 rowsRead 85.5% of 49153341 rowsRead 86.2% of 49153341 rowsRead 86.9% of 49153341 rowsRead 87.6% of 49153341 rowsRead 88.3% of 49153341 rowsRead 89.0% of 49153341 rowsRead 89.7% of 49153341 rowsRead 90.4% of 49153341 rowsRead 91.1% of 49153341 rowsRead 91.8% of 49153341 rowsRead 92.4% of 49153341 rowsRead 93.1% of 49153341 rowsRead 93.8% of 49153341 rowsRead 94.5% of 49153341 rowsRead 95.2% of 49153341 rowsRead 95.9% of 49153341 rowsRead 96.6% of 49153341 rowsRead 97.3% of 49153341 rowsRead 98.0% of 49153341 rowsRead 98.7% of 49153341 rowsRead 99.4% of 49153341 rowsRead 49153341 rows and 65 (of 65) columns from 13.203 GB file in 00:02:52
 \end{verbatim}
+\begin{alltt}
+\hlstd{flights[,tempkey} \hlkwb{:=} \hlnum{1}\hlopt{:}\hlstd{.N]}
+\end{alltt}
 \end{kframe}
 \end{knitrout}
 
@@ -209,7 +212,7 @@
 \hlkwd{Sys.time}\hlstd{()}
 \end{alltt}
 \begin{verbatim}
-## [1] "2016-01-30 20:38:07 AEDT"
+## [1] "2016-01-30 23:08:42 AEDT"
 \end{verbatim}
 \begin{alltt}
 \hlkwa{for} \hlstd{(j} \hlkwa{in} \hlstd{integer.cols)\{}
@@ -218,8 +221,13 @@
 \hlkwd{Sys.time}\hlstd{()}
 \end{alltt}
 \begin{verbatim}
-## [1] "2016-01-30 20:38:10 AEDT"
+## [1] "2016-01-30 23:08:42 AEDT"
 \end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
 \hlcom{# See stackoverflow: links and comments under my question}
 \hlstd{create_DepDateTime} \hlkwb{<-} \hlkwa{function}\hlstd{(}\hlkwc{DT}\hlstd{)\{}
@@ -246,9 +254,6 @@
 \hlcom{#flights[,`:=`(Year = NULL, Month = NULL, DayofMonth = NULL, DepTime = NULL, ArrTime = NULL)]}
 \hlkwd{Sys.time}\hlstd{()}
 \end{alltt}
-\begin{verbatim}
-## [1] "2016-01-30 20:39:51 AEDT"
-\end{verbatim}
 \end{kframe}
 \end{knitrout}
 
@@ -257,21 +262,8 @@
 \begin{alltt}
 \hlcom{# Now we join it to the airports dataset from nycflights13 to obtain time zone information.}
 \hlkwd{Sys.time}\hlstd{()}
-\end{alltt}
-\begin{verbatim}
-## [1] "2016-01-30 20:39:54 AEDT"
-\end{verbatim}
-\begin{alltt}
 \hlstd{airports} \hlkwb{<-} \hlkwd{as.data.table}\hlstd{(airports)}
 \hlstd{airports} \hlkwb{<-} \hlstd{airports[,}\hlkwd{list}\hlstd{(faa, tz)]}
-\hlkwd{gc}\hlstd{(}\hlnum{1}\hlstd{,}\hlnum{1}\hlstd{)}
-\end{alltt}
-\begin{verbatim}
-##              used    (Mb) gc trigger    (Mb)   max used    (Mb)
-## Ncells     568267    30.4    2756648   147.3     568267    30.4
-## Vcells 2067316392 15772.4 4176999658 31868.0 2067316392 15772.4
-\end{verbatim}
-\begin{alltt}
 \hlkwd{setnames}\hlstd{(airports,} \hlkwc{old} \hlstd{=} \hlkwd{c}\hlstd{(}\hlstr{"faa"}\hlstd{,} \hlstr{"tz"}\hlstd{),} \hlkwc{new} \hlstd{=} \hlkwd{c}\hlstd{(}\hlstr{"Origin"}\hlstd{,} \hlstr{"tzOrigin"}\hlstd{))}
 \hlkwd{setkey}\hlstd{(airports, Origin)}
 \hlkwd{setkey}\hlstd{(flights, Origin)}
@@ -280,29 +272,10 @@
 \hlkwd{setkey}\hlstd{(flights, Dest)}
 \hlstd{flights} \hlkwb{<-} \hlstd{flights[airports]}
 \hlkwd{rm}\hlstd{(airports)}
-\hlkwd{gc}\hlstd{(}\hlnum{1}\hlstd{,}\hlnum{1}\hlstd{)}
-\end{alltt}
-\begin{verbatim}
-##              used    (Mb) gc trigger    (Mb)   max used    (Mb)
-## Ncells     568305    30.4    1764254    94.3     568305    30.4
-## Vcells 2145122642 16366.0 5063784694 38633.7 2145122642 16366.0
-\end{verbatim}
-\begin{alltt}
 \hlcom{# The joins produce NAs when the airports table isn't present in the flights table.}
 \hlstd{flights} \hlkwb{<-} \hlstd{flights[}\hlopt{!}\hlkwd{is.na}\hlstd{(Origin)]}
-\hlkwd{gc}\hlstd{(}\hlnum{1}\hlstd{,}\hlnum{1}\hlstd{)}
-\end{alltt}
-\begin{verbatim}
-##              used    (Mb) gc trigger    (Mb)   max used    (Mb)
-## Ncells     568374    30.4    1764254    94.3     568374    30.4
-## Vcells 2145076126 16365.7 5063784694 38633.7 2145076126 16365.7
-\end{verbatim}
-\begin{alltt}
 \hlkwd{Sys.time}\hlstd{()}
 \end{alltt}
-\begin{verbatim}
-## [1] "2016-01-30 20:42:01 AEDT"
-\end{verbatim}
 \end{kframe}
 \end{knitrout}
 
@@ -310,19 +283,32 @@
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
 \hlkwd{Sys.time}\hlstd{()}
-\end{alltt}
-\begin{verbatim}
-## [1] "2016-01-30 20:42:01 AEDT"
-\end{verbatim}
-\begin{alltt}
 \hlcom{# setting keys doesn't improve timing}
 \hlstd{flights[,}\hlkwd{`:=`}\hlstd{(}\hlkwc{DepDateTimeZulu} \hlstd{= DepDateTime} \hlopt{-} \hlstd{lubridate}\hlopt{::}\hlkwd{hours}\hlstd{(tzOrigin))]}
 \hlstd{flights[,}\hlkwd{`:=`}\hlstd{(}\hlkwc{ArrDateTimeZulu} \hlstd{= ArrDateTime} \hlopt{-} \hlstd{lubridate}\hlopt{::}\hlkwd{hours}\hlstd{(tzDest))]}
 \hlkwd{Sys.time}\hlstd{()}
 \end{alltt}
-\begin{verbatim}
-## [1] "2016-01-30 20:47:51 AEDT"
-\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{flights} \hlopt{%>%}
+  \hlkwd{select}\hlstd{(tempkey, DepDateTime, ArrDateTime, tzOrigin, tzDest, DepDateTimeZulu, ArrDateTimeZulu)} \hlopt{%>%}
+  \hlkwd{saveRDS}\hlstd{(}\hlkwc{file} \hlstd{=} \hlstr{"flights-post-2008_with_zuluTimes.rds"}\hlstd{,} \hlkwc{compress} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{flights_with_timezones} \hlkwb{<-} \hlkwd{readRDS}\hlstd{(}\hlstr{"flights-post-2008_with_zuluTimes.rds"}\hlstd{)}
+\hlkwd{setkey}\hlstd{(flights_with_timezones, tempkey)}
+\hlkwd{setkey}\hlstd{(flights, tempkey)}
+\hlstd{flights} \hlkwb{<-} \hlstd{flights[flights_with_timezones]}
+\end{alltt}
 \end{kframe}
 \end{knitrout}
 
@@ -334,19 +320,20 @@
 \hlkwd{Sys.time}\hlstd{()}
 \end{alltt}
 \begin{verbatim}
-## [1] "2016-01-30 20:47:51 AEDT"
+## [1] "2016-01-30 23:09:12 AEDT"
 \end{verbatim}
 \begin{alltt}
 \hlkwd{setkey}\hlstd{(flights, Year, Month, DayofMonth)}
-\hlstd{unique_dates} \hlkwb{<-} \hlkwd{unique}\hlstd{(flights)}
-\hlstd{unique_dates} \hlkwb{<-} \hlstd{unique_dates[,}\hlkwd{list}\hlstd{(Year, Month, DayofMonth)]}
-\hlstd{unique_dates[,Week} \hlkwb{:=} \hlstd{(Year} \hlopt{-} \hlnum{1987L}\hlstd{)} \hlopt{*} \hlnum{52} \hlopt{+} \hlstd{data.table}\hlopt{::}\hlkwd{yday}\hlstd{(}\hlkwd{sprintf}\hlstd{(}\hlstr{"%d-%02d-%02d"}\hlstd{, Year, Month, DayofMonth))} \hlopt{%/%} \hlnum{7}\hlstd{]}
-\hlstd{unique_dates[,Week} \hlkwb{:=} \hlstd{Week} \hlopt{-} \hlkwd{min}\hlstd{(Week)]}
+\hlstd{unique_dates} \hlkwb{<-}
+  \hlkwd{unique}\hlstd{(flights)} \hlopt{%>%}
+  \hlkwd{select}\hlstd{(Year, Month, DayofMonth)} \hlopt{%>%}
+  \hlkwd{mutate}\hlstd{(}\hlkwc{Week} \hlstd{= (Year} \hlopt{-} \hlnum{1987L}\hlstd{)} \hlopt{*} \hlnum{52} \hlopt{+} \hlstd{data.table}\hlopt{::}\hlkwd{yday}\hlstd{(}\hlkwd{sprintf}\hlstd{(}\hlstr{"%d-%02d-%02d"}\hlstd{, Year, Month, DayofMonth))} \hlopt{%/%} \hlnum{7}\hlstd{,}
+         \hlkwc{Week} \hlstd{= Week} \hlopt{-} \hlkwd{min}\hlstd{(Week))}
 \hlstd{flights} \hlkwb{<-} \hlstd{flights[unique_dates]}
 \hlkwd{Sys.time}\hlstd{()}
 \end{alltt}
 \begin{verbatim}
-## [1] "2016-01-30 20:48:38 AEDT"
+## [1] "2016-01-30 23:09:43 AEDT"
 \end{verbatim}
 \end{kframe}
 \end{knitrout}
@@ -464,6 +451,7 @@
 \begin{alltt}
 \hlstd{cancellations.by.week} \hlkwb{<-}
   \hlstd{flights} \hlopt{%>%}
+  \hlkwd{select}\hlstd{(Week, Cancelled)} \hlopt{%>%}
   \hlkwd{group_by}\hlstd{(Week)} \hlopt{%>%}
   \hlkwd{summarise}\hlstd{(}\hlkwc{total_cancellations} \hlstd{=} \hlkwd{sum}\hlstd{(Cancelled))}
 
@@ -480,6 +468,7 @@
 \begin{alltt}
 \hlstd{cancellations.by.month} \hlkwb{<-}
   \hlstd{flights} \hlopt{%>%}
+  \hlkwd{select}\hlstd{(Year, Month, Cancelled)} \hlopt{%>%}
   \hlkwd{group_by}\hlstd{(Year, Month)} \hlopt{%>%}
   \hlkwd{summarise}\hlstd{(}\hlkwc{total_cancellations} \hlstd{=} \hlkwd{sum}\hlstd{(Cancelled))}
 
@@ -495,18 +484,18 @@
 \begin{alltt}
 \hlstd{cancellations.by.year.carrier.other} \hlkwb{<-}
   \hlstd{flights} \hlopt{%>%}
+  \hlkwd{select}\hlstd{(Year, UniqueCarrier, Cancelled)} \hlopt{%>%}
   \hlkwd{group_by}\hlstd{(Year, UniqueCarrier)} \hlopt{%>%}
   \hlkwd{summarise}\hlstd{(}\hlkwc{total_cancellations} \hlstd{=} \hlkwd{sum}\hlstd{(Cancelled))} \hlopt{%>%}
   \hlkwd{setkey}\hlstd{(UniqueCarrier)} \hlopt{%>%}
-  \hlkwd{merge}\hlstd{(nycflights.airlines)} \hlopt{%>%}
-  \hlkwd{group_by}\hlstd{(Year,} \hlkwc{Carrier_other} \hlstd{=} \hlkwd{ifelse}\hlstd{(UniqueCarrier} \hlopt{%in%} \hlstd{biggest.carriers, UniqueCarrier,} \hlstr{"Other"}\hlstd{))} \hlopt{%>%}
+  \hlstd{.[nycflights.airlines]} \hlopt{%>%}
+  \hlkwd{group_by}\hlstd{(Year, Carrier_other)} \hlopt{%>%}
   \hlkwd{summarise}\hlstd{(}\hlkwc{total_cancellations} \hlstd{=} \hlkwd{sum}\hlstd{(total_cancellations))}
 
 \hlstd{cancellations.by.year.carrier.other} \hlopt{%>%}
-  \hlstd{tbl_df} \hlopt{%>%}
-  \hlkwd{mutate}\hlstd{(}\hlkwc{Carrier_other} \hlstd{=} \hlkwd{factor}\hlstd{(Carrier_other,} \hlkwc{levels} \hlstd{=} \hlkwd{c}\hlstd{(biggest.carriers,} \hlstr{"Other"}\hlstd{)))} \hlopt{%>%}
-  \hlkwd{arrange}\hlstd{(Year, Carrier_other)} \hlopt{%>%}
-  \hlkwd{ggplot}\hlstd{(}\hlkwd{aes}\hlstd{(}\hlkwc{x} \hlstd{= Year,} \hlkwc{y} \hlstd{= total_cancellations,} \hlkwc{fill} \hlstd{= Carrier_other))} \hlopt{+}
+  \hlkwd{mutate}\hlstd{(}\hlkwc{Carrier_other_f} \hlstd{=} \hlkwd{factor}\hlstd{(Carrier_other,} \hlkwc{levels} \hlstd{=} \hlkwd{c}\hlstd{(biggest.carriers,} \hlstr{"Other"}\hlstd{)))} \hlopt{%>%}
+  \hlkwd{arrange}\hlstd{(Year, Carrier_other_f)} \hlopt{%>%}
+  \hlkwd{ggplot}\hlstd{(}\hlkwd{aes}\hlstd{(}\hlkwc{x} \hlstd{= Year,} \hlkwc{y} \hlstd{= total_cancellations,} \hlkwc{fill} \hlstd{= Carrier_other_f))} \hlopt{+}
   \hlkwd{geom_area}\hlstd{()} \hlopt{+}
   \hlkwd{guides}\hlstd{(}\hlkwc{fill} \hlstd{=} \hlkwd{guide_legend}\hlstd{(}\hlkwc{reverse} \hlstd{=} \hlnum{TRUE}\hlstd{))} \hlopt{+}
   \hlkwd{scale_fill_brewer}\hlstd{(}\hlkwc{palette} \hlstd{=} \hlstr{"Spectral"}\hlstd{)}
@@ -553,12 +542,9 @@
   \hlcom{# Get Carrier_other variable}
     \hlkwd{setkey}\hlstd{(UniqueCarrier)} \hlopt{%>%}
     \hlstd{.[nycflights.airlines]} \hlopt{%>%}
-  \hlkwd{group_by}\hlstd{(Year, Month, Carrier_other)} \hlopt{%>%}
+  \hlkwd{group_by}\hlstd{(Week, Carrier_other)} \hlopt{%>%}
   \hlkwd{summarise}\hlstd{(}\hlkwc{expected_cancellation} \hlstd{=} \hlkwd{mean}\hlstd{(Cancelled))}
-\end{alltt}
 
-
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in eval(expr, envir, enclos): object 'Year' not found}}\begin{alltt}
 \hlstd{expected.cancellations.by.week} \hlopt{%>%}
   \hlkwd{group_by}\hlstd{(Week)} \hlopt{%>%}
   \hlkwd{mutate}\hlstd{(}\hlkwc{difference} \hlstd{= expected_cancellation} \hlopt{-} \hlkwd{mean}\hlstd{(expected_cancellation))} \hlopt{%>%}
@@ -566,9 +552,7 @@
   \hlkwd{geom_area}\hlstd{(}\hlkwc{group} \hlstd{=} \hlnum{1}\hlstd{)} \hlopt{+}
   \hlkwd{facet_grid}\hlstd{(Carrier_other} \hlopt{~} \hlstd{.)}
 \end{alltt}
-
-
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in eval(expr, envir, enclos): object 'expected.cancellations.by.week' not found}}\end{kframe}
+\end{kframe}
 \end{knitrout}
 
 \begin{knitrout}
@@ -596,6 +580,7 @@
 \begin{alltt}
 \hlstd{ArrDelays.by.week} \hlkwb{<-}
   \hlstd{flights} \hlopt{%>%}
+  \hlkwd{select}\hlstd{(Week, ArrDelay)} \hlopt{%>%}
   \hlkwd{group_by}\hlstd{(Week)} \hlopt{%>%}
   \hlkwd{summarise}\hlstd{(}\hlkwc{total_ArrDelay} \hlstd{=} \hlkwd{sum}\hlstd{(ArrDelay,} \hlkwc{na.rm} \hlstd{=} \hlnum{TRUE}\hlstd{))}
 
@@ -612,6 +597,7 @@
 \begin{alltt}
 \hlstd{ArrDelays.by.month} \hlkwb{<-}
   \hlstd{flights} \hlopt{%>%}
+  \hlkwd{select}\hlstd{(Year, Month, ArrDelay)} \hlopt{%>%}
   \hlkwd{group_by}\hlstd{(Year, Month)} \hlopt{%>%}
   \hlkwd{summarise}\hlstd{(}\hlkwc{total_ArrDelay} \hlstd{=} \hlkwd{sum}\hlstd{(ArrDelay,} \hlkwc{na.rm} \hlstd{=} \hlnum{TRUE}\hlstd{))}
 
@@ -657,18 +643,25 @@
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
+\hlcom{# system.time(\{}
+\hlcom{# flights.by.origin <- }
+\hlcom{#   count(flights, Origin) %>%}
+\hlcom{#   arrange(desc(n))}
+\hlcom{# \})}
+\hlcom{# 8 s.}
+
 \hlstd{flights.by.origin} \hlkwb{<-}
-  \hlkwd{count}\hlstd{(flights, Origin)} \hlopt{%>%}
-  \hlkwd{arrange}\hlstd{(}\hlkwd{desc}\hlstd{(n))}
+    \hlstd{flights[,}\hlkwd{.}\hlstd{(}\hlkwc{n} \hlstd{= .N),} \hlkwc{by} \hlstd{= Origin][}\hlkwd{order}\hlstd{(}\hlopt{-}\hlstd{n)]}
+\hlcom{# 0.27s}
 
 \hlstd{flights.by.airport.carrier} \hlkwb{<-}
-  \hlstd{flights} \hlopt{%>%}
-  \hlkwd{count}\hlstd{(Origin, UniqueCarrier)} \hlopt{%>%}
-  \hlkwd{arrange}\hlstd{(}\hlkwd{desc}\hlstd{(n))}
+\hlcom{#   flights %>%}
+\hlcom{#   count(Origin, UniqueCarrier) %>%}
+\hlcom{#   arrange(desc(n))}
+  \hlstd{flights[,}\hlkwd{.}\hlstd{(}\hlkwc{n} \hlstd{= .N),} \hlkwc{by} \hlstd{=} \hlkwd{list}\hlstd{(Origin, UniqueCarrier)][}\hlkwd{order}\hlstd{(}\hlopt{-}\hlstd{n)]}
 
 \hlstd{hubs} \hlkwb{<-}
   \hlstd{flights.by.airport.carrier} \hlopt{%>%}
-  \hlstd{ungroup} \hlopt{%>%}
   \hlkwd{group_by}\hlstd{(UniqueCarrier)} \hlopt{%>%}
   \hlkwd{filter}\hlstd{(n} \hlopt{>=} \hlkwd{nth}\hlstd{(n,} \hlkwc{order_by} \hlstd{=} \hlopt{-}\hlnum{1}\hlopt{*}\hlstd{n,} \hlnum{2}\hlstd{))}
 
@@ -1042,11 +1035,11 @@
 ##    0.000s (  0%) Count rows (wc -l)
 ##    0.000s (  0%) Column type detection (first, middle and last 5 rows)
 ##    0.000s (  0%) Allocation of 5749x2 result (xMB) in RAM
-##    0.000s (  0%) Reading data
+##    0.003s (100%) Reading data
 ##    0.000s (  0%) Allocation for type bumps (if any), including gc time if triggered
 ##    0.000s (  0%) Coercing data already read in type bumps (if any)
 ##    0.000s (  0%) Changing na.strings to NA
-##    0.001s        Total
+##    0.003s        Total
 \end{verbatim}
 \begin{alltt}
 \hlstd{city.market.decoder[,Code} \hlkwb{:=} \hlkwd{as.integer}\hlstd{(Code)]}
@@ -1173,8 +1166,8 @@
 \end{alltt}
 \begin{verbatim}
 ##              used    (Mb) gc trigger    (Mb)   max used    (Mb)
-## Ncells   66830879  3569.2   90165604  4815.4   66830879  3569.2
-## Vcells 2717880664 20735.8 6076621632 46361.0 2717880664 20735.8
+## Ncells   66766183  3565.7   90464440  4831.4   66766183  3565.7
+## Vcells 3058649203 23335.7 5077629258 38739.3 3058649203 23335.7
 \end{verbatim}
 \end{kframe}
 \end{knitrout}
@@ -1207,5 +1200,19 @@
 \end{kframe}
 \end{knitrout}
 
-COMPILATION TIME: 23.1922272324562
+COMPILATION TIME: 11.5616566181183
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{COMPILATION.TIME} \hlkwb{<-} \hlkwd{round}\hlstd{(}\hlkwd{difftime}\hlstd{(}\hlkwd{Sys.time}\hlstd{(), START.TIME,} \hlkwc{units} \hlstd{=} \hlstr{"mins"}\hlstd{),} \hlnum{1}\hlstd{)}
+\hlkwd{write}\hlstd{(}\hlstr{"======="}\hlstd{,}
+\hlkwc{file} \hlstd{=} \hlstr{"analysis-post-2008-CHUNKTIMINGS.txt"}\hlstd{,}
+\hlkwc{append} \hlstd{=} \hlnum{TRUE}\hlstd{)}
+\hlkwd{write}\hlstd{(}\hlkwd{paste0}\hlstd{(}\hlstr{"Compilation time: "}\hlstd{, COMPILATION.TIME),}
+      \hlkwc{file} \hlstd{=} \hlstr{"analysis-post-2008-CHUNKTIMINGS.txt"}\hlstd{,}
+      \hlkwc{append} \hlstd{=} \hlnum{TRUE}\hlstd{)}
+\hlstd{finished} \hlkwb{<-} \hlnum{TRUE}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
 \end{document}

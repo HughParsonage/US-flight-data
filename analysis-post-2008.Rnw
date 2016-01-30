@@ -4,19 +4,21 @@
 \begin{document}
 <<knitrOpts>>=
 library(knitr)
+.finished <- FALSE
 knit_hooks$set(timeit = function(before) {
     if (before) {
       .current.time <<- Sys.time()
     } else {
       .duration <- round(difftime(Sys.time(), .current.time, units = "secs"))
-      write(
-        paste0(
-          knitr::opts_current$get(name = "label"), 
-          ": ", 
-          .duration),
-        file = "analysis-post-2008-CHUNKTIMINGS.txt",
-        ncolumns = 1,
-        append = TRUE)
+      if(!.finished)
+        write(
+          paste0(
+            knitr::opts_current$get(name = "label"), 
+            ": ", 
+            .duration),
+          file = "analysis-post-2008-CHUNKTIMINGS.txt",
+          ncolumns = 1,
+          append = TRUE)
     }
 })
 file.remove("analysis-post-2008-CHUNKTIMINGS.txt")
@@ -81,6 +83,7 @@ convert_week_to_date <- function(DT_with_Week_column, override = FALSE){
 
 <<loadPost2008Flights>>=
 flights <- fread("../post2008_flights.csv", na.strings = c("NA", ""))
+flights[,tempkey := 1:.N]
 @
 
 <<Flights-by-carrier>>=
@@ -110,6 +113,9 @@ for (j in integer.cols){
   set(flights, j = j, value = as.integer(flights[[j]]))
 }
 Sys.time()
+@
+
+<<cleanse1a-dates, eval=FALSE>>=
 # See stackoverflow: links and comments under my question
 create_DepDateTime <- function(DT){
   setkey(DT, Year, Month, DayofMonth, DepTime)
@@ -136,12 +142,11 @@ flights <- create_ArrDateTime(flights)
 Sys.time()
 @
 
-<<Cleanse2>>=
+<<Cleanse2, eval=FALSE>>=
 # Now we join it to the airports dataset from nycflights13 to obtain time zone information.
 Sys.time()
 airports <- as.data.table(airports)
 airports <- airports[,list(faa, tz)]
-gc(1,1)
 setnames(airports, old = c("faa", "tz"), new = c("Origin", "tzOrigin"))
 setkey(airports, Origin)
 setkey(flights, Origin)
@@ -150,14 +155,12 @@ setnames(airports, old = c("Origin", "tzOrigin"), new = c("Dest", "tzDest"))
 setkey(flights, Dest)
 flights <- flights[airports]
 rm(airports)
-gc(1,1)
 # The joins produce NAs when the airports table isn't present in the flights table.
 flights <- flights[!is.na(Origin)]
-gc(1,1)
 Sys.time()
 @
 
-<<Cleanse3-timezones>>=
+<<Cleanse3-timezones, eval=FALSE>>=
 Sys.time()
 # setting keys doesn't improve timing
 flights[,`:=`(DepDateTimeZulu = DepDateTime - lubridate::hours(tzOrigin))]
@@ -165,15 +168,29 @@ flights[,`:=`(ArrDateTimeZulu = ArrDateTime - lubridate::hours(tzDest))]
 Sys.time()
 @
 
+<<Cleanse3alt-timezones, eval=FALSE>>=
+flights %>%
+  select(tempkey, DepDateTime, ArrDateTime, tzOrigin, tzDest, DepDateTimeZulu, ArrDateTimeZulu) %>%
+  saveRDS(file = "flights-post-2008_with_zuluTimes.rds", compress = FALSE)
+@
+
+<<Cleanse-timezones>>=
+flights_with_timezones <- readRDS("flights-post-2008_with_zuluTimes.rds")
+setkey(flights_with_timezones, tempkey)
+setkey(flights, tempkey) 
+flights <- flights[flights_with_timezones]
+@
+
 <<Cleanse-weeks>>=
 # Flights typically follow a weekly cycle, so we should obtain the week in the dataset.
 # Pretty quick!
 Sys.time()
 setkey(flights, Year, Month, DayofMonth)
-unique_dates <- unique(flights)
-unique_dates <- unique_dates[,list(Year, Month, DayofMonth)]
-unique_dates[,Week := (Year - 1987L) * 52 + data.table::yday(sprintf("%d-%02d-%02d", Year, Month, DayofMonth)) %/% 7]
-unique_dates[,Week := Week - min(Week)]
+unique_dates <- 
+  unique(flights) %>%
+  select(Year, Month, DayofMonth) %>%
+  mutate(Week = (Year - 1987L) * 52 + data.table::yday(sprintf("%d-%02d-%02d", Year, Month, DayofMonth)) %/% 7,
+         Week = Week - min(Week))
 flights <- flights[unique_dates]
 Sys.time()
 @
@@ -269,6 +286,7 @@ flights.by.week.and.carrier.other %>%
 <<Cancellations-by-week>>=
 cancellations.by.week <- 
   flights %>%
+  select(Week, Cancelled) %>%
   group_by(Week) %>%
   summarise(total_cancellations = sum(Cancelled))
 
@@ -281,6 +299,7 @@ cancellations.by.week %>%
 <<cancellations-by-month>>=
 cancellations.by.month <- 
   flights %>%
+  select(Year, Month, Cancelled) %>%
   group_by(Year, Month) %>%
   summarise(total_cancellations = sum(Cancelled))
 
@@ -292,18 +311,18 @@ cancellations.by.month %>%
 <<cancellations-by-carrier>>=
 cancellations.by.year.carrier.other <- 
   flights %>%
+  select(Year, UniqueCarrier, Cancelled) %>%
   group_by(Year, UniqueCarrier) %>%
   summarise(total_cancellations = sum(Cancelled)) %>%
   setkey(UniqueCarrier) %>%
-  merge(nycflights.airlines) %>%
-  group_by(Year, Carrier_other = ifelse(UniqueCarrier %in% biggest.carriers, UniqueCarrier, "Other")) %>%
+  .[nycflights.airlines] %>%
+  group_by(Year, Carrier_other) %>%
   summarise(total_cancellations = sum(total_cancellations))
 
 cancellations.by.year.carrier.other %>%
-  tbl_df %>%
-  mutate(Carrier_other = factor(Carrier_other, levels = c(biggest.carriers, "Other"))) %>%
-  arrange(Year, Carrier_other) %>%
-  ggplot(aes(x = Year, y = total_cancellations, fill = Carrier_other)) + 
+  mutate(Carrier_other_f = factor(Carrier_other, levels = c(biggest.carriers, "Other"))) %>%
+  arrange(Year, Carrier_other_f) %>%
+  ggplot(aes(x = Year, y = total_cancellations, fill = Carrier_other_f)) + 
   geom_area() + 
   guides(fill = guide_legend(reverse = TRUE)) + 
   scale_fill_brewer(palette = "Spectral")
@@ -342,7 +361,7 @@ expected.cancellations.by.week <-
   # Get Carrier_other variable
     setkey(UniqueCarrier) %>%
     .[nycflights.airlines] %>%
-  group_by(Year, Month, Carrier_other) %>%
+  group_by(Week, Carrier_other) %>%
   summarise(expected_cancellation = mean(Cancelled)) 
 
 expected.cancellations.by.week %>%
@@ -372,6 +391,7 @@ expected.cancellations.by.month %>%
 <<delays-by-week>>=
 ArrDelays.by.week <- 
   flights %>%
+  select(Week, ArrDelay) %>%
   group_by(Week) %>%
   summarise(total_ArrDelay = sum(ArrDelay, na.rm = TRUE))
 
@@ -384,6 +404,7 @@ ArrDelays.by.week %>%
 <<delays-by-month>>=
 ArrDelays.by.month <- 
   flights %>%
+  select(Year, Month, ArrDelay) %>%
   group_by(Year, Month) %>%
   summarise(total_ArrDelay = sum(ArrDelay, na.rm = TRUE))
 
@@ -418,18 +439,25 @@ ArrDelays.by.month[cancellations.by.month] %>%
 
 \section{Which airport causes the most delays}
 <<Hubs>>=
+# system.time({
+# flights.by.origin <- 
+#   count(flights, Origin) %>%
+#   arrange(desc(n))
+# })
+# 8 s.
+
 flights.by.origin <- 
-  count(flights, Origin) %>%
-  arrange(desc(n))
+    flights[,.(n = .N), by = Origin][order(-n)]
+# 0.27s
 
 flights.by.airport.carrier <-
-  flights %>%
-  count(Origin, UniqueCarrier) %>%
-  arrange(desc(n))
+#   flights %>%
+#   count(Origin, UniqueCarrier) %>%
+#   arrange(desc(n))
+  flights[,.(n = .N), by = list(Origin, UniqueCarrier)][order(-n)]
 
 hubs <- 
   flights.by.airport.carrier %>%
-  ungroup %>%
   group_by(UniqueCarrier) %>%
   filter(n >= nth(n, order_by = -1*n, 2))
 
@@ -835,4 +863,14 @@ corridor.volumes.by.week %>%
 @
 
 COMPILATION TIME: \Sexpr{difftime(Sys.time(), START.TIME)}
+<<last>>=
+COMPILATION.TIME <- round(difftime(Sys.time(), START.TIME, units = "mins"), 1)
+write("=======",
+file = "analysis-post-2008-CHUNKTIMINGS.txt", 
+append = TRUE)
+write(paste0("Compilation time: ", COMPILATION.TIME),
+      file = "analysis-post-2008-CHUNKTIMINGS.txt", 
+      append = TRUE)
+finished <- TRUE
+@
 \end{document}

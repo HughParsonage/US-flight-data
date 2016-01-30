@@ -47,6 +47,8 @@ Temporary Items
 .apdisk
 .Rproj.user
 
+*.rds
+
 cache/
 data-raw/
 US-flight-data
