@@ -74,10 +74,8 @@
 \hlstd{\})}
 \hlkwd{file.remove}\hlstd{(}\hlstr{"analysis-post-2008-CHUNKTIMINGS.txt"}\hlstd{)}
 \end{alltt}
-
-
-{\ttfamily\noindent\color{warningcolor}{\#\# Warning in file.remove("{}analysis-post-2008-CHUNKTIMINGS.txt"{}): cannot remove file 'analysis-post-2008-CHUNKTIMINGS.txt', reason 'No such file or directory'}}\begin{verbatim}
-## [1] FALSE
+\begin{verbatim}
+## [1] TRUE
 \end{verbatim}
 \begin{alltt}
 \hlstd{START.TIME} \hlkwb{<-} \hlkwd{Sys.time}\hlstd{()}
@@ -181,7 +179,7 @@
 \hlstd{flights} \hlkwb{<-} \hlkwd{fread}\hlstd{(}\hlstr{"../post2008_flights.csv"}\hlstd{,} \hlkwc{na.strings} \hlstd{=} \hlkwd{c}\hlstd{(}\hlstr{"NA"}\hlstd{,} \hlstr{""}\hlstd{))}
 \end{alltt}
 \begin{verbatim}
-## Read 0.0% of 49153341 rowsRead 0.7% of 49153341 rowsRead 1.4% of 49153341 rowsRead 2.1% of 49153341 rowsRead 2.8% of 49153341 rowsRead 3.5% of 49153341 rowsRead 4.2% of 49153341 rowsRead 4.8% of 49153341 rowsRead 5.5% of 49153341 rowsRead 6.2% of 49153341 rowsRead 6.9% of 49153341 rowsRead 7.6% of 49153341 rowsRead 8.3% of 49153341 rowsRead 9.0% of 49153341 rowsRead 9.7% of 49153341 rowsRead 10.4% of 49153341 rowsRead 11.1% of 49153341 rowsRead 11.8% of 49153341 rowsRead 12.5% of 49153341 rowsRead 13.1% of 49153341 rowsRead 13.8% of 49153341 rowsRead 14.5% of 49153341 rowsRead 15.2% of 49153341 rowsRead 15.9% of 49153341 rowsRead 16.6% of 49153341 rowsRead 17.3% of 49153341 rowsRead 18.0% of 49153341 rowsRead 18.7% of 49153341 rowsRead 19.4% of 49153341 rowsRead 20.1% of 49153341 rowsRead 20.8% of 49153341 rowsRead 21.5% of 49153341 rowsRead 22.2% of 49153341 rowsRead 22.9% of 49153341 rowsRead 23.6% of 49153341 rowsRead 24.3% of 49153341 rowsRead 24.9% of 49153341 rowsRead 25.6% of 49153341 rowsRead 26.3% of 49153341 rowsRead 27.0% of 49153341 rowsRead 27.7% of 49153341 rowsRead 28.4% of 49153341 rowsRead 29.1% of 49153341 rowsRead 29.8% of 49153341 rowsRead 30.5% of 49153341 rowsRead 31.2% of 49153341 rowsRead 31.9% of 49153341 rowsRead 32.6% of 49153341 rowsRead 33.2% of 49153341 rowsRead 33.9% of 49153341 rowsRead 34.6% of 49153341 rowsRead 35.3% of 49153341 rowsRead 36.0% of 49153341 rowsRead 36.7% of 49153341 rowsRead 37.4% of 49153341 rowsRead 38.1% of 49153341 rowsRead 38.8% of 49153341 rowsRead 39.5% of 49153341 rowsRead 40.2% of 49153341 rowsRead 40.9% of 49153341 rowsRead 41.5% of 49153341 rowsRead 42.2% of 49153341 rowsRead 42.9% of 49153341 rowsRead 43.6% of 49153341 rowsRead 44.3% of 49153341 rowsRead 45.0% of 49153341 rowsRead 45.7% of 49153341 rowsRead 46.4% of 49153341 rowsRead 47.1% of 49153341 rowsRead 47.8% of 49153341 rowsRead 48.5% of 49153341 rowsRead 49.2% of 49153341 rowsRead 49.8% of 49153341 rowsRead 50.5% of 49153341 rowsRead 51.2% of 49153341 rowsRead 51.9% of 49153341 rowsRead 52.6% of 49153341 rowsRead 53.3% of 49153341 rowsRead 54.0% of 49153341 rowsRead 54.7% of 49153341 rowsRead 55.4% of 49153341 rowsRead 56.0% of 49153341 rowsRead 56.7% of 49153341 rowsRead 57.4% of 49153341 rowsRead 58.1% of 49153341 rowsRead 58.8% of 49153341 rowsRead 59.5% of 49153341 rowsRead 60.2% of 49153341 rowsRead 60.9% of 49153341 rowsRead 61.6% of 49153341 rowsRead 62.3% of 49153341 rowsRead 63.0% of 49153341 rowsRead 63.7% of 49153341 rowsRead 64.3% of 49153341 rowsRead 65.0% of 49153341 rowsRead 65.7% of 49153341 rowsRead 66.4% of 49153341 rowsRead 67.1% of 49153341 rowsRead 67.8% of 49153341 rowsRead 68.5% of 49153341 rowsRead 69.2% of 49153341 rowsRead 69.9% of 49153341 rowsRead 70.6% of 49153341 rowsRead 71.3% of 49153341 rowsRead 72.0% of 49153341 rowsRead 72.7% of 49153341 rowsRead 73.3% of 49153341 rowsRead 74.0% of 49153341 rowsRead 74.7% of 49153341 rowsRead 75.4% of 49153341 rowsRead 76.1% of 49153341 rowsRead 76.8% of 49153341 rowsRead 77.5% of 49153341 rowsRead 78.2% of 49153341 rowsRead 78.9% of 49153341 rowsRead 79.6% of 49153341 rowsRead 80.2% of 49153341 rowsRead 80.9% of 49153341 rowsRead 81.6% of 49153341 rowsRead 82.3% of 49153341 rowsRead 83.0% of 49153341 rowsRead 83.7% of 49153341 rowsRead 84.4% of 49153341 rowsRead 85.1% of 49153341 rowsRead 85.8% of 49153341 rowsRead 86.5% of 49153341 rowsRead 87.2% of 49153341 rowsRead 87.8% of 49153341 rowsRead 88.5% of 49153341 rowsRead 89.2% of 49153341 rowsRead 89.9% of 49153341 rowsRead 90.6% of 49153341 rowsRead 91.3% of 49153341 rowsRead 92.0% of 49153341 rowsRead 92.7% of 49153341 rowsRead 93.4% of 49153341 rowsRead 94.1% of 49153341 rowsRead 94.7% of 49153341 rowsRead 95.4% of 49153341 rowsRead 96.0% of 49153341 rowsRead 96.7% of 49153341 rowsRead 97.3% of 49153341 rowsRead 98.0% of 49153341 rowsRead 98.6% of 49153341 rowsRead 99.3% of 49153341 rowsRead 100.0% of 49153341 rowsRead 49153341 rows and 65 (of 65) columns from 13.203 GB file in 00:02:51
+## Read 0.0% of 49153341 rowsRead 0.7% of 49153341 rowsRead 1.4% of 49153341 rowsRead 2.1% of 49153341 rowsRead 2.8% of 49153341 rowsRead 3.5% of 49153341 rowsRead 4.2% of 49153341 rowsRead 4.8% of 49153341 rowsRead 5.5% of 49153341 rowsRead 6.2% of 49153341 rowsRead 6.9% of 49153341 rowsRead 7.6% of 49153341 rowsRead 8.3% of 49153341 rowsRead 9.0% of 49153341 rowsRead 9.7% of 49153341 rowsRead 10.4% of 49153341 rowsRead 11.1% of 49153341 rowsRead 11.8% of 49153341 rowsRead 12.5% of 49153341 rowsRead 13.1% of 49153341 rowsRead 13.8% of 49153341 rowsRead 14.5% of 49153341 rowsRead 15.2% of 49153341 rowsRead 15.9% of 49153341 rowsRead 16.6% of 49153341 rowsRead 17.3% of 49153341 rowsRead 18.0% of 49153341 rowsRead 18.7% of 49153341 rowsRead 19.4% of 49153341 rowsRead 20.1% of 49153341 rowsRead 20.8% of 49153341 rowsRead 21.5% of 49153341 rowsRead 22.2% of 49153341 rowsRead 22.9% of 49153341 rowsRead 23.6% of 49153341 rowsRead 24.3% of 49153341 rowsRead 25.0% of 49153341 rowsRead 25.7% of 49153341 rowsRead 26.3% of 49153341 rowsRead 27.1% of 49153341 rowsRead 27.7% of 49153341 rowsRead 28.4% of 49153341 rowsRead 29.1% of 49153341 rowsRead 29.8% of 49153341 rowsRead 30.5% of 49153341 rowsRead 31.2% of 49153341 rowsRead 31.9% of 49153341 rowsRead 32.6% of 49153341 rowsRead 33.3% of 49153341 rowsRead 34.0% of 49153341 rowsRead 34.7% of 49153341 rowsRead 35.4% of 49153341 rowsRead 36.1% of 49153341 rowsRead 36.8% of 49153341 rowsRead 37.5% of 49153341 rowsRead 38.1% of 49153341 rowsRead 38.8% of 49153341 rowsRead 39.5% of 49153341 rowsRead 40.2% of 49153341 rowsRead 40.9% of 49153341 rowsRead 41.6% of 49153341 rowsRead 42.3% of 49153341 rowsRead 43.0% of 49153341 rowsRead 43.7% of 49153341 rowsRead 44.4% of 49153341 rowsRead 45.1% of 49153341 rowsRead 45.8% of 49153341 rowsRead 46.4% of 49153341 rowsRead 47.1% of 49153341 rowsRead 47.8% of 49153341 rowsRead 48.5% of 49153341 rowsRead 49.2% of 49153341 rowsRead 49.9% of 49153341 rowsRead 50.6% of 49153341 rowsRead 51.3% of 49153341 rowsRead 52.0% of 49153341 rowsRead 52.7% of 49153341 rowsRead 53.4% of 49153341 rowsRead 54.1% of 49153341 rowsRead 54.7% of 49153341 rowsRead 55.4% of 49153341 rowsRead 56.1% of 49153341 rowsRead 56.8% of 49153341 rowsRead 57.5% of 49153341 rowsRead 58.2% of 49153341 rowsRead 58.9% of 49153341 rowsRead 59.6% of 49153341 rowsRead 60.3% of 49153341 rowsRead 61.0% of 49153341 rowsRead 61.7% of 49153341 rowsRead 62.4% of 49153341 rowsRead 63.0% of 49153341 rowsRead 63.7% of 49153341 rowsRead 64.4% of 49153341 rowsRead 65.1% of 49153341 rowsRead 65.8% of 49153341 rowsRead 66.5% of 49153341 rowsRead 67.2% of 49153341 rowsRead 67.9% of 49153341 rowsRead 68.6% of 49153341 rowsRead 69.3% of 49153341 rowsRead 70.0% of 49153341 rowsRead 70.7% of 49153341 rowsRead 71.3% of 49153341 rowsRead 72.0% of 49153341 rowsRead 72.7% of 49153341 rowsRead 73.4% of 49153341 rowsRead 74.1% of 49153341 rowsRead 74.8% of 49153341 rowsRead 75.5% of 49153341 rowsRead 76.2% of 49153341 rowsRead 76.9% of 49153341 rowsRead 77.6% of 49153341 rowsRead 78.3% of 49153341 rowsRead 79.0% of 49153341 rowsRead 79.6% of 49153341 rowsRead 80.3% of 49153341 rowsRead 81.0% of 49153341 rowsRead 81.7% of 49153341 rowsRead 82.4% of 49153341 rowsRead 83.1% of 49153341 rowsRead 83.8% of 49153341 rowsRead 84.5% of 49153341 rowsRead 85.2% of 49153341 rowsRead 85.9% of 49153341 rowsRead 86.6% of 49153341 rowsRead 87.3% of 49153341 rowsRead 87.9% of 49153341 rowsRead 88.6% of 49153341 rowsRead 89.3% of 49153341 rowsRead 90.0% of 49153341 rowsRead 90.7% of 49153341 rowsRead 91.4% of 49153341 rowsRead 92.1% of 49153341 rowsRead 92.8% of 49153341 rowsRead 93.5% of 49153341 rowsRead 94.2% of 49153341 rowsRead 94.9% of 49153341 rowsRead 95.6% of 49153341 rowsRead 96.2% of 49153341 rowsRead 96.9% of 49153341 rowsRead 97.6% of 49153341 rowsRead 98.3% of 49153341 rowsRead 99.0% of 49153341 rowsRead 99.7% of 49153341 rowsRead 49153341 rows and 65 (of 65) columns from 13.203 GB file in 00:03:19
 \end{verbatim}
 \begin{alltt}
 \hlstd{flights[,tempkey} \hlkwb{:=} \hlnum{1}\hlopt{:}\hlstd{.N]}
@@ -224,7 +222,7 @@
 \hlkwd{Sys.time}\hlstd{()}
 \end{alltt}
 \begin{verbatim}
-## [1] "2016-01-31 00:15:28 AEDT"
+## [1] "2016-02-05 21:34:52 AEDT"
 \end{verbatim}
 \begin{alltt}
 \hlkwa{for} \hlstd{(j} \hlkwa{in} \hlstd{integer.cols)\{}
@@ -233,7 +231,7 @@
 \hlkwd{Sys.time}\hlstd{()}
 \end{alltt}
 \begin{verbatim}
-## [1] "2016-01-31 00:15:28 AEDT"
+## [1] "2016-02-05 21:34:53 AEDT"
 \end{verbatim}
 \end{kframe}
 \end{knitrout}
@@ -317,11 +315,23 @@
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
 \hlstd{flights_with_timezones} \hlkwb{<-} \hlkwd{readRDS}\hlstd{(}\hlstr{"flights-post-2008_with_zuluTimes.rds"}\hlstd{)}
+\end{alltt}
+
+
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning in gzfile(file, "{}rb"{}): cannot open compressed file 'flights-post-2008\_with\_zuluTimes.rds', probable reason 'No such file or directory'}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in gzfile(file, "{}rb"{}): cannot open the connection}}\begin{alltt}
 \hlkwd{setkey}\hlstd{(flights_with_timezones, tempkey)}
+\end{alltt}
+
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in setkey(flights\_with\_timezones, tempkey): object 'flights\_with\_timezones' not found}}\begin{alltt}
 \hlkwd{setkey}\hlstd{(flights, tempkey)}
 \hlstd{flights} \hlkwb{<-} \hlstd{flights[flights_with_timezones]}
 \end{alltt}
-\end{kframe}
+
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in eval(expr, envir, enclos): object 'flights\_with\_timezones' not found}}\end{kframe}
 \end{knitrout}
 
 \begin{knitrout}
@@ -332,7 +342,7 @@
 \hlkwd{Sys.time}\hlstd{()}
 \end{alltt}
 \begin{verbatim}
-## [1] "2016-01-31 00:16:09 AEDT"
+## [1] "2016-02-05 21:34:54 AEDT"
 \end{verbatim}
 \begin{alltt}
 \hlkwd{setkey}\hlstd{(flights, Year, Month, DayofMonth)}
@@ -345,7 +355,7 @@
 \hlkwd{Sys.time}\hlstd{()}
 \end{alltt}
 \begin{verbatim}
-## [1] "2016-01-31 00:16:47 AEDT"
+## [1] "2016-02-05 21:35:23 AEDT"
 \end{verbatim}
 \end{kframe}
 \end{knitrout}
@@ -1040,16 +1050,16 @@
 ## Type codes: 44 (after applying drop or select (if supplied)
 ## Allocating 2 column slots (2 - 0 dropped)
 ## Read 5749 rows. Exactly what was estimated and allocated up front
-##    0.007s ( 70%) Memory map (rerun may be quicker)
+##    0.010s ( 62%) Memory map (rerun may be quicker)
 ##    0.000s (  0%) sep and header detection
-##    0.000s (  0%) Count rows (wc -l)
-##    0.001s ( 10%) Column type detection (first, middle and last 5 rows)
-##    0.000s (  0%) Allocation of 5749x2 result (xMB) in RAM
-##    0.002s ( 20%) Reading data
+##    0.001s (  6%) Count rows (wc -l)
+##    0.000s (  0%) Column type detection (first, middle and last 5 rows)
+##    0.001s (  6%) Allocation of 5749x2 result (xMB) in RAM
+##    0.004s ( 25%) Reading data
 ##    0.000s (  0%) Allocation for type bumps (if any), including gc time if triggered
 ##    0.000s (  0%) Coercing data already read in type bumps (if any)
 ##    0.000s (  0%) Changing na.strings to NA
-##    0.010s        Total
+##    0.016s        Total
 \end{verbatim}
 \begin{alltt}
 \hlstd{city.market.decoder[,Code} \hlkwb{:=} \hlkwd{as.integer}\hlstd{(Code)]}
@@ -1157,17 +1167,25 @@
 \begin{alltt}
 \hlstd{flights.with.corridor} \hlkwb{<-}
   \hlkwd{readRDS}\hlstd{(}\hlstr{"flights-with-corridor.rds"}\hlstd{)}
+\end{alltt}
 
+
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning in gzfile(file, "{}rb"{}): cannot open compressed file 'flights-with-corridor.rds', probable reason 'No such file or directory'}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in gzfile(file, "{}rb"{}): cannot open the connection}}\begin{alltt}
 \hlstd{flights} \hlkwb{<-}
   \hlstd{flights} \hlopt{%>%}
   \hlkwd{setkey}\hlstd{(tempkey)} \hlopt{%>%}
   \hlstd{.[flights.with.corridor]}
+\end{alltt}
 
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in eval(expr, envir, enclos): object 'flights.with.corridor' not found}}\begin{alltt}
 \hlstd{corridor.volumes.by.week} \hlkwb{<-} \hlstd{flights[,(.n} \hlkwb{=} \hlstd{.N),} \hlkwc{by} \hlstd{=} \hlkwd{list}\hlstd{(Week, Corridor)][}\hlkwd{order}\hlstd{(}\hlopt{-}\hlstd{n)]}
 \end{alltt}
 
 
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in forder(x, -n): Column '1' is type 'closure' which is not supported for ordering currently.}}\end{kframe}
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in eval(expr, envir, enclos): object 'Corridor' not found}}\end{kframe}
 \end{knitrout}
 
 
@@ -1192,7 +1210,11 @@
   \hlstd{Corridors} \hlkwb{<-} \hlkwd{readRDS}\hlstd{(}\hlstr{"Corridors.rds"}\hlstd{)}
 \hlstd{\}}
 \end{alltt}
-\end{kframe}
+
+
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning in gzfile(file, "{}rb"{}): cannot open compressed file 'Corridors.rds', probable reason 'No such file or directory'}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in gzfile(file, "{}rb"{}): cannot open the connection}}\end{kframe}
 \end{knitrout}
 
 \begin{knitrout}
@@ -1228,7 +1250,7 @@
 {\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in eval(expr, envir, enclos): object 'corridor.volumes.by.week' not found}}\end{kframe}
 \end{knitrout}
 
-COMPILATION TIME: 9.1524508357048
+COMPILATION TIME: 5.64845073223114
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}

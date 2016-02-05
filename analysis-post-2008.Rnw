@@ -177,11 +177,11 @@ Sys.time()
 <<Cleanse3alt-timezones, eval=FALSE>>=
 flights %>%
   select(tempkey, DepDateTime, ArrDateTime, tzOrigin, tzDest, DepDateTimeZulu, ArrDateTimeZulu) %>%
-  saveRDS(file = "flights-post-2008_with_zuluTimes.rds", compress = FALSE)
+  saveRDS(file = "../flights-post-2008_with_zuluTimes.rds", compress = FALSE)
 @
 
 <<Cleanse-timezones>>=
-flights_with_timezones <- readRDS("flights-post-2008_with_zuluTimes.rds")
+flights_with_timezones <- readRDS("../flights-post-2008_with_zuluTimes.rds")
 setkey(flights_with_timezones, tempkey)
 setkey(flights, tempkey) 
 flights <- flights[flights_with_timezones]
@@ -819,7 +819,7 @@ flights %>%
                        paste0(DestCityMarketID, "-", OriginCityMarketID))] %>%
   select(tempkey, Corridor) %>%
   setkey(tempkey) %>%
-  saveRDS(file = "flights-with-corridor.rds", compress = FALSE)
+  saveRDS(file = "../flights-with-corridor.rds", compress = FALSE)
 
 corridor.volumes.by.week <- 
   flights[, Corridor := pmin(paste0(OriginCityMarketID, "-", DestCityMarketID), 
@@ -829,14 +829,14 @@ corridor.volumes.by.week <-
 
 <<City-market-routes-fast>>=
 flights.with.corridor <- 
-  readRDS("flights-with-corridor.rds")
+  readRDS("../flights-with-corridor.rds")
 
 flights <- 
   flights %>%
   setkey(tempkey) %>%
   .[flights.with.corridor]
 
-corridor.volumes.by.week <- flights[,(.n = .N), by = list(Week, Corridor)][order(-n)]
+corridor.volumes.by.week <- flights[,.(n = .N), by = list(Week, Corridor)][order(-n)]
 @
 
 
@@ -856,7 +856,7 @@ Corridors[,Corridor_DS := paste0(OriginCityMarketID_DS, "-", DestCityMarketID_DS
 Corridors %<>% select(Corridor, Corridor_DS) %>% setkey(Corridor)
 gc(T,T)
 } else {
-  Corridors <- readRDS("Corridors.rds")
+  Corridors <- readRDS("../Corridors.rds")
 }
 @
 
