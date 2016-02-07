@@ -1,5 +1,6 @@
 \documentclass{scrreprt}
-\usepackage[a3paper,twocolumn]{geometry}
+\usepackage[a3paper,twocolumn, left=1cm, right=1cm]{geometry}
+\addtolength{\columnsep}{2cm}
 
 \begin{document}
 <<knitrOpts>>=
@@ -21,7 +22,9 @@ knit_hooks$set(timeit = function(before) {
           append = TRUE)
     }
 })
-file.remove("analysis-post-2008-CHUNKTIMINGS.txt")
+write("Running times (in seconds) for chunks",
+      "analysis-post-2008-CHUNKTIMINGS.txt", 
+      append = FALSE)
 START.TIME <- Sys.time()
 knitr::opts_chunk$set(fig.show = 'hide',
                       fig.width = 11, 
@@ -45,6 +48,7 @@ library(bit64)
 library(dplyr)
 library(magrittr)
 library(ggplot2)
+library(grattan)
 theme.text.size = 18
 text.size = (5/14) * theme.text.size
 theme_update(text = element_text(family = "", 
@@ -54,7 +58,7 @@ theme_update(text = element_text(family = "",
                                  angle = 0, margin = margin(), 
                                  debug = FALSE))
 update_geom_defaults("text", list(size = text.size))
-update_geom_defaults("line", list(size = 2))
+update_geom_defaults("line", list(size = 1))
 library(ggrepel)
 library(scales)
 library(nycflights13)  # for airports
@@ -68,9 +72,13 @@ nycflights.airlines[,short_name := gsub("\\s.*$", "", name)]
 setnames(nycflights.airlines, "carrier", "UniqueCarrier")
 setkey(nycflights.airlines, UniqueCarrier)
 library(fasttime)
-library(grattan)
 library(directlabels)
 library(ineq)  # for Gini()
+library(forecast)
+# devtools::install_github("twitter/BreakoutDetection")
+library(BreakoutDetection)
+# devtools::install_github("twitter/AnomalyDetection")
+library(AnomalyDetection)
 @
 
 <<convert_week_to_date>>=
@@ -205,6 +213,9 @@ Sys.time()
 
 <<Flights-by-week>>=
 setkey(unique_dates, Week)
+flights.by.week <- 
+  flights[,.(n = .N), keyby = Week][unique_dates]  
+
 flights[,.(n = .N), keyby = Week][unique_dates]  %>%
   filter(Week < max(Week)) %>%
   mutate(Date = fastPOSIXct(paste0(Year, "-", Month, "-", DayofMonth))) %>%
@@ -884,7 +895,185 @@ corridor.volumes.by.week %>%
   facet_grid(Facet ~ .)
 @
 
+<<corridor-by-origin-dest>>=
+flights %>%
+  select(Origin, Dest, Corridor) %>%
+  arrange(Corridor) %>%
+  distinct %>%
+  readr::write_csv("../Corridor-by-origin-dest.csv")
+
+
+@
+
+<<all-years-corridors>>=
+flights19872015 <- 
+  fread("../1987-2015-On-Time-Performance.csv", 
+        select = c("Year", "Month", "DayofMonth",
+                   "DayOfWeek", "Origin", "Dest", "Cancelled"))
+
+Corridor_by_origin_dest <- 
+  fread("../Corridor-by-origin-dest.csv") %>%
+  setkey(Origin, Dest)
+
+flights.by.week.1987.2015 <- 
+  flights19872015[ ,.(n = .N), keyby = list(Year, Month, DayofMonth, DayOfWeek)] %>%
+  mutate(Week = 0L + cumsum(DayOfWeek == 1)) %>% 
+  filter(Week > min(Week) & Week < max(Week)) %>%
+  group_by(Week) %>%
+  summarise(n = sum(n))
+
+WeeklyFlightVolumes19872015 <- 
+  flights.by.week.1987.2015 %$%
+  ts(as.double(n), frequency = 52)
+
+flights_noncancelled_.by.week.1987.2015 <- 
+  flights19872015[ ,.(n = sum(!Cancelled)), keyby = list(Year, Month, DayofMonth, DayOfWeek)] %>%
+  mutate(Week = 0L + cumsum(DayOfWeek == 1)) %>% 
+  filter(Week > min(Week) & Week < max(Week)) %>%
+  group_by(Week) %>%
+  summarise(n = sum(n))
+
+WeeklyNonCancelledFlights19872015 <- 
+  flights_noncancelled_.by.week.1987.2015 %$%
+  ts(as.double(n), start = c(1987, 39), frequency = 52)
+@
+
+<<forecaster, eval=FALSE>>=
+plot(forecast(hybridf(WeeklyFlightVolumes19872015)), ylim = c(50e3, 150e3))
+abline(v = 2001 + 9/12, lty = 2)  # Sept 11
+abline(v = 2008 + 8/12, lty = 2)  # Lehmann Bros.
+@
+
+<<forecast-cancellations, eval=FALSE>>=
+plot(forecast(hybridf(WeeklyNonCancelledFlights19872015)), ylim = c(50e3, 150e3))
+abline(v = 2001 + 9/12, lty = 2)  # Sept 11
+abline(v = 2008 + 8/12, lty = 2)  # Lehmann Bros.
+@
+
+<<Breakout-Detections>>=
+res <- 
+  BreakoutDetection::breakout(flights.by.week.1987.2015$n, method = "multi", plot = TRUE)
+res$plot
+
+res <- 
+  BreakoutDetection::breakout(flights_noncancelled_.by.week.1987.2015$n, method = "multi", plot = TRUE)
+res$plot
+@
+
+
+
+\chapter{Predicting}
+\section{Predicting total flight volumes}
+<<forecast-total-flight-volumes, eval=FALSE>>=
+WeeklyFlightVolumes <- 
+  flights.by.week %>%
+  setkey(Week) %>%
+  unique %>%
+  filter(Week > min(Week), 
+         Week < max(Week)) %$%
+         {
+           ts(n, start = c(min(.$Year), 2),
+              frequency = 52)
+         }
+
+aa.WeeklyFlightVolumes <- auto.arima(WeeklyFlightVolumes)
+tbats.WeeklyFlightVolumes <- tbats(WeeklyFlightVolumes)
+tbats.WeeklyFlightVolumes.0813 <- 
+  WeeklyFlightVolumes %>%
+  window(start = c(2008, 1), end = c(2014, 13)) %>%
+  tbats
+
+plot(forecast(tbats.WeeklyFlightVolumes.0813, h = 150))
+lines(window(WeeklyFlightVolumes, start = c(2014, 14)), col = 2, lwd = 2)
+@
+
+<<Peter-Ellis-Forecaster, eval=FALSE>>=
+source("hybridfEllis.R")
+
+hybrid <-
+  WeeklyFlightVolumes %>%
+  window(start = c(2008, 1), end = c(2014, 13)) %>%
+  hybridf
+
+plot(forecast(hybrid, h = 150))
+lines(window(WeeklyFlightVolumes, start = c(2014, 14)), col = 2, lwd = 2)
+@
+
+<<New-York-flights>>=
+NewYork_flights <- 
+  flights19872015 %>%
+  setkey(Origin, Dest) %>%
+  .[Corridor_by_origin_dest] %>%
+  filter(grepl("31703",  # Code for New York City, NY (metropolitan area)
+               Corridor))
+
+NewYork_flights.noncancelled.by.week <- 
+  NewYork_flights[ , .(n = sum(!Cancelled)), 
+                   # Must use keyby, not by, in order to sort by date
+                   # as a side-effect
+                  keyby = list(Year, Month, DayofMonth, DayOfWeek)] %>%
+  mutate(Week = 0L + cumsum(DayOfWeek == 1)) %>% 
+  filter(Week > min(Week) & Week < max(Week)) %>%
+  group_by(Week) %>% 
+  summarise(n = sum(n))
+
+NewYork_flights.noncancelled.by.week %>% 
+  grplot(aes(x = Week, y = n)) + 
+  geom_line()
+@
+
+<<NewYork-versus-national-flights-ts>>=
+bind_rows(NewYork_flights.noncancelled.by.week, 
+          flights_noncancelled_.by.week.1987.2015, 
+          .id = "Market") %>%
+  mutate(Market = ifelse(Market == 1, "New York", "National")) %>%
+  group_by(Market) %>%
+  mutate(rel = n / first(n)) %>%
+  ungroup %>%
+  mutate(Date = as.Date("1987-10-05") + lubridate::weeks(Week)) %>%
+  ggplot(aes(x = Date, y = rel, color = Market)) + 
+  geom_hline(yintercept = 1) + 
+  geom_line() + 
+  scale_y_continuous("Non-cancelled flights relative to 1987-10-05",
+                     breaks = seq(0.25, 1.75, by = 0.25)) +
+  
+  #
+  scale_x_date(expand = c(0.01,0.1)) + 
+  scale_color_manual(values = gpal(2)) +
+  theme(legend.position = "none") + 
+  annotate("text",
+           x = as.Date(c("2001-07-01", "2001-11-20")), 
+           y = c(1.22, 0.55),
+           hjust = c(1, 0),
+           label = c("National", "New York City"),
+           color = gpal(2),
+           fontface = "bold"
+  ) + 
+  geom_vline(xintercept = as.numeric(as.Date("2001-09-11")), lty = 2) + 
+  annotate("text",
+           x = as.Date("2001-09-11"), 
+           y = 1.5,
+           hjust = 1,
+           vjust = 1.1,
+           angle = 90, 
+           size = 5,
+           label = "September 11")+ 
+  geom_vline(xintercept = as.numeric(as.Date("2008-09-15")), lty = 2) + 
+  annotate("text",
+           x = as.Date("2008-09-15"), 
+           y = 0.9,
+           hjust = 1,
+           vjust = 1.1,
+           angle = 90, 
+           size = 5,
+           label = "Lehmann Bros Chapter 11")
+  
+@
+
 COMPILATION TIME: \Sexpr{difftime(Sys.time(), START.TIME)}
+<<penultimate>>=
+.finished <- TRUE
+@
 <<last>>=
 COMPILATION.TIME <- round(difftime(Sys.time(), START.TIME, units = "mins"), 1)
 write("=======",
@@ -893,6 +1082,5 @@ append = TRUE)
 write(paste0("Compilation time: ", COMPILATION.TIME),
       file = "analysis-post-2008-CHUNKTIMINGS.txt", 
       append = TRUE)
-finished <- TRUE
 @
 \end{document}
