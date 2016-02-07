@@ -1,0 +1,86 @@
+\documentclass{scrreprt}
+\usepackage[a3paper,twocolumn]{geometry}
+
+\begin{document}
+<<knitrOpts>>=
+library(knitr)
+.finished <- FALSE
+knit_hooks$set(timeit = function(before) {
+    if (before) {
+      .current.time <<- Sys.time()
+    } else {
+      .duration <- round(difftime(Sys.time(), .current.time, units = "secs"))
+      if(!.finished)
+        write(
+          paste0(
+            knitr::opts_current$get(name = "label"), 
+            ": ", 
+            .duration),
+          file = "analysis-post-2008-CHUNKTIMINGS.txt",
+          ncolumns = 1,
+          append = TRUE)
+    }
+})
+file.remove("analysis-post-2008-CHUNKTIMINGS.txt")
+START.TIME <- Sys.time()
+knitr::opts_chunk$set(fig.show = 'hide',
+                      fig.width = 11, 
+                      fig.height = 7,
+                      fig.path = atlas <- "atlas-post-2008/",
+                      timeit = TRUE,
+                      cache=FALSE,
+                      out.width = "11in")
+@
+
+<<otherOpts>>=
+# use RDS: allow previously generated files to be read in again
+# saves time but might be dangerous. Must rely on `tempkey`
+useRDS = TRUE
+@
+
+<<loadPackages>>=
+library(tidyr)
+library(lubridate)
+library(data.table)
+library(bit64)
+library(dplyr)
+library(magrittr)
+library(ggplot2)
+theme.text.size = 18
+text.size = (5/14) * theme.text.size
+theme_update(text = element_text(family = "", 
+                                 face = "plain", colour = "black", size = theme.text.size, 
+                                 lineheight = 0.9, 
+                                 hjust = 0.5, vjust = 0.5, 
+                                 angle = 0, margin = margin(), 
+                                 debug = FALSE))
+update_geom_defaults("text", list(size = text.size))
+update_geom_defaults("line", list(size = 2))
+library(ggrepel)
+library(scales)
+library(nycflights13)  # for airports
+nycflights.airports <- airports
+nycflights.planes   <- planes
+nycflights.airlines <- as.data.table(airlines)
+for (j in 1:ncol(nycflights.airlines)){
+  set(nycflights.airlines, j = j, value = as.character(nycflights.airlines[[j]]))
+}
+nycflights.airlines[,short_name := gsub("\\s.*$", "", name)]
+setnames(nycflights.airlines, "carrier", "UniqueCarrier")
+setkey(nycflights.airlines, UniqueCarrier)
+library(fasttime)
+library(grattan)
+ggplot2::update_geom_defaults("bar", new = list(width = 0.9))
+library(directlabels)
+library(ineq)  # for Gini()
+library(forecast)
+@
+
+<<
+
+
+
+\end{document}
+
+
+\end{document}
