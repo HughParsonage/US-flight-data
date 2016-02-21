@@ -1,5 +1,5 @@
 \documentclass{scrreprt}
-\usepackage[a3paper,twocolumn]{geometry}
+\usepackage[a3paper,twocolumn,landscape]{geometry}
 
 \begin{document}
 <<knitrOpts>>=
@@ -16,19 +16,21 @@ knit_hooks$set(timeit = function(before) {
             knitr::opts_current$get(name = "label"), 
             ": ", 
             .duration),
-          file = "analysis-post-2008-CHUNKTIMINGS.txt",
+          file = "Corridors-and-time-CHUNKTIMINGS.txt",
           ncolumns = 1,
           append = TRUE)
     }
 })
-file.remove("analysis-post-2008-CHUNKTIMINGS.txt")
+write("Running times (in seconds) for chunks",
+      "Corridors-and-time-CHUNKTIMINGS.txt", 
+      append = FALSE)
 START.TIME <- Sys.time()
 knitr::opts_chunk$set(fig.show = 'hide',
-                      fig.width = 11, 
-                      fig.height = 7,
-                      fig.path = atlas <- "atlas-post-2008/",
+                      fig.width = 22, 
+                      fig.height = 14,
+                      fig.path = atlas <- "atlas-Corridors-and-time/",
                       timeit = TRUE,
-                      cache=FALSE,
+                      cache = FALSE,
                       out.width = "11in")
 @
 
@@ -43,7 +45,7 @@ library(tidyr)
 library(lubridate)
 library(data.table)
 library(bit64)
-library(dplyr)
+library(dplyr); options(dplyr.width = Inf)
 library(magrittr)
 library(ggplot2)
 theme.text.size = 18
@@ -55,7 +57,7 @@ theme_update(text = element_text(family = "",
                                  angle = 0, margin = margin(), 
                                  debug = FALSE))
 update_geom_defaults("text", list(size = text.size))
-update_geom_defaults("line", list(size = 2))
+update_geom_defaults("line", list(size = 0.5))
 library(ggrepel)
 library(scales)
 library(nycflights13)  # for airports
@@ -76,7 +78,165 @@ library(ineq)  # for Gini()
 library(forecast)
 @
 
-<<
+<<loadData>>=
+flights19872015 <-
+  fread("../1987-2015-On-Time-Performance.csv", 
+        select = c("Year", "Month", "DayofMonth", "DepTime", 
+                   "ArrTime", "UniqueCarrier", "Origin",
+                   "Dest", "Cancelled"),
+        na.strings = c("NA", "(null)", ""))
+
+# Corridor by origin dest seems off.
+Corridors.by.origin.dest <- fread("../Corridor-by-origin-dest.csv")
+setkey(Corridors.by.origin.dest, Origin, Dest)
+flights19872015 <- 
+  flights19872015 %>%
+  setkey(Origin, Dest) %>%
+  .[Corridors.by.origin.dest]
+@
+
+<<unique-dates>>=
+unique_dates <-
+  flights19872015 %>% 
+  select(Year, Month, DayofMonth) %>%
+  setkey(Year, Month, DayofMonth) %>%
+  unique
+
+unique_dates %>%
+  .[ ,Weekday := weekdays(as.Date(sprintf("%d-%02d-%02d", Year, Month, DayofMonth)))] %>%
+  .[ ,Week := 0L + cumsum(Weekday == "Monday")]
+@
+
+
+<<flights-by-day>>=
+flights.by.day <- 
+  flights19872015[,.(n = .N), keyby = list(Year, Month, DayofMonth)]
+
+FlightsByDay <- 
+  ts(flights.by.day$n, frequency = 7)
+@
+
+<<ncflights-by-day>>=
+ncflights.by.day <- # noncancelled flights
+  flights19872015[,.(n = sum(!Cancelled)), keyby = list(Year, Month, DayofMonth)]
+
+ncflights.by.day %>%
+  mutate(Date = as.Date(sprintf("%d-%02d-%02d", Year, Month, DayofMonth))) %>%
+  ggplot(aes(x = Date, y = n)) + 
+  geom_line(size = 0.1)
+@
+
+<<flights-by-week>>=
+flights.by.week <- 
+  flights.by.day[unique_dates][,.(n = sum(n)), keyby = Week]
+@
+
+<<var-comparison>>=
+flights.by.week.ets <-
+  flights.by.week %>%
+  arrange(Week) %>%
+  filter(Week > min(Week), Week < max(Week)) %$%
+  ets(y = as.double(n), 
+      # ensure no-nonnegative values
+      # see http://stats.stackexchange.com/questions/107467/avoid-negative-results-in-holt-winters-forecasting
+      lambda = TRUE)
+
+plot(forecast(flights.by.week.ets, h = 52))
+
+flights.by.week.arima <- 
+  flights.by.week %>%
+  arrange(Week) %>%
+  filter(Week > min(Week), Week < max(Week)) %$%
+  auto.arima(x = as.double(n))
+
+plot(forecast(flights.by.week.arima, h = 52))
+@
+
+<<flights-by-weekday>>=
+flights.by.day[unique_dates][,.(n = sum(n)), keyby = Weekday] %>%
+  mutate(Weekday = factor(Weekday, levels = c("Monday", "Tuesday",
+                                              "Wednesday", "Thursday", 
+                                              "Friday", "Saturday", "Sunday"))) %>%
+  ggplot(aes(x = Weekday, y = n)) + 
+  geom_bar(stat = "identity", width = 1)
+
+flights.by.day[unique_dates] %>%
+  mutate(YearGroup = cut(Year, breaks = 6)) %>% # breaks = c(-Inf, 1992, 1997, 2002, 2007, 2012, Inf))) %>%
+  mutate(Weekday = factor(Weekday, levels = c("Monday", "Tuesday",
+                                              "Wednesday", "Thursday", 
+                                              "Friday", "Saturday", "Sunday"))) %>%
+  ggplot(aes(x = Weekday, fill = Weekday, y = n)) + 
+  geom_violin() + 
+  scale_y_continuous(label = comma) + 
+  facet_wrap(~YearGroup)
+@
+
+<<Corridors-by-year>>=
+flights19872015[,.(n = .N), keyby = list(Year, Corridor_DS)][order(Year, -n)] %>%
+  group_by(Year) %>%
+  mutate(rank = row_number(desc(n))) %>%
+  filter(rank <= 10, Year > 1987) %>%
+  mutate(Corridor_DS = gsub(", [A-Z]{2}", "", gsub(" (Metropolitan Area)", 
+                                                   "", 
+                                                   Corridor_DS, fixed = TRUE))) %>%
+  ggplot(aes(x = Year, y = n, color = Corridor_DS)) + 
+  geom_line() 
+@
+
+<<ncCorridors-by-year>>=
+flights19872015[,.(n = sum(!Cancelled)), keyby = list(Year, Corridor_DS)][order(Year, -n)] %>%
+  group_by(Year) %>%
+  mutate(rank = row_number(desc(n))) %>%
+  filter(rank <= 10, Year > 1987) %>%
+  mutate(Corridor_DS = gsub(", [A-Z]{2}", "", gsub(" (Metropolitan Area)", 
+                                                   "", 
+                                                   Corridor_DS, fixed = TRUE))) %>%
+  ggplot(aes(x = Year, y = n, color = Corridor_DS)) + 
+  geom_line() 
+@
+
+<<Corridors-by-day>>=
+flights19872015[,.(n = .N), keyby = list(Year, Month, DayofMonth, Corridor_DS)]
+@
+
+<<Noncancelled-flights-by-Week-Corridor>>=
+Noncancelled.flights.by.week.corridor <- 
+  flights19872015[,.(n = sum(!Cancelled)), keyby = list(Year, Month, DayofMonth, Corridor_DS)][unique_dates][,.(n = sum(n)), keyby = list(Week, Corridor_DS)]
+@
+
+<<Centroids-by-corridor>>=
+centroids.by.corridor <- 
+  Corridors.by.origin.dest %>%
+  data.table:::merge.data.table(nycflights.airports, by.x = "Origin", by.y = "faa",
+                                suffixes = c(".corridor", ".orig")) %>%
+  data.table:::merge.data.table(nycflights.airports, by.x = "Dest", by.y = "faa",
+                                suffixes = c(".orig", ".dest")) %>%
+  group_by(Corridor_DS) %>%
+  summarise(lat.dest.centroid = mean(lat.dest), 
+            lon.dest.centroid = mean(lon.dest),
+            lat.orig.centroid = mean(lat.orig),
+            lon.orig.centroid = mean(lon.orig)) %>%
+  setkey(Corridor_DS)
+@
+
+<<Map-Noncancelled-flights-by-week-corridor>>=
+Noncancelled.flights.by.week.corridor.location <- 
+  Noncancelled.flights.by.week.corridor %>%
+  setkey(Corridor_DS) %>%
+  .[centroids.by.corridor]
+
+Noncancelled.flights.by.week.corridor.location %>%
+  arrange(lat.dest.centroid) %>%
+  filter(n > 520, Week == last(Week)) %>%
+  ggplot(aes(x = lon.orig.centroid, y = lat.orig.centroid, 
+             xend = lon.dest.centroid, yend = lat.dest.centroid)) + 
+  geom_point(color = "red") + 
+  geom_segment() + 
+  annotate("segment",
+           x = 33.4, xend = 33.4)
+  theme_minimal()
+@
+
 
 
 
