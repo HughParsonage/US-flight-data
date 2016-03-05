@@ -1,5 +1,6 @@
 \documentclass{scrreprt}
 \usepackage[a3paper,twocolumn,landscape]{geometry}
+\usepackage{animate}
 
 \begin{document}
 <<knitrOpts>>=
@@ -48,6 +49,7 @@ library(bit64)
 library(dplyr); options(dplyr.width = Inf)
 library(magrittr)
 library(ggplot2)
+library(viridis)
 theme.text.size = 18
 text.size = (5/14) * theme.text.size
 theme_update(text = element_text(family = "", 
@@ -76,6 +78,8 @@ ggplot2::update_geom_defaults("bar", new = list(width = 0.9))
 library(directlabels)
 library(ineq)  # for Gini()
 library(forecast)
+library(ggmap)
+library(ggthemes)
 @
 
 <<loadData>>=
@@ -83,7 +87,7 @@ flights19872015 <-
   fread("../1987-2015-On-Time-Performance.csv", 
         select = c("Year", "Month", "DayofMonth", "DepTime", 
                    "ArrTime", "UniqueCarrier", "Origin",
-                   "Dest", "Cancelled"),
+                   "Dest", "Cancelled", "ArrDelay"),
         na.strings = c("NA", "(null)", ""))
 
 # Corridor by origin dest seems off.
@@ -93,6 +97,14 @@ flights19872015 <-
   flights19872015 %>%
   setkey(Origin, Dest) %>%
   .[Corridors.by.origin.dest]
+@
+
+<<MarketIDs>>=
+market_ids <- 
+  fread("../dep_delay/On_Time_On_Time_Performance_2015_10.csv", select = c("Origin", "OriginCityMarketID")) %>% 
+  setnames(old = c("OriginCityMarketID", "Origin"),
+           new = c("MarketID", "FAA")) %>% 
+  distinct
 @
 
 <<unique-dates>>=
@@ -171,6 +183,27 @@ flights.by.day[unique_dates] %>%
   facet_wrap(~YearGroup)
 @
 
+<<US-Corridor-Corridor_DS>>=
+# corridors <- 
+#   readRDS("../Corridors.rds")
+# 
+# US_Corridors_by_Corridor_DS <- 
+#   flights19872015 %>%
+#   select(Corridor) %>% 
+#   setkey(Corridor) %>%
+#   unique %>%
+#   corridors[.]
+# 
+# rm(corridors)  # 4.5 Gb
+US_Corridors_by_Corridor_DS <- 
+  fread("../US_Corridors_by_Corridor_DS.csv")
+@
+
+<<Add-Corridor_DS>>=
+setkey(flights19872015, Corridor)
+flights19872015 <- flights19872015[US_Corridors_by_Corridor_DS]
+@
+
 <<Corridors-by-year>>=
 flights19872015[,.(n = .N), keyby = list(Year, Corridor_DS)][order(Year, -n)] %>%
   group_by(Year) %>%
@@ -201,21 +234,44 @@ flights19872015[,.(n = .N), keyby = list(Year, Month, DayofMonth, Corridor_DS)]
 
 <<Noncancelled-flights-by-Week-Corridor>>=
 Noncancelled.flights.by.week.corridor <- 
-  flights19872015[,.(n = sum(!Cancelled)), keyby = list(Year, Month, DayofMonth, Corridor_DS)][unique_dates][,.(n = sum(n)), keyby = list(Week, Corridor_DS)]
+  flights19872015[,.(n = sum(!Cancelled), 
+                     avg_delay = sum(ArrDelay, na.rm = TRUE) / .N), 
+                  keyby = list(Year, Month, DayofMonth, Corridor_DS)][unique_dates][,.(n = sum(n), 
+                                                                                       avg_delay = sum(avg_delay)/.N), 
+                                                                                    keyby = list(Week, Corridor_DS)]
+@
+
+<<Which-corridors-are-reversed>>=
+data.table::CJ(
+  OriginMarketID = market_ids$MarketID, 
+  DestMarketID = market_ids$MarketID
+) %>% 
+  mutate(Route = paste(OriginMarketID, DestMarketID, sep = "-")) %>%
+  mutate(Order = OriginMarketID < DestMarketID) %>% 
+  filter(Order)
+
+
 @
 
 <<Centroids-by-corridor>>=
 centroids.by.corridor <- 
   Corridors.by.origin.dest %>%
+  setkey(Corridor) %>%
+  .[US_Corridors_by_Corridor_DS] %>%
   data.table:::merge.data.table(nycflights.airports, by.x = "Origin", by.y = "faa",
                                 suffixes = c(".corridor", ".orig")) %>%
   data.table:::merge.data.table(nycflights.airports, by.x = "Dest", by.y = "faa",
                                 suffixes = c(".orig", ".dest")) %>%
+  # We need to select only the routes that match the Corridor, not the Corridor reversed
+  data.table:::merge.data.table(market_ids, by.x = "Origin", by.y = "FAA") %>%
+  filter(substr(Corridor, 0, 5) == MarketID) %>%
+  arrange(Corridor_DS) %>%
   group_by(Corridor_DS) %>%
   summarise(lat.dest.centroid = mean(lat.dest), 
             lon.dest.centroid = mean(lon.dest),
             lat.orig.centroid = mean(lat.orig),
             lon.orig.centroid = mean(lon.orig)) %>%
+  ungroup %>%
   setkey(Corridor_DS)
 @
 
@@ -226,15 +282,61 @@ Noncancelled.flights.by.week.corridor.location <-
   .[centroids.by.corridor]
 
 Noncancelled.flights.by.week.corridor.location %>%
-  arrange(lat.dest.centroid) %>%
-  filter(n > 520, Week == last(Week)) %>%
-  ggplot(aes(x = lon.orig.centroid, y = lat.orig.centroid, 
-             xend = lon.dest.centroid, yend = lat.dest.centroid)) + 
-  geom_point(color = "red") + 
-  geom_segment() + 
-  annotate("segment",
-           x = 33.4, xend = 33.4)
-  theme_minimal()
+  filter(n > 56, Week == last(Week)) %>%
+  ggplot() + 
+  geom_polygon(data = map_data("state"), aes(long, lat, group = group), 
+               alpha = 0.1, 
+               color = grey(0.5, 0.2)) +
+  geom_point(aes(x = lon.orig.centroid, y = lat.orig.centroid, 
+             xend = lon.dest.centroid, yend = lat.dest.centroid), color = "red") + 
+  theme_map() +
+  geom_curve(aes(x = lon.orig.centroid, y = lat.orig.centroid, 
+             xend = lon.dest.centroid, yend = lat.dest.centroid, 
+             color = 1, 
+             alpha = n / max(n)), curvature = 0.2, size = 1.5) +
+  scale_color_viridis(guide = FALSE) + 
+  scale_alpha_identity()
+@
+\onecolumn
+
+<<Map-Noncancelled-flights-by-week-corridor-animate, fig.width=15, fig.height=11, out.width="15in", out.height="11in", fig.show='animate', fig.keep='all', fig.num=112, interval = 0.02>>=
+dates <- 
+  unique_dates %>%
+  distinct(Week) %$%
+  as.Date(paste(Year, Month, DayofMonth, sep = "-"))
+
+Noncancelled.flights.by.week.corridor.location %<>%
+  mutate(delay_decile = ntile(avg_delay, 10))
+
+
+n.max <- max(Noncancelled.flights.by.week.corridor.location$n)
+for (the.Week in 13 * (1:112)){
+  Noncancelled.flights.by.week.corridor.location %>%
+    filter(n > 56, Week == the.Week, lon.orig.centroid != lon.dest.centroid) %>%
+    ggplot() + 
+    geom_polygon(data = map_data("state"), aes(long, lat, group = group), 
+                 alpha = 0.1, 
+                 color = grey(0.95, 0.2)) +
+    geom_point(aes(x = lon.orig.centroid, y = lat.orig.centroid, 
+                   xend = lon.dest.centroid, yend = lat.dest.centroid), 
+               size = 1.33,
+               color = "red")  + 
+    geom_curve(aes(x = lon.orig.centroid, y = lat.orig.centroid, 
+                   xend = lon.dest.centroid, yend = lat.dest.centroid, 
+                   color = delay_decile, 
+                   alpha = n / n.max), curvature = 0.2, size = 1.5) +
+    scale_color_viridis(discrete = FALSE) + 
+    coord_cartesian(xlim = c(-125, -66), ylim = c(24, 56)) +
+    annotate("text", 
+             x = -95, y = 55, 
+             label = dates[the.Week]) +
+    scale_alpha_identity() + 
+    theme_map() +
+    theme(plot.background = element_rect(fill = grey(0.5)),
+          legend.background = element_rect(fill = grey(0.5))) ->
+    p
+    print(p)
+}
 @
 
 
